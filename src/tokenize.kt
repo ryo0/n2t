@@ -1,14 +1,19 @@
 sealed class Token {
-    data class Number(val num: String) : Token()
+    data class IntegerConst(val num: String) : Token()
     data class StringConst(val string: String) : Token()
     data class Keyword(val key: String) : Token()
     data class VarOrKeyword(val name: String) : Token()
-    data class Variable(val varName: String) : Token()
+    data class Identifier(val name: String) : Token()
+    data class Symbol(val symbol: String) : Token()
     data class Operand(val op: String) : Token()
     data class Parentheses(val par: String) : Token()
 }
 
-val Keywords = listOf("let", "class", "var")
+val Keywords = listOf(
+    "class", "constructor", "function", "method", "field", "static", "var",
+    "int", "char", "boolean", "void", "true", "false", "null", "this", "let",
+    "do", "if", "else", "while", "return"
+)
 
 fun tokenizeSub(inputStr: String): List<Token> {
     var i = 0
@@ -17,28 +22,17 @@ fun tokenizeSub(inputStr: String): List<Token> {
         val str = inputStr[i]
         when (str) {
             ' ', '\n' -> i++
-            '+', '-', '*', '/' -> {
-                tokens.add(Token.Operand(str.toString()))
-                i++
-            }
-            '(', ')' -> {
-                tokens.add(Token.Parentheses(str.toString()))
-                i++
-            }
-            '=' -> if (inputStr[i + 1] == '=') {
-                tokens.add(Token.Operand((inputStr[i].plus(inputStr[i + 1].toString()))))
-                i += 2
-            } else {
-                tokens.add(Token.Operand((str.toString())))
+            '{', '}', '(', ')', '[', ']', '.', ',', ';', '+', '-', '*', '/', '&', '|', '<', '>', '=', '~' -> {
+                tokens.add(Token.Symbol(str.toString()))
                 i++
             }
             else -> {
                 val strFromIToLast = inputStr.slice(i until inputStr.length)
                 if (str.isDigit()) {
                     val digit = getDigit(strFromIToLast)
-                    tokens.add(Token.Number(digit))
+                    tokens.add(Token.IntegerConst(digit))
                     i += digit.length
-                } else if (str.isLetter()) {
+                } else if (str == '_' || str.isLetter()) {
                     val varName = getVariable(strFromIToLast)
                     tokens.add(Token.VarOrKeyword(varName))
                     i += varName.length
@@ -71,7 +65,7 @@ fun filterVarOrKeyword(tokens: List<Token>): List<Token> {
             if (isKeyword(it.name)) {
                 Token.Keyword(it.name)
             } else {
-                Token.Variable(it.name)
+                Token.Identifier(it.name)
             }
         } else {
             it
@@ -114,7 +108,7 @@ fun getVariable(string: String): String {
     var result = ""
     while (i < string.length) {
         val str = string[i]
-        if (str.isLetter() || str.isDigit()) {
+        if (str == '_' || str.isLetter() || str.isDigit()) {
             result += str
             i++
         } else {
@@ -145,8 +139,9 @@ fun tokenize(string: String): List<Token> {
 
 fun main(args: Array<String>) {
     val inputStr = """
-        |let x = 2
-        |let3 le class
+        |truen true falsen galse false
+        |let _x = 2
+        |let_3 le_ class
         |(3 + 2 * let) = 3
     """.trimMargin()
     println(tokenize(inputStr))
