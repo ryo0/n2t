@@ -1,3 +1,5 @@
+import java.io.File
+
 sealed class Token {
     data class IntegerConst(val num: String) : Token()
     data class StringConst(val string: String) : Token()
@@ -137,25 +139,57 @@ fun tokenize(string: String): List<Token> {
     return filterVarOrKeyword(tokenizeSub(removeComments(string)))
 }
 
-fun main(args: Array<String>) {
-    val inputStr = """
-        |truen true falsen galse false
-        |let _x = 2
-        |let_3 le_ class
-        |(3 + 2 * let) = 3
-    """.trimMargin()
-    println(tokenize(inputStr))
+fun convertToXML(tokens: List<Token>): String {
+    return "<tokens>\n" + tokens.map {
+        if (it is Token.IntegerConst) {
+            writeXML("integerConstant", it.num)
+        } else if (it is Token.StringConst) {
+            writeXML("stringConstant", it.string)
+        } else if (it is Token.Keyword) {
+            writeXML("keyword", it.key)
+        } else if (it is Token.Identifier) {
+            writeXML("identifier", it.name)
+        } else if (it is Token.Symbol) {
+            writeXML("symbol", it.symbol)
+        } else {
+            throw Error("異常なトークン $it")
+        }
 
-    val x = """
-    	// ねこ
-        // かに
-        a=="ねこ"1"a" ""
-        let x = 2
-        /* aaa */ ebi = 5 /* nekoneko */ * 2 + 2
-        /* 111 */ b //a
-        |let3 le class
-        |(3 + 2 * let) = " "3 "
-    """
-    println(tokenize(x))
-    println(tokenize("\""))
+    }.joinToString("\n") + "\n</tokens>"
+}
+
+fun writeXML(tag: String, value: String): String {
+    return "<$tag> ${convertXMLValue(value)} </$tag>"
+}
+
+fun convertXMLValue(value: String): String {
+    if(value == "<") {
+        return "&lt;"
+    } else if (value == ">") {
+        return "&gt;"
+    } else if (value == "&") {
+        return "&amp;"
+    } else {
+        return value
+    }
+}
+
+fun main(args: Array<String>) {
+    val text = File("ArrayTest/Main.jack").readText()
+    File("ArrayTest/out_Main.xml").writeText(convertToXML(tokenize(text)))
+
+    val text2 = File("ExpressionLessSquare/Main.jack").readText()
+    File("ExpressionLessSquare/out_Main.xml").writeText(convertToXML(tokenize(text2)))
+
+    val text3 = File("ExpressionLessSquare/SquareGame.jack").readText()
+    File("ExpressionLessSquare/out_SquareGame.xml").writeText(convertToXML(tokenize(text3)))
+
+    val text4 = File("Square/Main.jack").readText()
+    File("Square/out_Main.xml").writeText(convertToXML(tokenize(text4)))
+
+    val text5 = File("Square/Square.jack").readText()
+    File("Square/out_Square.xml").writeText(convertToXML(tokenize(text5)))
+
+    val text6 = File("Square/SquareGame.jack").readText()
+    File("Square/out_SquareGame.xml").writeText(convertToXML(tokenize(text6)))
 }

@@ -2,6 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Identifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Identifier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$IntegerConst.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$IntegerConst.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Keyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Keyword.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Operand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Operand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Parentheses.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Parentheses.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$StringConst.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$StringConst.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Symbol.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Symbol.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$VarOrKeyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$VarOrKeyword.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/TokenizeKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/TokenizeKt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tokenize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenize.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -16,9 +27,23 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tokenize.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="141" column="38" selection-start-line="141" selection-start-column="38" selection-end-line="141" selection-end-column="38" />
+            <state relative-caret-position="360">
+              <caret line="193" column="78" lean-forward="true" selection-start-line="193" selection-start-column="78" selection-end-line="193" selection-end-column="78" />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Main.jack">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-218" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ArrayTest/output.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1815" />
           </provider>
         </entry>
       </file>
@@ -79,6 +104,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -94,18 +120,17 @@
             <path>
               <item name="tokenize" type="b2602c69:ProjectViewProjectNode" />
               <item name="tokenize" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
+              <item name="Square" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556185437584" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556232392191" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
@@ -171,7 +196,7 @@
     <frame x="20" y="43" width="1400" height="742" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2790869" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28645065" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -204,13 +229,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>160</line>
+          <line>194</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>9</line>
+          <line>11</line>
           <properties />
           <option name="timeStamp" value="12" />
         </line-breakpoint>
@@ -270,13 +295,6 @@
     <entry file="file://$PROJECT_DIR$/tokenize.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tokenize.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="141" column="38" selection-start-line="141" selection-start-column="38" selection-end-line="141" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8625">
@@ -291,6 +309,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
           <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ArrayTest/output.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1815" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Main.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-218" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tokenize.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="193" column="78" lean-forward="true" selection-start-line="193" selection-start-column="78" selection-end-line="193" selection-end-column="78" />
         </state>
       </provider>
     </entry>
