@@ -3,13 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$EOF.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Keyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Keyword.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Number.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Number.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Operand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Operand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Parentheses.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Parentheses.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Variable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Variable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/tokenize/TokenizeKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/TokenizeKt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tokenize.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenize.kt" afterDir="false" />
     </list>
@@ -25,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tokenize.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="57" column="16" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="16" />
+            <state relative-caret-position="135">
+              <caret line="9" column="42" lean-forward="true" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -34,7 +27,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/java/lang/String.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
+            <state relative-caret-position="8625">
               <caret line="622" selection-start-line="622" selection-end-line="622" />
               <folding>
                 <element signature="e#22821#22822#0" expanded="true" />
@@ -88,8 +81,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -111,6 +102,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -180,7 +173,7 @@
     <frame x="20" y="43" width="1400" height="742" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26804122" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2790869" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -213,45 +206,21 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>89</line>
+          <line>106</line>
           <properties />
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>60</line>
+          <line>77</line>
           <properties />
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>6</line>
+          <line>7</line>
           <properties />
           <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>99</line>
-          <properties />
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>101</line>
-          <properties />
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>105</line>
-          <properties />
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/tokenize.kt</url>
-          <line>108</line>
-          <properties />
-          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -309,16 +278,16 @@
     <entry file="file://$PROJECT_DIR$/tokenize.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-stdlib-sources.jar!/kotlin/text/CharJVM.kt">
+    <entry file="file://$PROJECT_DIR$/src/tokenize.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+        <state relative-caret-position="135">
+          <caret line="9" column="42" lean-forward="true" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
+        <state relative-caret-position="8625">
           <caret line="622" selection-start-line="622" selection-end-line="622" />
           <folding>
             <element signature="e#22821#22822#0" expanded="true" />
@@ -326,10 +295,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tokenize.kt">
+    <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-stdlib-sources.jar!/kotlin/text/CharJVM.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="57" column="16" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="16" />
+        <state relative-caret-position="480">
+          <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
         </state>
       </provider>
     </entry>

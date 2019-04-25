@@ -1,10 +1,13 @@
 sealed class Token {
     data class Number(val num: String) : Token()
     data class Keyword(val key: String) : Token()
+    data class VarOrKeyword(val name: String): Token()
     data class Variable(val varName: String) : Token()
     data class Operand(val op: String) : Token()
     data class Parentheses(val par: String) : Token()
 }
+
+val Keywords = listOf("let", "class", "var")
 
 fun tokenize(inputStr: String): List<Token> {
     var i = 0
@@ -17,7 +20,6 @@ fun tokenize(inputStr: String): List<Token> {
                 tokens.add(Token.Operand(str.toString()))
                 i++
             }
-
             '(', ')' -> {
                 tokens.add(Token.Parentheses(str.toString()))
                 i++
@@ -35,13 +37,9 @@ fun tokenize(inputStr: String): List<Token> {
                     val digit = getDigit(strFromIToLast)
                     tokens.add(Token.Number(digit))
                     i += digit.length
-                } else if (isKeyword(strFromIToLast, "let")) {
-                    val keyword = strFromIToLast.slice(0 until "let".length)
-                    tokens.add(Token.Keyword(keyword))
-                    i += "let".length
                 } else if (str.isLetter()) {
                     val varName = getVariable(strFromIToLast)
-                    tokens.add(Token.Variable(varName))
+                    tokens.add(Token.VarOrKeyword(varName))
                     i += varName.length
                 } else {
                     i++
@@ -52,12 +50,31 @@ fun tokenize(inputStr: String): List<Token> {
     return tokens
 }
 
+fun isKeyword(string: String): Boolean {
+    return string in Keywords
+}
+
+fun filterVarOrKeyword(tokens: List<Token>): List<Token> {
+    return tokens.map{
+        if(it is Token.VarOrKeyword){
+            if (isKeyword(it.name)) {
+                Token.Keyword(it.name)
+            } else {
+               Token.Variable(it.name)
+            }
+        } else {
+            it
+        }
+    }
+}
+
 fun main(args: Array<String>) {
     val inputStr = """
         |let x = 2
-        |leti le
+        |let3 le class
+        |(3 + 2 * let) = 3
     """.trimMargin()
-    println(tokenize(inputStr))
+    println(filterVarOrKeyword(tokenize(inputStr)))
 }
 
 fun getVariable(string: String): String {
@@ -88,27 +105,4 @@ fun getDigit(string: String): String {
         }
     }
     return result
-}
-
-fun isKeyword(string: String, keyword: String): Boolean {
-//    letだけ対応してみる
-    // 1. 文字数が3以上あるか？
-    // 2. 3以上あるなら、それがletと一致するか？
-    // 3. 4文字目があるなら、それは変数を構成する文字ではないか？
-
-    // letx let
-    val keywordLength = keyword.length
-
-    if (string.length < keywordLength) {
-        return false
-    }
-    val stringEqualsKeyword = string.slice(0 until keywordLength) == keyword
-    if (stringEqualsKeyword) {
-        return string.length <= keywordLength || !isAlnum(string[keywordLength])
-    }
-    return false
-}
-
-fun isAlnum(ch: Char): Boolean {
-    return ch.isLetter() || ch.isDigit()
 }
