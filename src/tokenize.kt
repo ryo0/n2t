@@ -1,5 +1,6 @@
 sealed class Token {
     data class Number(val num: String) : Token()
+    data class StringConst(val string: String) : Token()
     data class Keyword(val key: String) : Token()
     data class VarOrKeyword(val name: String) : Token()
     data class Variable(val varName: String) : Token()
@@ -9,7 +10,7 @@ sealed class Token {
 
 val Keywords = listOf("let", "class", "var")
 
-fun tokenize(inputStr: String): List<Token> {
+fun tokenizeSub(inputStr: String): List<Token> {
     var i = 0
     val tokens = mutableListOf<Token>()
     while (i < inputStr.length) {
@@ -41,6 +42,16 @@ fun tokenize(inputStr: String): List<Token> {
                     val varName = getVariable(strFromIToLast)
                     tokens.add(Token.VarOrKeyword(varName))
                     i += varName.length
+                } else if (str == '\"') {
+                    val stringAfterDoubleQuote = inputStr.slice(i + 1 until inputStr.length)
+                    val endOfStringConst = stringAfterDoubleQuote.indexOfFirst { it == '\"' }
+                    if (endOfStringConst != -1) {
+                        val stringConst = stringAfterDoubleQuote.slice(0 until endOfStringConst)
+                        tokens.add(Token.StringConst(stringConst))
+                        i += endOfStringConst + 2 // stringConstの長さ+両端のダブルクオーテーション2つ
+                    } else {
+                        i++
+                    }
                 } else {
                     i++
                 }
@@ -66,26 +77,6 @@ fun filterVarOrKeyword(tokens: List<Token>): List<Token> {
             it
         }
     }
-}
-
-fun main(args: Array<String>) {
-    val inputStr = """
-        |let x = 2
-        |let3 le class
-        |(3 + 2 * let) = 3
-    """.trimMargin()
-    println(filterVarOrKeyword(tokenize(inputStr)))
-
-    val x = """
-    	// ねこ
-        // かに
-        let x = 2
-        /* aaa */ ebi = 5 /* nekoneko */ * 2 + 2
-        /* 111 */ b //a
-        |let3 le class
-        |(3 + 2 * let) = 3
-    """
-    println(filterVarOrKeyword(tokenize(removeComments(x))))
 }
 
 fun removeComments(string: String): String {
@@ -146,4 +137,30 @@ fun getDigit(string: String): String {
         }
     }
     return result
+}
+
+fun tokenize(string: String): List<Token> {
+    return filterVarOrKeyword(tokenizeSub(removeComments(string)))
+}
+
+fun main(args: Array<String>) {
+    val inputStr = """
+        |let x = 2
+        |let3 le class
+        |(3 + 2 * let) = 3
+    """.trimMargin()
+    println(tokenize(inputStr))
+
+    val x = """
+    	// ねこ
+        // かに
+        a=="ねこ"1"a" ""
+        let x = 2
+        /* aaa */ ebi = 5 /* nekoneko */ * 2 + 2
+        /* 111 */ b //a
+        |let3 le class
+        |(3 + 2 * let) = " "3 "
+    """
+    println(tokenize(x))
+    println(tokenize("\""))
 }
