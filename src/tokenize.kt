@@ -141,18 +141,21 @@ fun tokenize(string: String): List<Token> {
 
 fun convertToXML(tokens: List<Token>): String {
     return "<tokens>\n" + tokens.map {
-        if (it is Token.IntegerConst) {
-            writeXML("integerConstant", it.num)
-        } else if (it is Token.StringConst) {
-            writeXML("stringConstant", it.string)
-        } else if (it is Token.Keyword) {
-            writeXML("keyword", it.key)
-        } else if (it is Token.Identifier) {
-            writeXML("identifier", it.name)
-        } else if (it is Token.Symbol) {
-            writeXML("symbol", it.symbol)
-        } else {
-            throw Error("異常なトークン $it")
+        when(it) {
+            is Token.IntegerConst ->
+                writeXML("integerConstant", it.num)
+            is Token.StringConst ->
+                writeXML("stringConstant", it.string)
+            is Token.Keyword ->
+                writeXML("keyword", it.key)
+            is Token.Identifier ->
+                writeXML("identifier", it.name)
+            is Token.Symbol ->
+                writeXML("symbol", it.symbol)
+            else -> {
+                throw Error("異常なトークン $it")
+            }
+
         }
 
     }.joinToString("\n") + "\n</tokens>"
