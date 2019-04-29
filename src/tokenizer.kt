@@ -1,5 +1,57 @@
 import java.io.File
 
+val Keywords = listOf(
+    "class", "constructor", "function", "method", "field", "static", "var",
+    "int", "char", "boolean", "void", "true", "false", "null", "this", "let",
+    "do", "if", "else", "while", "return"
+)
+
+val KeywordHash = mapOf(
+    "class" to Token.Class,
+    "constructor" to Token.Constructor,
+    "function" to Token.Function,
+    "method" to Token.Method,
+    "field" to Token.Field,
+    "static" to Token.Static,
+    "var" to Token.Var,
+    "int" to Token.Int,
+    "char" to Token.Char,
+    "boolean" to Token.Boolean,
+    "void" to Token.Void,
+    "true" to Token.True,
+    "false" to Token.False,
+    "null" to Token.Null,
+    "this" to Token.This,
+    "let" to Token.Let,
+    "do" to Token.Do,
+    "if" to Token.If,
+    "else" to Token.Else,
+    "while" to Token.While,
+    "return" to Token.Return
+)
+
+val SymbolHash = mapOf(
+    '{' to Token.LCurlyBrace,
+    '}' to Token.RCurlyBrace,
+    '(' to Token.LParen,
+    ')' to Token.RParen,
+    '[' to Token.LSquareBracket,
+    ']' to Token.RSquareBracket,
+    '.' to Token.Dot,
+    ',' to Token.Comma,
+    ';' to Token.Semicolon,
+    '+' to Token.Plus,
+    '-' to Token.Minus,
+    '*' to Token.Asterisk,
+    '/' to Token.Slash,
+    '&' to Token.And,
+    '|' to Token.Pipe,
+    '<' to Token.LessThan,
+    '>' to Token.GreaterThan,
+    '=' to Token.Equal,
+    '~' to Token.Tilde
+)
+
 sealed class Token {
     data class IntegerConst(val num: String) : Token()
     data class StringConst(val string: String) : Token()
@@ -7,15 +59,48 @@ sealed class Token {
     data class VarOrKeyword(val name: String) : Token()
     data class Identifier(val name: String) : Token()
     data class Symbol(val symbol: String) : Token()
-    data class Operand(val op: String) : Token()
-    data class Parentheses(val par: String) : Token()
+    object Class : Token()
+    object Constructor : Token()
+    object Function : Token()
+    object Method : Token()
+    object Field : Token()
+    object Static : Token()
+    object Var : Token()
+    object Int : Token()
+    object Char : Token()
+    object Boolean : Token()
+    object Void : Token()
+    object True : Token()
+    object False : Token()
+    object Null : Token()
+    object This : Token()
+    object Let : Token()
+    object Do : Token()
+    object If : Token()
+    object Else : Token()
+    object While : Token()
+    object Return : Token()
+    object LCurlyBrace : Token()
+    object RCurlyBrace : Token()
+    object LParen : Token()
+    object RParen : Token()
+    object LSquareBracket : Token()
+    object RSquareBracket : Token()
+    object Dot : Token()
+    object Comma : Token()
+    object Semicolon : Token()
+    object Plus : Token()
+    object Minus : Token()
+    object Asterisk : Token()
+    object Slash : Token()
+    object And : Token()
+    object Pipe : Token()
+    object LessThan : Token()
+    object GreaterThan : Token()
+    object Equal : Token()
+    object Tilde : Token()
 }
 
-val Keywords = listOf(
-    "class", "constructor", "function", "method", "field", "static", "var",
-    "int", "char", "boolean", "void", "true", "false", "null", "this", "let",
-    "do", "if", "else", "while", "return"
-)
 
 fun tokenizeSub(inputStr: String): List<Token> {
     var i = 0
@@ -25,7 +110,9 @@ fun tokenizeSub(inputStr: String): List<Token> {
         when (str) {
             ' ', '\n' -> i++
             '{', '}', '(', ')', '[', ']', '.', ',', ';', '+', '-', '*', '/', '&', '|', '<', '>', '=', '~' -> {
-                tokens.add(Token.Symbol(str.toString()))
+//                tokens.add(Token.Symbol(str.toString()))
+                val token = SymbolHash[str] ?: throw Error("SymbolHashに不備があるようです。")
+                tokens.add(token)
                 i++
             }
             else -> {
@@ -65,7 +152,8 @@ fun filterVarOrKeyword(tokens: List<Token>): List<Token> {
     return tokens.map {
         if (it is Token.VarOrKeyword) {
             if (isKeyword(it.name)) {
-                Token.Keyword(it.name)
+                val keywordToken = KeywordHash[it.name]
+                keywordToken ?: throw Error("KeywordHashに不備があるようです")
             } else {
                 Token.Identifier(it.name)
             }
@@ -80,7 +168,12 @@ fun removeComments(string: String): String {
     var nowInRangeComment = false
     var result = ""
     var i = 0
-    while (i < string.length - 1) {
+    while (i < string.length) {
+        if (i + 1 >= string.length) {
+            // この判定を入れないと最後の文字が無視される
+            result += string[i]
+            break
+        }
         val str1 = string[i]
         val str2 = string[i + 1]
         if (str1 == '/' && str2 == '/') {
@@ -141,7 +234,7 @@ fun tokenize(string: String): List<Token> {
 
 fun convertToXML(tokens: List<Token>): String {
     return "<tokens>\n" + tokens.map {
-        when(it) {
+        when (it) {
             is Token.IntegerConst ->
                 writeXML("integerConstant", it.num)
             is Token.StringConst ->
@@ -166,7 +259,7 @@ fun writeXML(tag: String, value: String): String {
 }
 
 fun convertXMLValue(value: String): String {
-    if(value == "<") {
+    if (value == "<") {
         return "&lt;"
     } else if (value == ">") {
         return "&gt;"
@@ -177,22 +270,47 @@ fun convertXMLValue(value: String): String {
     }
 }
 
-fun main(args: Array<String>) {
-    val text = File("ArrayTest/Main.jack").readText()
-    File("ArrayTest/out_Main.xml").writeText(convertToXML(tokenize(text)))
+fun main() {
+    val result = tokenize(
+        """
+        // This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/10/Square/Main.jack
 
-    val text2 = File("ExpressionLessSquare/Main.jack").readText()
-    File("ExpressionLessSquare/out_Main.xml").writeText(convertToXML(tokenize(text2)))
+// (derived from projects/09/Square/Main.jack, with testing additions)
 
-    val text3 = File("ExpressionLessSquare/SquareGame.jack").readText()
-    File("ExpressionLessSquare/out_SquareGame.xml").writeText(convertToXML(tokenize(text3)))
+/** Initializes a new Square Dance game and starts running it. */
+class Main {
+    static boolean test;    // Added for testing -- there is no static keyword
+                            // in the Square files.
+    function void main() {
+      var SquareGame game;
+      let game = SquareGame.new();
+      do game.run();
+      do game.dispose();
+      return;
+    }
 
-    val text4 = File("Square/Main.jack").readText()
-    File("Square/out_Main.xml").writeText(convertToXML(tokenize(text4)))
+    function void test() {  // Added to test Jack syntax that is not use in
+        var int i, j;       // the Square files.
+        var String s;
+        var Array a;
+        if (false) {
+            let s = "string constant";
+            let s = null;
+            let a[1] = a[2];
+        }
+        else {              // There is no else keyword in the Square files.
+            let i = i * (-j);
+            let j = j / (-2);   // note: unary negate constant 2
+            let i = i | j;
+        }
+        return;
+    }
+}
+    """.trimIndent()
+    )
 
-    val text5 = File("Square/Square.jack").readText()
-    File("Square/out_Square.xml").writeText(convertToXML(tokenize(text5)))
-
-    val text6 = File("Square/SquareGame.jack").readText()
-    File("Square/out_SquareGame.xml").writeText(convertToXML(tokenize(text6)))
+    println(result)
 }
