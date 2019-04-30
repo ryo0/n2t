@@ -1,5 +1,3 @@
-import kotlin.math.exp
-
 data class Statements(val statements: List<Stmt>)
 
 sealed class Stmt {
@@ -52,18 +50,19 @@ enum class Keyword {
 //
 //}
 
-fun findClosingParenIndex(tokens: List<Token>): Int {
-    val openParen = tokens[0]
+fun findClosingParenIndex(startIndex: Int, tokens: List<Token>): Int {
+    val openParen = tokens[startIndex]
     val closeParen = ParenHash[openParen] ?: throw Error("対になるカッコがParenHashにない")
     var parenCounter = 0
-    tokens.forEachIndexed { index, token ->
+    val tokensFromStartIndex = tokens.slice(startIndex until tokens.count())
+    tokensFromStartIndex.forEachIndexed { index, token ->
         if (token  == openParen) {
             parenCounter += 1
         } else if (token == closeParen) {
             parenCounter -= 1
         }
         if (parenCounter == 0) {
-            return index
+            return index + startIndex
         }
     }
     return -1

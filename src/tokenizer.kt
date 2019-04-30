@@ -283,7 +283,7 @@ fun main() {
 """.trimIndent()
     val tokens = tokenize(testCode)
 
-    val ptest = tokenize("{([{({})]){})1}2}11d}")
-    println(findClosingParenIndex(ptest))
+    val ptest = tokenize("[.[;([)*,]}]")
+    println(findClosingParenIndex(4, ptest))
 
 }

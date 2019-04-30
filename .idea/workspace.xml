@@ -2,71 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Constant$IntCons.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Constant$KeyCons.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Constant$StrCons.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Constant.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Expression.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/IfStatement.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Keyword.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/LetStatement.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Op.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/OpAndTerm.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Statements.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Stmt$If.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Stmt$Let.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Stmt.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Term.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/META-INF/tokenize.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/META-INF/tokenize.kotlin_module" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$And.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$And.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Asterisk.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Asterisk.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Boolean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Boolean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Char.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Char.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Class.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Class.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Comma.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Comma.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Constructor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Constructor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Do.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Do.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Dot.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Dot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Else.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Else.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Equal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Equal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$False.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$False.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Field.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Field.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Function.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Function.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$GreaterThan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$GreaterThan.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Identifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Identifier.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$If.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$If.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Int.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Int.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$IntegerConst.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$IntegerConst.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Keyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Keyword.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$LCurlyBrace.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$LCurlyBrace.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$LParen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$LParen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$LSquareBracket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$LSquareBracket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$LessThan.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$LessThan.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Let.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Let.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Method.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Method.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Minus.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Minus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Null.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Null.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Pipe.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Pipe.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Plus.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Plus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$RCurlyBrace.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$RCurlyBrace.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$RParen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$RParen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$RSquareBracket.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$RSquareBracket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Return.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Return.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Semicolon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Semicolon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Slash.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Slash.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Static.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Static.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$StringConst.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$StringConst.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Symbol.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Symbol.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$This.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$This.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Tilde.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Tilde.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$True.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$True.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Var.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Var.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$VarOrKeyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$VarOrKeyword.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$Void.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$Void.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$While.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$While.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.kt" afterDir="false" />
@@ -80,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="283" column="35" lean-forward="true" selection-start-line="283" selection-start-column="35" selection-end-line="283" selection-end-column="35" />
+            <state relative-caret-position="255">
+              <caret line="285" column="27" selection-start-line="285" selection-start-column="27" selection-end-line="285" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -105,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/parser.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+            <state relative-caret-position="135">
+              <caret line="57" column="10" selection-start-line="57" selection-start-column="10" selection-end-line="57" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -153,8 +90,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/tokenize.kt" />
-        <option value="$PROJECT_DIR$/src/tokenizer.kt" />
         <option value="$PROJECT_DIR$/src/parser.kt" />
+        <option value="$PROJECT_DIR$/src/tokenizer.kt" />
       </list>
     </option>
   </component>
@@ -201,7 +138,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556588532953" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556589514350" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
@@ -322,6 +259,18 @@
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout-to-restore>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/parser.kt</url>
+          <line>57</line>
+          <properties />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -506,17 +455,17 @@
     <entry file="file://$PROJECT_DIR$/src/ast.kt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
+    <entry file="file://$PROJECT_DIR$/src/parser.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="283" column="35" lean-forward="true" selection-start-line="283" selection-start-column="35" selection-end-line="283" selection-end-column="35" />
+        <state relative-caret-position="135">
+          <caret line="57" column="10" selection-start-line="57" selection-start-column="10" selection-end-line="57" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser.kt">
+    <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="54" column="25" selection-start-line="54" selection-start-column="25" selection-end-line="54" selection-end-column="25" />
+        <state relative-caret-position="255">
+          <caret line="285" column="27" selection-start-line="285" selection-start-column="27" selection-end-line="285" selection-end-column="27" />
         </state>
       </provider>
     </entry>
