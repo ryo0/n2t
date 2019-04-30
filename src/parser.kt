@@ -72,7 +72,7 @@ fun parseExpression(tokens: List<Token>, acm: List<ExpElm>): Expression {
             return parseExpression(restToken, acm + term)
         }
         is Token.IntegerConst -> {
-            val rawTerm = Term(Constant.IntCons(firstToken.num.toInt()))
+            val rawTerm = Term(Constant.IntCons(firstToken.num))
             val term = ExpElm._Term(rawTerm)
             return parseExpression(restToken, acm + term)
         }

@@ -57,7 +57,7 @@ val ParenHash = mapOf(
 )
 
 sealed class Token {
-    data class IntegerConst(val num: String) : Token()
+    data class IntegerConst(val num: kotlin.Int) : Token()
     data class StringConst(val string: String) : Token()
     data class Keyword(val key: String) : Token()
     data class VarOrKeyword(val name: String) : Token()
@@ -122,7 +122,7 @@ fun tokenizeSub(inputStr: String): List<Token> {
                 val strFromIToLast = inputStr.slice(i until inputStr.length)
                 if (str.isDigit()) {
                     val digit = getDigit(strFromIToLast)
-                    tokens.add(Token.IntegerConst(digit))
+                    tokens.add(Token.IntegerConst(digit.toInt()))
                     i += digit.length
                 } else if (str == '_' || str.isLetter()) {
                     val varName = getVariable(strFromIToLast)
@@ -239,7 +239,7 @@ fun convertToXML(tokens: List<Token>): String {
     return "<tokens>\n" + tokens.map {
         when (it) {
             is Token.IntegerConst ->
-                writeXML("integerConstant", it.num)
+                writeXML("integerConstant", it.num.toString())
             is Token.StringConst ->
                 writeXML("stringConstant", it.string)
             is Token.Keyword ->
