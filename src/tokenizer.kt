@@ -281,9 +281,24 @@ fun main() {
         let x = 2
     }
 """.trimIndent()
-    val tokens = tokenize(testCode)
+    val tokens = tokenize("(b+(c+d))")
+    println(parseExpression(tokens, listOf()))
 
-    val ptest = tokenize("[.[;([)*,]}]")
-    println(findClosingParenIndex(4, ptest))
-
+    val tokens2 = tokenize("((true+false))")
+    println(parseExpression(tokens2, listOf()))
 }
+
+// Expression(expElms=[
+//  _Paren(paren=LeftParen),
+//      _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=b))), _Op(op=Plus),
+//          _Paren(paren=LeftParen),
+//              _Expression(exp=Expression(
+//                  expElms=[_Term(term=Term(constant=VarName(const=c))), _Op(op=Plus), _Term(term=Term(constant=VarName(const=d))),
+//          _Paren(paren=RightParen),
+// _Paren(paren=RightParen)]))]))])
+
+//Expression(expElms=[
+//  _Paren(paren=LeftParen),_Expression(exp=Expression(expElms=[
+//      _Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))),
+//      _Paren(paren=RightParen),
+//  _Paren(paren=RightParen)]))]))])
