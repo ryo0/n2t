@@ -51,20 +51,20 @@ enum class Keyword {
 //    }
 //}
 
-fun parseExpression(tokens: List<Token>, acm: List<ExpElm>): Expression {
+fun parseExpression(tokens: List<Token>, acm: List<ExpElm>): List<ExpElm> {
     if (tokens.count() == 0) {
-        return Expression(acm)
+        return acm
     }
     val firstToken = tokens[0]
     val restToken = tokens.slice(1 until tokens.count())
     when (firstToken) {
         is Token.LParen -> {
             val leftParen = ExpElm._Paren(Paren.LeftParen)
-            val rightParen = ExpElm._Paren(Paren.RightParen)
-            return Expression( (acm + leftParen) + listOf(ExpElm._Expression(parseExpression(restToken, listOf())), rightParen))
+            return acm + parseExpression(restToken, listOf(leftParen))
         }
         is Token.RParen -> {
-            return parseExpression(restToken, acm)
+            val rightParen = ExpElm._Paren(Paren.RightParen)
+            return parseExpression(restToken, acm + rightParen)
         }
         is Token.Identifier -> {
             val rawTerm = Term(Constant.VarName(firstToken.name))
