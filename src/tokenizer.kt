@@ -286,16 +286,39 @@ fun main() {
 
     val tokens2 = tokenize("((true+false) + 1)")
     println(parseExpression(tokens2, listOf()))
-}
-//Expression(expElms=[
-// _Paren(paren=LeftParen),
-//  _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=b))), _Op(op=Plus), _Term(term=Term(constant=VarName(const=d))),
-// _Paren(paren=RightParen)]))])
 
-//Expression(expElms=[
-// _Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[
-//   _Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//    [_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))),
-//   _Paren(paren=RightParen),
-//  _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1))),
-// _Paren(paren=RightParen)]))]))])
+    val tokens3 = tokenize("((true))")
+    println(parseExpression(tokens3, listOf()))
+}
+
+//Expression(expElms=
+// [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//          [_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))]
+//          )),
+//      _Paren(paren=RightParen)])),
+// _Paren(paren=RightParen)])
+
+//Expression(expElms=
+// [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//          [_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))]
+//          )),
+//      _Paren(paren=RightParen)])),
+// _Paren(paren=RightParen)])
+
+
+// Expression(expElms=
+//  [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//   [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//    [_Term(term=Term(constant=KeyCons(const=True)))])),
+//   _Paren(paren=RightParen)])),
+//  _Paren(paren=RightParen)])
+
+
+//Expression(expElms=
+//  [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//      [_Term(term=Term(constant=VarName(const=b))), _Op(op=Plus), _Term(term=Term(constant=VarName(const=d)))
+//      ])),
+//   _Paren(paren=RightParen)
+//  ])
