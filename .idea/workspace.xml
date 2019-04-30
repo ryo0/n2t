@@ -2,27 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Constant$VarName.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/ExpElm$_Expression.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/ExpElm$_Op.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/ExpElm$_Paren.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/ExpElm$_Term.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/ExpElm.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/tokenize/Paren.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/Square.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Square/Square.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Constant$IntCons.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Constant$IntCons.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Constant$KeyCons.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Constant$KeyCons.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Constant$StrCons.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Constant$StrCons.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Constant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Constant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Expression.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Expression.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Keyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Keyword.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Op.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Op.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/OpAndTerm.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Term.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Term.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -37,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="303" column="36" lean-forward="true" selection-start-line="303" selection-start-column="36" selection-end-line="303" selection-end-column="36" />
+            <state relative-caret-position="288">
+              <caret line="286" column="46" selection-start-line="286" selection-start-column="46" selection-end-line="286" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -46,8 +27,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/parser.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="60" column="28" lean-forward="true" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="28" />
+            <state relative-caret-position="179">
+              <caret line="66" column="58" lean-forward="true" selection-start-line="66" selection-start-column="58" selection-end-line="66" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -228,7 +209,7 @@
     <frame x="50" y="23" width="1400" height="742" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16936672" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.16936672" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -256,7 +237,7 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16273932" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16936672" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -264,8 +245,8 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3276923" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32923076" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3276923" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -473,15 +454,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/parser.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="60" column="28" lean-forward="true" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="28" />
+        <state relative-caret-position="179">
+          <caret line="66" column="58" lean-forward="true" selection-start-line="66" selection-start-column="58" selection-end-line="66" selection-end-column="58" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="303" column="36" lean-forward="true" selection-start-line="303" selection-start-column="36" selection-end-line="303" selection-end-column="36" />
+        <state relative-caret-position="288">
+          <caret line="286" column="46" selection-start-line="286" selection-start-column="46" selection-end-line="286" selection-end-column="46" />
         </state>
       </provider>
     </entry>
