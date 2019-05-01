@@ -60,6 +60,9 @@ fun parseExpression(tokens: List<Token>, acm: List<ExpElm>): List<ExpElm> {
     when (firstToken) {
         is Token.LParen -> {
             val rightParenIndex = findClosingParenIndex(0, tokens)
+            if (rightParenIndex == -1) {
+                throw Error("開きカッコに対する閉じカッコがありません")
+            }
             val tokensInParen = restTokens.slice(0 until rightParenIndex)
             val tokensAfterRParen = restTokens.slice(rightParenIndex until restTokens.count())
 
