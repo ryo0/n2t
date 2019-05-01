@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="283" lean-forward="true" selection-start-line="283" selection-end-line="283" />
+            <state relative-caret-position="381">
+              <caret line="300" column="8" selection-start-line="300" selection-start-column="8" selection-end-line="300" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -25,8 +26,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/parser.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="113" column="53" lean-forward="true" selection-start-line="113" selection-start-column="53" selection-end-line="113" selection-end-column="53" />
+            <state relative-caret-position="289">
+              <caret line="144" column="32" selection-start-line="144" selection-start-column="32" selection-end-line="144" selection-end-column="32" />
+              <folding>
+                <element signature="e#0#69#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -43,8 +47,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Square/Square.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5190">
-              <caret line="346" column="20" selection-start-line="346" selection-start-column="11" selection-end-line="346" selection-end-column="20" />
+            <state relative-caret-position="128">
+              <caret line="838" column="22" selection-start-line="838" selection-start-column="22" selection-end-line="838" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Main.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="99" column="20" selection-start-line="99" selection-start-column="9" selection-end-line="99" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -77,11 +90,15 @@
       <find>254</find>
       <find>statement</find>
       <find>parseExpression</find>
+      <find>else</find>
+      <find>ifStatement</find>
       <find>restTokens</find>
+      <find>acm</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>parseExpressionSub</replace>
+      <replace>ifStmts</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -97,10 +114,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="50" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="32" />
     <option name="y" value="23" />
-    <option name="width" value="1400" />
+    <option name="width" value="1418" />
     <option name="height" value="775" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -145,7 +162,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556706210319" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556711367172" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
@@ -217,10 +234,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="50" y="23" width="1400" height="775" extended-state="0" />
+    <frame x="0" y="23" width="1450" height="775" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17157584" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16548295" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -450,30 +467,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Square/Square.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5190">
-          <caret line="346" column="20" selection-start-line="346" selection-start-column="11" selection-end-line="346" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ast.kt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Square.jack">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/Square/Square.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="838" column="22" selection-start-line="838" selection-start-column="22" selection-end-line="838" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="99" column="20" selection-start-line="99" selection-start-column="9" selection-end-line="99" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="283" lean-forward="true" selection-start-line="283" selection-end-line="283" />
+        <state relative-caret-position="381">
+          <caret line="300" column="8" selection-start-line="300" selection-start-column="8" selection-end-line="300" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/parser.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="113" column="53" lean-forward="true" selection-start-line="113" selection-start-column="53" selection-end-line="113" selection-end-column="53" />
+        <state relative-caret-position="289">
+          <caret line="144" column="32" selection-start-line="144" selection-start-column="32" selection-end-line="144" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#69#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
