@@ -317,3 +317,28 @@ fun main() {
 //       _Paren(paren=RightParen)]),
 //   ifStmts=Statements(statements=
 //      [Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[])))]), elseStmts=Statements(statements=[])))])
+
+//Statements(statements=
+//  [If(stmt=IfStatement(expression=Expression(expElms=
+//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//          [_Term(term=Term(constant=KeyCons(const=True)))]
+//   )), _Paren(paren=RightParen)]),
+//   ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[])))]), elseStmts=Statements(statements=[])))])
+
+//Statements(statements=
+//  [If(stmt=IfStatement(expression=Expression(expElms=
+//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//          [_Term(term=Term(constant=KeyCons(const=True)))])),
+//       _Paren(paren=RightParen)]),
+//       ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[])))]), elseStmts=Statements(statements=[])))])
+
+
+//Statements(statements=
+//  [If(stmt=IfStatement(expression=Expression(expElms=
+//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
+//          [_Term(term=Term(constant=KeyCons(const=True)))])),
+//       _Paren(paren=RightParen)]),
+//       ifStmts=Statements(statements=
+//          [Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=
+//              [_Term(term=Term(constant=IntCons(const=1)))])
+//           ))]), elseStmts=Statements(statements=[])))])

@@ -162,13 +162,12 @@ fun parseLetStatementSub(tokens: List<Token>, varName: Constant.VarName?, exp: E
             return parseLetStatementSub(restTokens, Constant.VarName(firstToken.name), exp)
         }
         is Token.Equal -> {
-            val restRestTokens = restTokens.slice(1 until restTokens.count())
-            val (restRestRestTokens, expression) = parseExpressionSub(restRestTokens, listOf())
-            varName ?: throw Error("letのパース: 左辺がない状態で右辺が呼ばれている")
-            return restRestRestTokens to LetStatement(varName, Expression(expression))
+            return parseLetStatementSub(restTokens, varName, exp)
         }
         else -> {
-            throw Error("let文のパース: 想定外のトークン $firstToken")
+            val (restTokens2, expression) = parseExpressionSub(tokens, listOf())
+            varName ?: throw Error("letのパース: 左辺がない状態で右辺が呼ばれている")
+            return restTokens2 to LetStatement(varName, Expression(expression))
         }
     }
 }
@@ -234,12 +233,11 @@ fun parseIfStatementSub(
             return parseIfStatementSub(restRestTkns, ifStmts + stmts, elseStmts, Expression(expression))
         }
         is Token.Else -> {
-            val (restTkns, expression) = parseExpressionSub(restTokens, listOf())
-            val (restRestTkns, stmts) = parseStatementsSub(restTkns, listOf())
-            return parseIfStatementSub(restRestTkns, ifStmts, elseStmts + stmts, Expression(expression))
+            val (restTkns, stmts) = parseStatementsSub(restTokens, listOf())
+            return parseIfStatementSub(restTkns, ifStmts, elseStmts + stmts, exp)
         }
         is Token.LCurlyBrace -> {
-            val (restTkns, stmts) = parseStatementsSub(tokens, listOf())
+            val (restTkns, stmts) = parseStatementsSub(restTokens, listOf())
             return parseIfStatementSub(restTkns, ifStmts + stmts, elseStmts, exp)
         }
         else -> {
