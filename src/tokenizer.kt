@@ -309,36 +309,4 @@ fun main() {
 // Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=b))), _Op(op=Plus), _Term(term=Term(constant=VarName(const=d)))])), _Paren(paren=RightParen)])
 // Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False)))])), _Paren(paren=RightParen), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))])), _Paren(paren=RightParen)])
 // Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)])), _Paren(paren=RightParen)])
-
-//Statements(statements=
-//  [If(stmt=IfStatement(expression=Expression(expElms=
-//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//          [_Term(term=Term(constant=KeyCons(const=True)))])),
-//       _Paren(paren=RightParen)]),
-//   ifStmts=Statements(statements=
-//      [Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[])))]), elseStmts=Statements(statements=[])))])
-
-//Statements(statements=
-//  [If(stmt=IfStatement(expression=Expression(expElms=
-//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//          [_Term(term=Term(constant=KeyCons(const=True)))]
-//   )), _Paren(paren=RightParen)]),
-//   ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[])))]), elseStmts=Statements(statements=[])))])
-
-//Statements(statements=
-//  [If(stmt=IfStatement(expression=Expression(expElms=
-//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//          [_Term(term=Term(constant=KeyCons(const=True)))])),
-//       _Paren(paren=RightParen)]),
-//       ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[])))]), elseStmts=Statements(statements=[])))])
-
-
-//Statements(statements=
-//  [If(stmt=IfStatement(expression=Expression(expElms=
-//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//          [_Term(term=Term(constant=KeyCons(const=True)))])),
-//       _Paren(paren=RightParen)]),
-//       ifStmts=Statements(statements=
-//          [Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=
-//              [_Term(term=Term(constant=IntCons(const=1)))])
-//           ))]), elseStmts=Statements(statements=[])))])
+// Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=1)))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))])))])))])

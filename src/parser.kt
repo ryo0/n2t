@@ -240,6 +240,9 @@ fun parseIfStatementSub(
             val (restTkns, stmts) = parseStatementsSub(restTokens, listOf())
             return parseIfStatementSub(restTkns, ifStmts + stmts, elseStmts, exp)
         }
+        is Token.RCurlyBrace -> {
+            return parseIfStatementSub(restTokens, ifStmts, elseStmts, exp)
+        }
         else -> {
             exp ?: throw Error("if文のパース: expがnull")
             val ifStmt = IfStatement(expression = exp, ifStmts = Statements(ifStmts), elseStmts = Statements(elseStmts))
