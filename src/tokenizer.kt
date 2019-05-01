@@ -329,7 +329,3 @@ fun main() {
 //[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
 //    [_Expression(exp=Expression(expElms=
 //        [_Paren(paren=LeftParen), _Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))), _Paren(paren=RightParen), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1))), _Paren(paren=RightParen)]))]))]
-
-[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-    [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-        [_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))), _Paren(paren=RightParen)])), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1))), _Paren(paren=RightParen)]))]

@@ -59,16 +59,17 @@ fun parseExpression(tokens: List<Token>, acm: List<ExpElm>): List<ExpElm> {
     val restTokens = tokens.slice(1 until tokens.count())
     when (firstToken) {
         is Token.LParen -> {
-            val leftParen = ExpElm._Paren(Paren.LeftParen)
             val rightParenIndex = findClosingParenIndex(0, tokens)
             val tokensInParen = restTokens.slice(0 until rightParenIndex)
             val tokensAfterRParen = restTokens.slice(rightParenIndex until restTokens.count())
-            val expInParen = ExpElm._Expression(Expression( parseExpression(tokensInParen, listOf(leftParen))))
-            return acm + expInParen + parseExpression(tokensAfterRParen, listOf())
+
+            val leftParen = ExpElm._Paren(Paren.LeftParen)
+            val rightParen = ExpElm._Paren(Paren.RightParen)
+            val expInParen = ExpElm._Expression(Expression(parseExpression(tokensInParen, listOf())))
+            return acm + leftParen + expInParen + rightParen + parseExpression(tokensAfterRParen, listOf())
         }
         is Token.RParen -> {
-            val rightParen = ExpElm._Paren(Paren.RightParen)
-            return parseExpression(restTokens, acm + rightParen)
+            return acm
         }
         is Token.Identifier -> {
             val rawTerm = Term(Constant.VarName(firstToken.name))
