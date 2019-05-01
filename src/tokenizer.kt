@@ -281,51 +281,18 @@ fun main() {
         let x = 2
     }
 """.trimIndent()
+
     val tokens = tokenize("(b+d)")
-    println(parseExpression(tokens, listOf()))
+    println(parseExpression(tokens))
 
     val tokens2 = tokenize("((true+false) + 1)")
-    println(parseExpression(tokens2, listOf()))
+    println(parseExpression(tokens2))
 
     val tokens3 = tokenize("((true))")
-    println(parseExpression(tokens3, listOf()))
+    println(parseExpression(tokens3))
 }
 
-//Expression(expElms=
-// [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//          [_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))]
-//          )),
-//      _Paren(paren=RightParen)])),
-// _Paren(paren=RightParen)])
-
-//Expression(expElms=
-// [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//      [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//          [_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))]
-//          )),
-//      _Paren(paren=RightParen)])),
-// _Paren(paren=RightParen)])
-
-
-// Expression(expElms=
-//  [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//   [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//    [_Term(term=Term(constant=KeyCons(const=True)))])),
-//   _Paren(paren=RightParen)])),
-//  _Paren(paren=RightParen)])
-
-
-//Expression(expElms=
-//  [_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//      [_Term(term=Term(constant=VarName(const=b))), _Op(op=Plus), _Term(term=Term(constant=VarName(const=d)))
-//      ])),
-//   _Paren(paren=RightParen)
-//  ])
-//[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//    [_Paren(paren=LeftParen), _Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))), _Paren(paren=RightParen)])),
-//        _Expression(exp=Expression(expElms=[_Op(op=Plus), _Term(term=Term(constant=IntCons(const=1))), _Paren(paren=RightParen)]))]
-
-//[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=
-//    [_Expression(exp=Expression(expElms=
-//        [_Paren(paren=LeftParen), _Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False))), _Paren(paren=RightParen), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1))), _Paren(paren=RightParen)]))]))]
+// リファクタ前:成功データ
+// Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=b))), _Op(op=Plus), _Term(term=Term(constant=VarName(const=d)))])), _Paren(paren=RightParen)])
+// Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False)))])), _Paren(paren=RightParen), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))])), _Paren(paren=RightParen)])
+// Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)])), _Paren(paren=RightParen)])
