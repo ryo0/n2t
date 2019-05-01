@@ -4,8 +4,6 @@
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Token$IntegerConst.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Token$IntegerConst.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.kt" afterDir="false" />
     </list>
@@ -18,20 +16,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="331" lean-forward="true" selection-start-line="331" selection-end-line="331" />
+            <state relative-caret-position="16">
+              <caret line="310" column="11" lean-forward="true" selection-start-line="310" selection-start-column="11" selection-end-line="310" selection-end-column="11" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/parser.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="68" column="32" lean-forward="true" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
+            <state relative-caret-position="435">
+              <caret line="70" column="64" lean-forward="true" selection-start-line="70" selection-start-column="64" selection-end-line="70" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -48,7 +46,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Square/Square.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4710">
+            <state relative-caret-position="165">
               <caret line="314" column="39" selection-start-line="314" selection-start-column="36" selection-end-line="314" selection-end-column="39" />
             </state>
           </provider>
@@ -93,8 +91,8 @@
       <list>
         <option value="$PROJECT_DIR$/src/tokenize.kt" />
         <option value="$PROJECT_DIR$/Square/Square.xml" />
-        <option value="$PROJECT_DIR$/src/parser.kt" />
         <option value="$PROJECT_DIR$/src/tokenizer.kt" />
+        <option value="$PROJECT_DIR$/src/parser.kt" />
       </list>
     </option>
   </component>
@@ -110,6 +108,39 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="tokenize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tokenize" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tokenize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tokenize" type="462c0819:PsiDirectoryNode" />
+              <item name="ArrayTest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tokenize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tokenize" type="462c0819:PsiDirectoryNode" />
+              <item name="ExpressionLessSquare" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tokenize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tokenize" type="462c0819:PsiDirectoryNode" />
+              <item name="Square" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="tokenize" type="b2602c69:ProjectViewProjectNode" />
+              <item name="tokenize" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
@@ -146,7 +177,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556667537199" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556670503256" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
@@ -209,10 +240,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="50" y="23" width="1400" height="775" extended-state="0" />
+    <frame x="30" y="23" width="1400" height="775" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.16936672" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16936672" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -221,8 +252,8 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32923076" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32650074" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.25036603" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39970717" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -268,8 +299,35 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout-to-restore>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/parser.kt</url>
+          <line>64</line>
+          <properties />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>restTokens.slice(0 until restTokens.count())</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>restTokens.slice(0 until tokens.count())</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>restTokens.slice(rightParenIndex until tokens.count())</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>removeComments(&quot;3*(1+2)&quot;)</expression-string>
         <language-id>kotlin</language-id>
@@ -297,21 +355,6 @@
       </expression>
       <expression>
         <expression-string>inputStr.slice(i until inputStr.length)</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>digit.length</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>endOfStringConst</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>keywordLength</expression-string>
         <language-id>kotlin</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -443,7 +486,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Square/Square.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4710">
+        <state relative-caret-position="165">
           <caret line="314" column="39" selection-start-line="314" selection-start-column="36" selection-end-line="314" selection-end-column="39" />
         </state>
       </provider>
@@ -455,17 +498,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser.kt">
+    <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="68" column="32" lean-forward="true" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
+        <state relative-caret-position="16">
+          <caret line="310" column="11" lean-forward="true" selection-start-line="310" selection-start-column="11" selection-end-line="310" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
+    <entry file="file://$PROJECT_DIR$/src/parser.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="331" lean-forward="true" selection-start-line="331" selection-end-line="331" />
+        <state relative-caret-position="435">
+          <caret line="70" column="64" lean-forward="true" selection-start-line="70" selection-start-column="64" selection-end-line="70" selection-end-column="64" />
         </state>
       </provider>
     </entry>
