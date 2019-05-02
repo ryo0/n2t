@@ -8,7 +8,7 @@ sealed class Stmt {
     data class If(val stmt: IfStatement) : Stmt()
 }
 
-data class LetStatement(val varName: Constant.VarName, val exp: Expression)
+data class LetStatement(val varName: Constant.VarName, val index: Expression?, val exp: Expression)
 data class IfStatement(val expression: Expression, val ifStmts: Statements, val elseStmts: Statements?)
 
 data class Term(val constant: Constant)
@@ -138,7 +138,7 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
             return parseStatementsSub(restTokens, acm)
         }
         is Token.Let -> {
-            val (restTkns, letStmt) = parseLetStatementSub(tokens, null, null)
+            val (restTkns, letStmt) = parseLetStatementSub(tokens, null, null, null)
             return parseStatementsSub(restTkns, acm + Stmt.Let(letStmt))
         }
         else -> {
@@ -151,23 +151,35 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
 //
 //}
 
-fun parseLetStatementSub(tokens: List<Token>, varName: Constant.VarName?, exp: Expression?): Pair<List<Token> , LetStatement>{
+fun parseLetStatementSub(
+    tokens: List<Token>,
+    varName: Constant.VarName?,
+    index: Expression?,
+    exp: Expression?
+): Pair<List<Token>, LetStatement> {
     val firstToken = tokens[0]
     val restTokens = tokens.slice(1 until tokens.count())
     when (firstToken) {
         is Token.Let -> {
-            return parseLetStatementSub(restTokens, varName, exp)
+            return parseLetStatementSub(restTokens, varName, index, exp)
         }
         is Token.Identifier -> {
-            return parseLetStatementSub(restTokens, Constant.VarName(firstToken.name), exp)
+            return parseLetStatementSub(restTokens, Constant.VarName(firstToken.name), index, exp)
         }
         is Token.Equal -> {
-            return parseLetStatementSub(restTokens, varName, exp)
+            return parseLetStatementSub(restTokens, varName, index, exp)
+        }
+        is Token.LSquareBracket -> {
+            val(restTokens2, indexExperession) = parseExpressionSub(restTokens, listOf())
+            return parseLetStatementSub(restTokens2, varName, Expression(indexExperession), exp)
+        }
+        is Token.RSquareBracket -> {
+            return parseLetStatementSub(restTokens, varName, index, exp)
         }
         else -> {
             val (restTokens2, expression) = parseExpressionSub(tokens, listOf())
             varName ?: throw Error("letのパース: 左辺がない状態で右辺が呼ばれている")
-            return restTokens2 to LetStatement(varName, Expression(expression))
+            return restTokens2 to LetStatement(varName, index, Expression(expression))
         }
     }
 }

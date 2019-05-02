@@ -303,6 +303,27 @@ fun main() {
 """.trimIndent()
     val tokens5 = tokenize(testCode)
     println(parseStatements(tokens5))
+
+    val testCode2 = """
+        if (x + 1) {
+            let x = 3
+            let y = 5
+        } else {
+            let z = 1
+            let w = 4
+        }
+    """.trimIndent()
+    val tokens6 = tokenize(testCode2)
+    println(parseStatements(tokens6))
+
+    val testCode3 = """
+        if (x + 1) {
+            let x[2] = 3
+            let y[3] = 5
+        }
+    """.trimIndent()
+    val tokens7 = tokenize(testCode3)
+    println(parseStatements(tokens7))
 }
 
 // リファクタ前:成功データ
@@ -310,3 +331,5 @@ fun main() {
 // Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False)))])), _Paren(paren=RightParen), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))])), _Paren(paren=RightParen)])
 // Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)])), _Paren(paren=RightParen)])
 // Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=1)))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))])))])))])
+// Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=x))), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=3)))]))), Let(stmt=LetStatement(varName=VarName(const=y), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=5)))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=z), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=1)))]))), Let(stmt=LetStatement(varName=VarName(const=w), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=4)))])))])))])
+// Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=x))), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))]), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=3)))]))), Let(stmt=LetStatement(varName=VarName(const=y), index=Expression(expElms=[_Term(term=Term(constant=IntCons(const=3)))]), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=5)))])))]), elseStmts=Statements(statements=[])))])
