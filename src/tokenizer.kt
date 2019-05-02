@@ -295,11 +295,11 @@ fun main() {
     println(parseExpression(tokens4))
 
     val testCode = """
-    if (true) {
-        let x = 1
-    } else {
-        let x = 2
-    }
+        if (true) {
+            let x = 1
+        } else {
+            let x = 2
+        }
 """.trimIndent()
     val tokens5 = tokenize(testCode)
     println(parseStatements(tokens5))

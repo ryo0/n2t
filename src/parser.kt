@@ -1,6 +1,3 @@
-import sun.tools.java.Identifier
-import javax.swing.plaf.nimbus.State
-
 data class Statements(val statements: List<Stmt>)
 
 sealed class Stmt {
@@ -9,7 +6,7 @@ sealed class Stmt {
 }
 
 data class LetStatement(val varName: Constant.VarName, val index: Expression?, val exp: Expression)
-data class IfStatement(val expression: Expression, val ifStmts: Statements, val elseStmts: Statements?)
+data class IfStatement(val expression: Expression?, val ifStmts: List<Stmt>, val elseStmts: List<Stmt>)
 
 data class Term(val constant: Constant)
 
@@ -131,7 +128,7 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
     val restTokens = tokens.slice(1 until tokens.count())
     when (firstToken) {
         is Token.If -> {
-            val (restTkns, ifStmt) = parseIfStatementSub(tokens, listOf(), listOf(), null)
+            val (restTkns, ifStmt) = parseIfStatementSub(tokens, listOf(), null, listOf(), listOf())
             return parseStatementsSub(restTkns, acm + Stmt.If(ifStmt))
         }
         is Token.LCurlyBrace -> {
@@ -140,6 +137,9 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
         is Token.Let -> {
             val (restTkns, letStmt) = parseLetStatementSub(tokens, null, null, null)
             return parseStatementsSub(restTkns, acm + Stmt.Let(letStmt))
+        }
+        is Token.RCurlyBrace -> {
+            return restTokens to acm
         }
         else -> {
             return tokens to acm
@@ -170,7 +170,7 @@ fun parseLetStatementSub(
             return parseLetStatementSub(restTokens, varName, index, exp)
         }
         is Token.LSquareBracket -> {
-            val(restTokens2, indexExperession) = parseExpressionSub(restTokens, listOf())
+            val (restTokens2, indexExperession) = parseExpressionSub(restTokens, listOf())
             return parseLetStatementSub(restTokens2, varName, Expression(indexExperession), exp)
         }
         is Token.RSquareBracket -> {
@@ -222,43 +222,60 @@ fun parseLetStatementSub(
 
 //
 fun parseIfStatement(tokens: List<Token>): IfStatement {
-    return parseIfStatementSub(tokens, listOf(), listOf(), null).second
+    return parseIfStatementSub(tokens, listOf(), null, listOf(), listOf()).second
 }
 
 fun parseIfStatementSub(
     tokens: List<Token>,
+    acm: List<Stmt>,
+    exp: Expression?,
     ifStmts: List<Stmt>,
-    elseStmts: List<Stmt>,
-    exp: Expression?
-): Pair<List<Token>, IfStatement> {
+    elseStmts: List<Stmt>
+): Triple<List<Token>, IfStatement, List<Stmt>> {
     if (tokens.count() == 0) {
-        exp ?: throw Error("if文のパース: expがnull")
-        val ifStmt = IfStatement(expression = exp, ifStmts = Statements(ifStmts), elseStmts = Statements(elseStmts))
-        return tokens to ifStmt
+        exp ?: throw Error("ifのパース: expがnull $acm")
+        val ifStatement = IfStatement(exp, ifStmts, elseStmts)
+        return Triple(tokens, ifStatement, acm)
     }
     val firstToken = tokens[0]
     val restTokens = tokens.slice(1 until tokens.count())
     when (firstToken) {
+        // if, elseをあまり特別視せず、
+        // (に出会ったら式のパース、
+        // {に出会ったら文のパースとしたい。
+        // ただ、そうすると、if文のパースの結果をif文のほうに入れられないのではないか。
+        // elseについても同様。
+        // いや、それはこのように解決できそうだ。
+        // {に出会ったら文のパースに投げる。ifのパースなら、その結果をifの結果に入れる。
+        // そして、文のパースは}の次以降のトークンを返すようにする。
+        // こうすればうまくいきそう。
         is Token.If -> {
-            val (restTkns, expression) = parseExpressionSub(restTokens, listOf())
-            val (restRestTkns, stmts) = parseStatementsSub(restTkns, listOf())
-            return parseIfStatementSub(restRestTkns, ifStmts + stmts, elseStmts, Expression(expression))
+            val (restTkns, newIf, newAcm) = parseIfStatementSub(restTokens, acm, exp, ifStmts, elseStmts)
+            return parseIfStatementSub(restTkns, listOf(), newIf.expression, newIf.ifStmts + newAcm, newIf.elseStmts + elseStmts)
         }
         is Token.Else -> {
-            val (restTkns, stmts) = parseStatementsSub(restTokens, listOf())
-            return parseIfStatementSub(restTkns, ifStmts, elseStmts + stmts, exp)
+            val (restTkns, newIf, newAcm) = parseIfStatementSub(restTokens, acm, exp, ifStmts, elseStmts)
+            return parseIfStatementSub(restTkns, listOf(), newIf.expression, newIf.ifStmts, newIf.elseStmts+ newAcm)
+        }
+        is Token.LParen -> {
+            val (restTkns, expression) = parseExpressionSub(tokens, listOf())
+            return parseIfStatementSub(restTkns, listOf(), Expression(expression), ifStmts, elseStmts)
+        }
+        is Token.RParen -> {
+            exp ?: throw Error("if文のパース: expがnull")
+            return parseIfStatementSub(restTokens, acm, exp, ifStmts, elseStmts)
         }
         is Token.LCurlyBrace -> {
             val (restTkns, stmts) = parseStatementsSub(restTokens, listOf())
-            return parseIfStatementSub(restTkns, ifStmts + stmts, elseStmts, exp)
+            return parseIfStatementSub(restTkns, acm + stmts, exp, ifStmts, elseStmts)
         }
         is Token.RCurlyBrace -> {
-            return parseIfStatementSub(restTokens, ifStmts, elseStmts, exp)
+            exp ?: throw Error("if文のパース: expがnull")
+            return Triple(restTokens, IfStatement(exp, ifStmts, elseStmts), acm)
         }
         else -> {
             exp ?: throw Error("if文のパース: expがnull")
-            val ifStmt = IfStatement(expression = exp, ifStmts = Statements(ifStmts), elseStmts = Statements(elseStmts))
-            return tokens to ifStmt
+            return Triple(restTokens, IfStatement(exp, ifStmts, elseStmts), acm)
         }
     }
 }
