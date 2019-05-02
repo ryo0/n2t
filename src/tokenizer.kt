@@ -50,12 +50,6 @@ val SymbolHash = mapOf(
     '~' to Token.Tilde
 )
 
-val ParenHash = mapOf(
-    Token.LParen to Token.RParen,
-    Token.LSquareBracket to Token.RSquareBracket,
-    Token.LCurlyBrace to Token.RCurlyBrace
-)
-
 sealed class Token {
     data class IntegerConst(val num: kotlin.Int) : Token()
     data class StringConst(val string: String) : Token()
@@ -274,14 +268,6 @@ fun convertXMLValue(value: String): String {
 }
 
 fun main() {
-//    val testCode = """
-//    if (true) {
-//        let x = 1
-//    } else {
-//        let x = 2
-//    }
-//""".trimIndent()
-
     val tokens = tokenize("(b+d)")
     println(parseExpression(tokens))
 
