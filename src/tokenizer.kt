@@ -324,12 +324,76 @@ fun main() {
     """.trimIndent()
     val tokens7 = tokenize(testCode3)
     println(parseStatements(tokens7))
+
+    val testCode4 = """
+        if (true) {
+            if (false) {
+                let x = 1
+            }
+        }
+    """.trimIndent()
+    val tokens8 = tokenize(testCode4)
+    println(parseStatements(tokens8))
+
+    val testCode5 = """
+        while(true) {
+            let x = 2
+        }
+    """.trimIndent()
+    val tokens9 = tokenize(testCode5)
+    println(parseStatements(tokens9))
+
+    val testCode6 = """
+        if(false) {
+            while(true) {
+                let x = 2
+            }
+        }
+    """.trimIndent()
+    val tokens10 = tokenize(testCode6)
+    println(parseStatements(tokens10))
+
+    val testCode7 = """
+        while(true) {
+            if(x) {
+                let y = 1
+            }
+            while(true) {
+                let x = 2
+            }
+        }
+    """.trimIndent()
+    val tokens11 = tokenize(testCode7)
+    println(parseStatements(tokens11))
+
+    val testCode8 = """
+        if(true) {
+            if(x) {
+                let y = 1
+            } else {
+                let z = 3
+            }
+            while(true) {
+                let x = 2
+            }
+        }
+    """.trimIndent()
+    val tokens12 = tokenize(testCode8)
+    println(parseStatements(tokens12))
 }
 
-// リファクタ前:成功データ
+// テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
+// Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=b))), _Op(op=Plus), _Term(term=Term(constant=VarName(const=d)))])), _Paren(paren=RightParen)])
 // Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=b))), _Op(op=Plus), _Term(term=Term(constant=VarName(const=d)))])), _Paren(paren=RightParen)])
 // Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True))), _Op(op=Plus), _Term(term=Term(constant=KeyCons(const=False)))])), _Paren(paren=RightParen), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))])), _Paren(paren=RightParen)])
 // Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)])), _Paren(paren=RightParen)])
 // Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=1)))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))])))])))])
 // Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=x))), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=3)))]))), Let(stmt=LetStatement(varName=VarName(const=y), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=5)))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=z), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=1)))]))), Let(stmt=LetStatement(varName=VarName(const=w), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=4)))])))])))])
 // Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=x))), _Op(op=Plus), _Term(term=Term(constant=IntCons(const=1)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))]), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=3)))]))), Let(stmt=LetStatement(varName=VarName(const=y), index=Expression(expElms=[_Term(term=Term(constant=IntCons(const=3)))]), exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=5)))])))]), elseStmts=Statements(statements=[])))])
+// Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=False)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=1)))])))]), elseStmts=Statements(statements=[])))]), elseStmts=Statements(statements=[])))])
+// Statements(statements=[While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))]), statements=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))])))])))])
+// Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=False)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))]), statements=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))])))])))]), elseStmts=Statements(statements=[])))])
+// Statements(statements=[While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))]), statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=x)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=y), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=1)))]))), While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))]), statements=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))])))])))]), elseStmts=Statements(statements=[])))])))])
+// Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Paren(paren=LeftParen), _Expression(exp=Expression(expElms=[_Term(term=Term(constant=VarName(const=x)))])), _Paren(paren=RightParen)]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=y), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=1)))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=z), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=3)))]))), While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=Term(constant=KeyCons(const=True)))]), statements=Statements(statements=[Let(stmt=LetStatement(varName=VarName(const=x), index=null, exp=Expression(expElms=[_Term(term=Term(constant=IntCons(const=2)))])))])))])))]), elseStmts=Statements(statements=[])))])
+
+
