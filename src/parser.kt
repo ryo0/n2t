@@ -6,7 +6,7 @@ sealed class Stmt {
 }
 
 data class LetStatement(val varName: Constant.VarName, val index: Expression?, val exp: Expression)
-data class IfStatement(val expression: Expression?, val ifStmts: Statements, val elseStmts: Statements)
+data class IfStatement(val expression: Expression, val ifStmts: Statements, val elseStmts: Statements)
 
 data class Term(val constant: Constant)
 
