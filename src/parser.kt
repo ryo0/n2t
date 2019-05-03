@@ -3,14 +3,18 @@ data class Statements(val statements: List<Stmt>)
 sealed class Stmt {
     data class Let(val stmt: LetStatement) : Stmt()
     data class If(val stmt: IfStatement) : Stmt()
-    data class While(val stmt: WhileStatement): Stmt()
+    data class While(val stmt: WhileStatement) : Stmt()
 }
 
-data class LetStatement(val varName: Constant.VarName, val index: Expression?, val exp: Expression)
+data class LetStatement(val varName: Term.VarName, val index: Expression?, val exp: Expression)
 data class IfStatement(val expression: Expression, val ifStmts: Statements, val elseStmts: Statements)
 data class WhileStatement(val expression: Expression, val statements: Statements)
 
-data class Term(val constant: Constant)
+sealed class Term {
+    data class Const(val const: C): Term()
+    data class VarName(val name: String) : Term()
+    data class SubroutineCall(val call: SubroutineCall): Term()
+}
 
 enum class Op {
     Plus, Minus, Asterisk, Slash, And, Pipe, LessThan, GreaterThan, Equal
@@ -29,12 +33,24 @@ sealed class ExpElm {
 
 data class Expression(val expElms: List<ExpElm>)
 
-sealed class Constant {
-    data class IntCons(val const: Int) : Constant()
-    data class StrCons(val const: String) : Constant()
-    data class KeyCons(val const: Keyword) : Constant()
-    data class VarName(val const: String) : Constant()
+data class ExpressionList(val expList: List<Expression>)
+
+sealed class C {
+    data class IntC(val const: Int) : C()
+    data class StrC(val const: String) : C()
+    data class KeyC(val const: Keyword) : C()
 }
+
+data class ClassName(val name: String)
+data class VarName(val name: String)
+data class SubroutineName(val name: String)
+
+data class SubroutineCall(
+    val subroutineName: SubroutineName,
+    val expList: ExpressionList,
+    val ClassName: ClassName?,
+    val varName: VarName?
+)
 
 enum class Keyword {
     True, False, Null, This
@@ -68,17 +84,17 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             return tokens to acm
         }
         is Token.Identifier -> {
-            val rawTerm = Term(Constant.VarName(firstToken.name))
+            val rawTerm = Term.VarName(firstToken.name)
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.IntegerConst -> {
-            val rawTerm = Term(Constant.IntCons(firstToken.num))
+            val rawTerm = Term.Const(C.IntC(firstToken.num))
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.StringConst -> {
-            val rawTerm = Term(Constant.StrCons(firstToken.string))
+            val rawTerm = Term.Const(C.StrC(firstToken.string))
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
@@ -93,22 +109,22 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             return parseExpressionSub(restTokens, acm + op)
         }
         is Token.True -> {
-            val rawTerm = Term(Constant.KeyCons(Keyword.True))
+            val rawTerm = Term.Const(C.KeyC(Keyword.True))
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.False -> {
-            val rawTerm = Term(Constant.KeyCons(Keyword.False))
+            val rawTerm = Term.Const(C.KeyC(Keyword.False))
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.Null -> {
-            val rawTerm = Term(Constant.KeyCons(Keyword.Null))
+            val rawTerm = Term.Const(C.KeyC(Keyword.Null))
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.This -> {
-            val rawTerm = Term(Constant.KeyCons(Keyword.This))
+            val rawTerm = Term.Const(C.KeyC(Keyword.This))
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
@@ -155,7 +171,7 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
 
 fun parseLetStatementSub(
     tokens: List<Token>,
-    varName: Constant.VarName?,
+    varName: Term.VarName?,
     index: Expression?,
     exp: Expression?
 ): Pair<List<Token>, LetStatement> {
@@ -166,7 +182,7 @@ fun parseLetStatementSub(
             return parseLetStatementSub(restTokens, varName, index, exp)
         }
         is Token.Identifier -> {
-            return parseLetStatementSub(restTokens, Constant.VarName(firstToken.name), index, exp)
+            return parseLetStatementSub(restTokens, Term.VarName(firstToken.name), index, exp)
         }
         is Token.Equal -> {
             return parseLetStatementSub(restTokens, varName, index, exp)
@@ -187,7 +203,11 @@ fun parseLetStatementSub(
 }
 
 
-fun parseWhileStatementSub(tokens: List<Token>, exp: Expression?, stmts: List<Stmt>): Pair<List<Token>, WhileStatement> {
+fun parseWhileStatementSub(
+    tokens: List<Token>,
+    exp: Expression?,
+    stmts: List<Stmt>
+): Pair<List<Token>, WhileStatement> {
     if (tokens.count() == 0) {
         exp ?: throw Error("whileのパース: expがnull $stmts")
         val whileStatement = WhileStatement(exp, Statements(stmts))
