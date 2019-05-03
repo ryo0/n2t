@@ -1,5 +1,3 @@
-import kotlin.math.exp
-
 data class Statements(val statements: List<Stmt>)
 
 sealed class Stmt {
@@ -210,7 +208,7 @@ fun parseExpressionList(tokens: List<Token>, acm: List<Expression>): Pair<List<T
             return parseExpressionList(restTokens, acm)
         }
         is  Token.RParen -> {
-            return tokens to ExpressionList(acm)
+            return restTokens to ExpressionList(acm)
         }
         else -> {
             val (restTkns, exps) = parseExpressionSub(tokens, listOf())
@@ -231,7 +229,7 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
     val restTokens = tokens.slice(1 until tokens.count())
     when (firstToken) {
         is Token.If -> {
-            val (restTkns, ifStmt, _Acm) = parseIfStatementSub(tokens, listOf(), null, listOf(), listOf())
+            val (restTkns, ifStmt, _) = parseIfStatementSub(tokens, listOf(), null, listOf(), listOf())
             return parseStatementsSub(restTkns, acm + Stmt.If(ifStmt))
         }
         is Token.Let -> {
