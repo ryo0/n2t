@@ -1,3 +1,5 @@
+import kotlin.math.exp
+
 data class Statements(val statements: List<Stmt>)
 
 sealed class Stmt {
@@ -11,10 +13,22 @@ data class IfStatement(val expression: Expression, val ifStmts: Statements, val 
 data class WhileStatement(val expression: Expression, val statements: Statements)
 
 sealed class Term {
-    data class Const(val const: C): Term()
+    data class Const(val const: C) : Term()
     data class VarName(val name: String) : Term()
-    data class SubroutineCall(val call: SubroutineCall): Term()
+    data class SubroutineCall(val call: SubroutineCall) : Term()
 }
+
+val opHash = mapOf(
+    Token.Plus to Op.Plus,
+    Token.Minus to Op.Minus,
+    Token.Asterisk to Op.Asterisk,
+    Token.Slash to Op.Slash,
+    Token.And to Op.And,
+    Token.Pipe to Op.Pipe,
+    Token.LessThan to Op.LessThan,
+    Token.GreaterThan to Op.GreaterThan,
+    Token.Equal to Op.Equal
+)
 
 enum class Op {
     Plus, Minus, Asterisk, Slash, And, Pipe, LessThan, GreaterThan, Equal
@@ -29,6 +43,7 @@ sealed class ExpElm {
     data class _Op(val op: Op) : ExpElm()
     data class _Paren(val paren: Paren) : ExpElm()
     data class _Expression(val exp: Expression) : ExpElm()
+    data class _SubroutineCall(val sub: SubroutineCall) : ExpElm()
 }
 
 data class Expression(val expElms: List<ExpElm>)
@@ -41,15 +56,13 @@ sealed class C {
     data class KeyC(val const: Keyword) : C()
 }
 
-data class ClassName(val name: String)
-data class VarName(val name: String)
+data class Identifier(val name: String)
 data class SubroutineName(val name: String)
 
 data class SubroutineCall(
-    val subroutineName: SubroutineName,
+    val subroutineName: Identifier,
     val expList: ExpressionList,
-    val ClassName: ClassName?,
-    val varName: VarName?
+    val ClassOrVarName: Identifier?
 )
 
 enum class Keyword {
@@ -69,6 +82,9 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
     when (firstToken) {
         is Token.LParen -> {
             val (restTkns, restAcm) = parseExpressionSub(restTokens, listOf())
+            if (restTkns.count() == 0) {
+                return restTkns to acm + restAcm
+            }
             val firstOfRest = restTkns[0]
             if (firstOfRest == Token.RParen) {
                 val leftParen = ExpElm._Paren(Paren.LeftParen)
@@ -84,6 +100,13 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             return tokens to acm
         }
         is Token.Identifier -> {
+            if (tokens.count() > 1) {
+                val next = tokens[1]
+                if (next == Token.Dot || next == Token.LParen) {
+                    val (restTkns, subroutineCall) = parseSubroutineCall(tokens)
+                    return parseExpressionSub(restTkns, acm + ExpElm._SubroutineCall(subroutineCall))
+                }
+            }
             val rawTerm = Term.VarName(firstToken.name)
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
@@ -98,13 +121,8 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
-        is Token.Plus -> {
-            val rawOp = Op.Plus
-            val op = ExpElm._Op(rawOp)
-            return parseExpressionSub(restTokens, acm + op)
-        }
-        is Token.Minus -> {
-            val rawOp = Op.Minus
+        is Token.Plus, Token.Minus, Token.Asterisk, Token.Slash, Token.And, Token.Pipe, Token.LessThan, Token.GreaterThan, Token.Equal -> {
+            val rawOp = opHash[firstToken] ?: throw Error("opHashに不備がある $opHash")
             val op = ExpElm._Op(rawOp)
             return parseExpressionSub(restTokens, acm + op)
         }
@@ -130,6 +148,73 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
         }
         else -> {
             return tokens to acm
+        }
+    }
+}
+
+fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> {
+    if (tokens.count() <= 2) {
+        throw Error("SubroutineCallのパース: トークンが2つ以下 $tokens")
+    }
+    val firstToken = tokens[0]
+    val secondToken = tokens[1]
+    when (secondToken) {
+        is Token.LParen -> {
+            if (firstToken !is Token.Identifier) {
+                throw Error("SubroutineCallのパース: subroutineNameが変数の形式ではない $firstToken")
+            }
+            val subroutineName = Identifier(firstToken.name)
+
+            val restTokens = tokens.slice(2 until tokens.count())
+            if (restTokens.count() == 0) {
+                throw Error("SubroutineCallのパース: トークンが少ない $tokens")
+            }
+            val (restTkns, expList) = parseExpressionList(restTokens, listOf())
+            return restTkns to SubroutineCall(subroutineName, expList, null)
+        }
+        is Token.Dot -> {
+            if (firstToken !is Token.Identifier) {
+                throw Error("SubroutineCallのパース: クラス/変数名が変数の形式ではない $firstToken")
+            }
+            val classOrVarName = Identifier(firstToken.name)
+
+            val thirdToken = tokens[2]
+            if (thirdToken !is Token.Identifier) {
+                throw Error("SubroutineCallのパース: subroutineNameが変数の形式ではない $firstToken")
+            }
+
+            val subroutineName = Identifier(thirdToken.name)
+
+            val restTokens = tokens.slice(3 until tokens.count())
+            if (restTokens.count() == 0) {
+                throw Error("SubroutineCallのパース: トークンが少ない $tokens")
+            }
+            val (restTkns, expList) = parseExpressionList(restTokens, listOf())
+
+            return restTkns to SubroutineCall(subroutineName, expList, classOrVarName)
+        }
+        else -> {
+            throw Error("SubroutineCallのパース: 2つ目のトークンが(でも.でもない $tokens")
+        }
+    }
+}
+
+fun parseExpressionList(tokens: List<Token>, acm: List<Expression>): Pair<List<Token>, ExpressionList> {
+    if (tokens.count() == 0) {
+        return tokens to ExpressionList(acm)
+    }
+    val firstToken = tokens[0]
+    val restTokens = tokens.slice(1 until tokens.count())
+    when (firstToken) {
+        is Token.Comma, Token.LParen -> {
+            return parseExpressionList(restTokens, acm)
+        }
+        is  Token.RParen -> {
+            return tokens to ExpressionList(acm)
+        }
+        else -> {
+            val (restTkns, exps) = parseExpressionSub(tokens, listOf())
+            return parseExpressionList(restTkns, acm + Expression(exps))
         }
     }
 }
@@ -185,7 +270,10 @@ fun parseLetStatementSub(
             return parseLetStatementSub(restTokens, Term.VarName(firstToken.name), index, exp)
         }
         is Token.Equal -> {
-            return parseLetStatementSub(restTokens, varName, index, exp)
+            val (restTokens2, expression) = parseExpressionSub(restTokens, listOf())
+            varName ?: throw Error("letのパース: 左辺がない状態で右辺が呼ばれている")
+            return restTokens2 to LetStatement(varName, index, Expression(expression))
+//            return parseLetStatementSub(restTokens, varName, index, exp)
         }
         is Token.LSquareBracket -> {
             val (restTokens2, indexExperession) = parseExpressionSub(restTokens, listOf())
