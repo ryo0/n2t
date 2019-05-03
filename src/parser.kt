@@ -1,5 +1,3 @@
-import kotlin.math.exp
-
 data class Statements(val statements: List<Stmt>)
 
 sealed class Stmt {
@@ -17,9 +15,14 @@ data class DoStatemtnt(val subroutineCall: SubroutineCall)
 data class ReturnStatement(val expression: Expression?)
 
 sealed class Term {
-    data class Const(val const: C) : Term()
+    data class IntC(val const: Int) : Term()
+    data class StrC(val const: String) : Term()
+    data class KeyC(val const: Keyword) : Term()
     data class VarName(val name: String) : Term()
-    data class SubroutineCall(val call: SubroutineCall) : Term()
+    data class ArrayAndIndex(val name: String, val index: Expression): Term()
+    data class _SubroutineCall(val call: SubroutineCall) : Term()
+    data class _Expression(val left: Paren, val exp: Expression, val right: Paren): Term()
+    data class UnaryOpTerm(val op: UnaryOp, val term: Term): Term()
 }
 
 val opHash = mapOf(
@@ -34,31 +37,26 @@ val opHash = mapOf(
     Token.Equal to Op.Equal
 )
 
+enum class Paren {
+    Left, Right
+}
+
 enum class Op {
     Plus, Minus, Asterisk, Slash, And, Pipe, LessThan, GreaterThan, Equal
 }
 
-enum class Paren {
-    LeftParen, RightParen
+enum class UnaryOp {
+    Minus, Tilde
 }
 
 sealed class ExpElm {
     data class _Term(val term: Term) : ExpElm()
     data class _Op(val op: Op) : ExpElm()
-    data class _Paren(val paren: Paren) : ExpElm()
-    data class _Expression(val exp: Expression) : ExpElm()
-    data class _SubroutineCall(val sub: SubroutineCall) : ExpElm()
 }
 
 data class Expression(val expElms: List<ExpElm>)
 
 data class ExpressionList(val expList: List<Expression>)
-
-sealed class C {
-    data class IntC(val const: Int) : C()
-    data class StrC(val const: String) : C()
-    data class KeyC(val const: Keyword) : C()
-}
 
 data class Identifier(val name: String)
 data class SubroutineName(val name: String)
@@ -175,11 +173,11 @@ fun parseDo(tokens: List<Token>): Pair<List<Token>, DoStatemtnt> {
 
 fun parseReturn(tokens: List<Token>): Pair<List<Token>, ReturnStatement> {
     val restTokens = rest(tokens)
-    if(first(restTokens) == Token.Semicolon) {
+    if (first(restTokens) == Token.Semicolon) {
         return rest(restTokens) to ReturnStatement(null)
     }
     val (restTkns, expression) = parseExpressionSub(restTokens, listOf())
-    if(first(restTkns) != Token.Semicolon) {
+    if (first(restTkns) != Token.Semicolon) {
         throw Error("Return文で式の後がセミコロンじゃない: tokens")
     }
     return rest(restTkns) to ReturnStatement(Expression(expression))
