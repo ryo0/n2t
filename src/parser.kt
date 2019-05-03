@@ -361,7 +361,7 @@ fun parseIfStatementSub(
             )
         }
         is Token.LParen -> {
-            val (restTkns, expression) = parseExpressionSub(tokens, listOf())
+            val (restTkns, expression) = parseExpressionSub(restTokens, listOf())
             return parseIfStatementSub(restTkns, listOf(), Expression(expression), ifStmts, elseStmts)
         }
         is Token.RParen -> {
