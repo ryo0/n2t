@@ -390,11 +390,37 @@ fun main() {
     val tokens15 = tokenize(testCode11)
     println(parseStatements(tokens15))
 
-    val testCode12  = """
+    val testCode12 = """
         let x = f()
     """.trimIndent()
     val tokens16 = tokenize(testCode12)
     println(parseStatements(tokens16))
+
+    val testCode13 = """
+        if(f()) {
+            do g(1, 2, 3)
+        }
+    """.trimIndent()
+    val tokens17 = tokenize(testCode13)
+    println(parseStatements(tokens17))
+
+    val testCode14 = """
+        if (f()) {
+           return;
+        }
+    """.trimIndent()
+    val tokens18 = tokenize(testCode14)
+    println(parseStatements(tokens18))
+
+    val testCode15 = """
+        if(true) {
+           return g(4);
+        } else {
+            return f();
+        }
+    """.trimIndent()
+    val tokens19 = tokenize(testCode15)
+    println(parseStatements(tokens19))
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
@@ -414,3 +440,6 @@ fun main() {
 //Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=x), index=null, exp=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=yyy), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=Const(const=IntC(const=1))), _Op(op=Plus), _Term(term=Const(const=IntC(const=2)))]), Expression(expElms=[_Term(term=Const(const=KeyC(const=True))), _Op(op=And), _Term(term=Const(const=KeyC(const=False)))]), Expression(expElms=[_Term(term=VarName(name=x)), _Op(op=Asterisk), _Term(term=Const(const=IntC(const=3)))])]), ClassOrVarName=Identifier(name=xxx)))])))])
 //Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=y), expList=ExpressionList(expList=[]), ClassOrVarName=Identifier(name=x)))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=x), index=null, exp=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=_b), expList=ExpressionList(expList=[]), ClassOrVarName=Identifier(name=_a1)))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=z), index=null, exp=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=main), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=VarName(name=a))]), Expression(expElms=[_Term(term=VarName(name=b))]), Expression(expElms=[_Term(term=VarName(name=c))])]), ClassOrVarName=Identifier(name=Main)))])))])))])
 //Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=x), index=null, exp=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[]), ClassOrVarName=null))])))])
+//Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[]), ClassOrVarName=null))]), ifStmts=Statements(statements=[Do(stmt=DoStatemtnt(subroutineCall=SubroutineCall(subroutineName=Identifier(name=g), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=Const(const=IntC(const=1)))]), Expression(expElms=[_Term(term=Const(const=IntC(const=2)))]), Expression(expElms=[_Term(term=Const(const=IntC(const=3)))])]), ClassOrVarName=null)))]), elseStmts=Statements(statements=[])))])
+//Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[]), ClassOrVarName=null))]), ifStmts=Statements(statements=[Return(stmt=ReturnStatement(expression=null))]), elseStmts=Statements(statements=[])))])
+//Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=Const(const=KeyC(const=True)))]), ifStmts=Statements(statements=[Return(stmt=ReturnStatement(expression=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=g), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=Const(const=IntC(const=4)))])]), ClassOrVarName=null))])))]), elseStmts=Statements(statements=[Return(stmt=ReturnStatement(expression=Expression(expElms=[_SubroutineCall(sub=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[]), ClassOrVarName=null))])))])))])

@@ -1,14 +1,20 @@
+import kotlin.math.exp
+
 data class Statements(val statements: List<Stmt>)
 
 sealed class Stmt {
     data class Let(val stmt: LetStatement) : Stmt()
     data class If(val stmt: IfStatement) : Stmt()
     data class While(val stmt: WhileStatement) : Stmt()
+    data class Do(val stmt: DoStatemtnt) : Stmt()
+    data class Return(val stmt: ReturnStatement) : Stmt()
 }
 
 data class LetStatement(val varName: Term.VarName, val index: Expression?, val exp: Expression)
 data class IfStatement(val expression: Expression, val ifStmts: Statements, val elseStmts: Statements)
 data class WhileStatement(val expression: Expression, val statements: Statements)
+data class DoStatemtnt(val subroutineCall: SubroutineCall)
+data class ReturnStatement(val expression: Expression?)
 
 sealed class Term {
     data class Const(val const: C) : Term()
@@ -64,7 +70,18 @@ data class SubroutineCall(
 )
 
 enum class Keyword {
-    True, False, Null, This
+    Class, Constructor, Function, Method, Field, Static, Var, Int, Char, Boolean, Void, True, False, Null, This, Let, Do, If, Else
+}
+
+fun first(tokens: List<Token>): Token {
+    return tokens[0]
+}
+
+fun rest(tokens: List<Token>): List<Token> {
+    if (tokens.count() < 1) {
+        throw Error("restに0個のトークンが渡されました")
+    }
+    return tokens.slice(1 until tokens.count())
 }
 
 fun parseExpression(tokens: List<Token>): Expression {
@@ -75,8 +92,8 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
     if (tokens.count() == 0) {
         return tokens to acm
     }
-    val firstToken = tokens[0]
-    val restTokens = tokens.slice(1 until tokens.count())
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
     when (firstToken) {
         is Token.LParen -> {
             val (restTkns, restAcm) = parseExpressionSub(restTokens, listOf())
@@ -150,11 +167,30 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
     }
 }
 
+fun parseDo(tokens: List<Token>): Pair<List<Token>, DoStatemtnt> {
+    val restTokens = rest(tokens)
+    val (restTkns, subroutineCall) = parseSubroutineCall(restTokens)
+    return restTkns to DoStatemtnt(subroutineCall)
+}
+
+fun parseReturn(tokens: List<Token>): Pair<List<Token>, ReturnStatement> {
+    val restTokens = rest(tokens)
+    if(first(restTokens) == Token.Semicolon) {
+        return rest(restTokens) to ReturnStatement(null)
+    }
+    val (restTkns, expression) = parseExpressionSub(restTokens, listOf())
+    if(first(restTkns) != Token.Semicolon) {
+        throw Error("Return文で式の後がセミコロンじゃない: tokens")
+    }
+    return rest(restTkns) to ReturnStatement(Expression(expression))
+}
+
+
 fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> {
     if (tokens.count() <= 2) {
         throw Error("SubroutineCallのパース: トークンが2つ以下 $tokens")
     }
-    val firstToken = tokens[0]
+    val firstToken = first(tokens)
     val secondToken = tokens[1]
     when (secondToken) {
         is Token.LParen -> {
@@ -163,7 +199,7 @@ fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> 
             }
             val subroutineName = Identifier(firstToken.name)
 
-            val restTokens = tokens.slice(2 until tokens.count())
+            val restTokens = rest(rest(tokens))
             if (restTokens.count() == 0) {
                 throw Error("SubroutineCallのパース: トークンが少ない $tokens")
             }
@@ -183,7 +219,7 @@ fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> 
 
             val subroutineName = Identifier(thirdToken.name)
 
-            val restTokens = tokens.slice(3 until tokens.count())
+            val restTokens = rest(rest(rest(tokens)))
             if (restTokens.count() == 0) {
                 throw Error("SubroutineCallのパース: トークンが少ない $tokens")
             }
@@ -201,13 +237,13 @@ fun parseExpressionList(tokens: List<Token>, acm: List<Expression>): Pair<List<T
     if (tokens.count() == 0) {
         return tokens to ExpressionList(acm)
     }
-    val firstToken = tokens[0]
-    val restTokens = tokens.slice(1 until tokens.count())
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
     when (firstToken) {
         is Token.Comma, Token.LParen -> {
             return parseExpressionList(restTokens, acm)
         }
-        is  Token.RParen -> {
+        is Token.RParen -> {
             return restTokens to ExpressionList(acm)
         }
         else -> {
@@ -225,8 +261,8 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
     if (tokens.count() == 0) {
         return tokens to acm
     }
-    val firstToken = tokens[0]
-    val restTokens = tokens.slice(1 until tokens.count())
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
     when (firstToken) {
         is Token.If -> {
             val (restTkns, ifStmt, _) = parseIfStatementSub(tokens, listOf(), null, listOf(), listOf())
@@ -239,6 +275,14 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
         is Token.While -> {
             val (restTkns, whileStmts) = parseWhileStatementSub(tokens, null, listOf())
             return parseStatementsSub(restTkns, acm + Stmt.While(whileStmts))
+        }
+        is Token.Do -> {
+            val (restTkns, doStmt) = parseDo(tokens)
+            return parseStatementsSub(restTkns, acm + Stmt.Do(doStmt))
+        }
+        is Token.Return -> {
+            val (restTkns, returnStmt) = parseReturn(tokens)
+            return parseStatementsSub(restTkns, acm + Stmt.Return(returnStmt))
         }
         is Token.LCurlyBrace -> {
             return parseStatementsSub(restTokens, acm)
@@ -258,8 +302,8 @@ fun parseLetStatementSub(
     index: Expression?,
     exp: Expression?
 ): Pair<List<Token>, LetStatement> {
-    val firstToken = tokens[0]
-    val restTokens = tokens.slice(1 until tokens.count())
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
     when (firstToken) {
         is Token.Let -> {
             return parseLetStatementSub(restTokens, varName, index, exp)
@@ -299,8 +343,8 @@ fun parseWhileStatementSub(
         val whileStatement = WhileStatement(exp, Statements(stmts))
         return tokens to whileStatement
     }
-    val firstToken = tokens[0]
-    val restTokens = tokens.slice(1 until tokens.count())
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
 
     when (firstToken) {
         is Token.While -> {
@@ -335,8 +379,8 @@ fun parseIfStatementSub(
         val ifStatement = IfStatement(exp, Statements(ifStmts), Statements(elseStmts))
         return Triple(tokens, ifStatement, acm)
     }
-    val firstToken = tokens[0]
-    val restTokens = tokens.slice(1 until tokens.count())
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
     when (firstToken) {
         is Token.If -> {
             val (restTkns, newIf, newAcm) = parseIfStatementSub(restTokens, acm, exp, ifStmts, elseStmts)
