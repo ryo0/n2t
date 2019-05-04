@@ -4,14 +4,14 @@ sealed class Stmt {
     data class Let(val stmt: LetStatement) : Stmt()
     data class If(val stmt: IfStatement) : Stmt()
     data class While(val stmt: WhileStatement) : Stmt()
-    data class Do(val stmt: DoStatemtnt) : Stmt()
+    data class Do(val stmt: DoStatement) : Stmt()
     data class Return(val stmt: ReturnStatement) : Stmt()
 }
 
 data class LetStatement(val varName: Term.VarName, val index: Expression?, val exp: Expression)
 data class IfStatement(val expression: Expression, val ifStmts: Statements, val elseStmts: Statements)
 data class WhileStatement(val expression: Expression, val statements: Statements)
-data class DoStatemtnt(val subroutineCall: SubroutineCall)
+data class DoStatement(val subroutineCall: SubroutineCall)
 data class ReturnStatement(val expression: Expression?)
 
 sealed class Term {
@@ -173,18 +173,27 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
     val restTokens = rest(tokens)
 
     when (firstToken) {
-        is Token.LParen, is Token.Identifier, is Token.IntegerConst,
-        Token.True, Token.False, Token.This, Token.Null, Token.Minus, Token.Tilde -> {
+        Token.LParen, is Token.Identifier, is Token.IntegerConst,
+        Token.True, Token.False, Token.This, Token.Null, Token.Tilde -> {
             val (newRestTokens, term) = parseTerm(tokens, null)
-            if (newRestTokens.count() == 0) {
+            return parseExpressionSub(newRestTokens, acm + ExpElm._Term(term))
+        }
+        Token.Minus -> {
+            if (acm.count() == 0) {
+                val (newRestTokens, term) = parseTerm(tokens, null)
                 return parseExpressionSub(newRestTokens, acm + ExpElm._Term(term))
-            } else if (first(newRestTokens) in opHash.keys) {
-                val rawOp = opHash[first(newRestTokens)] ?: throw Error("opHashに不備がある $opHash")
-                val op = ExpElm._Op(rawOp)
-                return parseExpressionSub(rest(newRestTokens), acm + ExpElm._Term(term) + op)
             } else {
-                return parseExpressionSub(newRestTokens, acm + ExpElm._Term(term))
+                val rawOp = opHash[firstToken] ?: throw Error("opHashに不備がある $opHash")
+                val op = ExpElm._Op(rawOp)
+                val (newRestTokens, term) = parseTerm(restTokens, null)
+                return parseExpressionSub(newRestTokens, acm + op + ExpElm._Term(term))
             }
+        }
+        in opHash.keys -> {
+            val rawOp = opHash[firstToken] ?: throw Error("opHashに不備がある $opHash")
+            val op = ExpElm._Op(rawOp)
+            val (newRestTokens, term) = parseTerm(restTokens, null)
+            return parseExpressionSub(newRestTokens, acm + op + ExpElm._Term(term))
         }
         is Token.RSquareBracket -> {
             return restTokens to acm
@@ -207,10 +216,10 @@ fun parseArrayAndIndex(tokens: List<Token>): Pair<List<Token>, Term.ArrayAndInde
     return newRestTokens to Term.ArrayAndIndex(arrayName, Expression(exp))
 }
 
-fun parseDo(tokens: List<Token>): Pair<List<Token>, DoStatemtnt> {
+fun parseDo(tokens: List<Token>): Pair<List<Token>, DoStatement> {
     val restTokens = rest(tokens)
     val (newRestTokens, subroutineCall) = parseSubroutineCall(restTokens)
-    return newRestTokens to DoStatemtnt(subroutineCall)
+    return newRestTokens to DoStatement(subroutineCall)
 }
 
 fun parseReturn(tokens: List<Token>): Pair<List<Token>, ReturnStatement> {
