@@ -98,13 +98,9 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             if (restTkns.count() == 0) {
                 return restTkns to acm + restAcm
             }
-            val firstOfRest = restTkns[0]
-            if (firstOfRest == Token.RParen) {
-                val leftParen = ExpElm._Paren(Paren.LeftParen)
-                val rightParen = ExpElm._Paren(Paren.RightParen)
-                val restRestTkns = restTkns.slice(1 until restTkns.count())
-                val newAcm = acm + leftParen + ExpElm._Expression(Expression(restAcm)) + rightParen
-                return parseExpressionSub(restRestTkns, newAcm)
+            if (first(restTkns) == Token.RParen) {
+                val newAcm = acm + ExpElm._Term(Term._Expression(Paren.Left, Expression(restAcm), Paren.Right))
+                return parseExpressionSub(rest(restTkns), newAcm)
             } else {
                 throw Error("開きカッコに対して閉じカッコがない")
             }
@@ -117,7 +113,7 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
                 val next = tokens[1]
                 if (next == Token.Dot || next == Token.LParen) {
                     val (restTkns, subroutineCall) = parseSubroutineCall(tokens)
-                    return parseExpressionSub(restTkns, acm + ExpElm._SubroutineCall(subroutineCall))
+                    return parseExpressionSub(restTkns, acm + ExpElm._Term(Term._SubroutineCall(subroutineCall)))
                 }
             }
             val rawTerm = Term.VarName(firstToken.name)
@@ -125,12 +121,12 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.IntegerConst -> {
-            val rawTerm = Term.Const(C.IntC(firstToken.num))
+            val rawTerm = Term.IntC(firstToken.num)
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.StringConst -> {
-            val rawTerm = Term.Const(C.StrC(firstToken.string))
+            val rawTerm = Term.StrC(firstToken.string)
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
@@ -140,22 +136,22 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             return parseExpressionSub(restTokens, acm + op)
         }
         is Token.True -> {
-            val rawTerm = Term.Const(C.KeyC(Keyword.True))
+            val rawTerm = Term.KeyC(Keyword.True)
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.False -> {
-            val rawTerm = Term.Const(C.KeyC(Keyword.False))
+            val rawTerm = Term.KeyC(Keyword.False)
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.Null -> {
-            val rawTerm = Term.Const(C.KeyC(Keyword.Null))
+            val rawTerm = Term.KeyC(Keyword.Null)
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
         is Token.This -> {
-            val rawTerm = Term.Const(C.KeyC(Keyword.This))
+            val rawTerm = Term.KeyC(Keyword.This)
             val term = ExpElm._Term(rawTerm)
             return parseExpressionSub(restTokens, acm + term)
         }
@@ -414,7 +410,7 @@ fun parseIfStatementSub(
         }
         is Token.RCurlyBrace -> {
             // 次がelse節なら、parseIf内で処理する
-            if (restTokens.count() != 0 && restTokens[0] is Token.Else) {
+            if (restTokens.count() != 0 && first(restTokens) is Token.Else) {
                 exp ?: throw Error("if文のパース: expがnull")
                 return Triple(restTokens, IfStatement(exp, Statements(ifStmts), Statements(elseStmts)), acm)
             }
