@@ -105,8 +105,8 @@ fun parseTerm(tokens: List<Token>, _term: Term?): Pair<List<Token>, Term> {
                 return newRestTokens to Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
             }
             if (first(newRestTokens) is Token.RParen) {
-                val newAcm = Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
-                return parseTerm(rest(newRestTokens), newAcm)
+                val term = Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
+                return rest(newRestTokens) to term
             } else {
                 throw Error("開きカッコに対して閉じカッコがない")
             }
@@ -120,43 +120,43 @@ fun parseTerm(tokens: List<Token>, _term: Term?): Pair<List<Token>, Term> {
                 val next = first(restTokens)
                 if (next == Token.Dot || next == Token.LParen) {
                     val (newRestTokens, subroutineCall) = parseSubroutineCall(tokens)
-                    return parseTerm(newRestTokens, Term._SubroutineCall(subroutineCall))
+                    return newRestTokens to Term._SubroutineCall(subroutineCall)
                 } else if (next == Token.LSquareBracket) {
                     val (newRestTokens, arrayAndIndex) = parseArrayAndIndex(tokens)
-                    return parseTerm(newRestTokens, arrayAndIndex)
+                    return newRestTokens to arrayAndIndex
                 }
             }
             val term = Term.VarName(firstToken.name)
-            return parseTerm(restTokens, term)
+            return restTokens to term
         }
         is Token.Minus, is Token.Tilde -> {
             val op = unaryOpHash[firstToken] ?: throw Error("unaryOpHashに不備があります")
             val (newRestTokens, term) = parseTerm(restTokens, null)
-            return parseTerm(newRestTokens, Term.UnaryOpTerm(op, term))
+            return newRestTokens to Term.UnaryOpTerm(op, term)
         }
         is Token.IntegerConst -> {
             val term = Term.IntC(firstToken.num)
-            return parseTerm(restTokens, term)
+            return restTokens to term
         }
         is Token.StringConst -> {
             val term = Term.StrC(firstToken.string)
-            return parseTerm(restTokens, term)
+            return restTokens to term
         }
         is Token.True -> {
             val term = Term.KeyC(Keyword.True)
-            return parseTerm(restTokens, term)
+            return restTokens to term
         }
         is Token.False -> {
             val term = Term.KeyC(Keyword.False)
-            return parseTerm(restTokens, term)
+            return restTokens to term
         }
         is Token.Null -> {
             val term = Term.KeyC(Keyword.Null)
-            return parseTerm(restTokens, term)
+            return restTokens to term
         }
         is Token.This -> {
             val term = Term.KeyC(Keyword.This)
-            return parseTerm(restTokens, term)
+            return restTokens to term
         }
         else -> {
             _term ?: throw Error("termがnull")
@@ -173,15 +173,18 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
     val restTokens = rest(tokens)
 
     when (firstToken) {
-        is Token.Plus, Token.Minus, Token.Asterisk, Token.Slash, Token.And, Token.Pipe, Token.LessThan, Token.GreaterThan, Token.Equal -> {
-            val rawOp = opHash[firstToken] ?: throw Error("opHashに不備がある $opHash")
-            val op = ExpElm._Op(rawOp)
-            return parseExpressionSub(restTokens, acm + op)
-        }
         is Token.LParen, is Token.Identifier, is Token.IntegerConst,
-        is Token.True, is Token.False, is Token.This, is Token.Null, is Token.Minus, is Token.Tilde -> {
-            val (newRestTokens, newAcm) = parseTerm(tokens, null)
-            return parseExpressionSub(newRestTokens, acm + ExpElm._Term(newAcm))
+        Token.True, Token.False, Token.This, Token.Null, Token.Minus, Token.Tilde -> {
+            val (newRestTokens, term) = parseTerm(tokens, null)
+            if (newRestTokens.count() == 0) {
+                return parseExpressionSub(newRestTokens, acm + ExpElm._Term(term))
+            } else if (first(newRestTokens) in opHash.keys) {
+                val rawOp = opHash[first(newRestTokens)] ?: throw Error("opHashに不備がある $opHash")
+                val op = ExpElm._Op(rawOp)
+                return parseExpressionSub(rest(newRestTokens), acm + ExpElm._Term(term) + op)
+            } else {
+                return parseExpressionSub(newRestTokens, acm + ExpElm._Term(term))
+            }
         }
         is Token.RSquareBracket -> {
             return restTokens to acm
