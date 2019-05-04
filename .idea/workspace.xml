@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.kt" afterDir="false" />
     </list>
@@ -17,18 +16,17 @@
     <SUITE FILE_PATH="coverage/tokenize$TokenizerKt.ic" NAME="TokenizerKt Coverage Results" MODIFIED="1556779226852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
+    <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3820">
-              <caret line="379" column="38" lean-forward="true" selection-start-line="379" selection-start-column="38" selection-end-line="379" selection-end-column="38" />
+            <state relative-caret-position="1929">
+              <caret line="440" selection-start-line="440" selection-end-line="459" />
               <folding>
-                <marker date="1556935421296" expanded="true" signature="10311:10551" ph="..." />
+                <marker date="1556937075355" expanded="true" signature="10311:10551" ph="..." />
               </folding>
             </state>
           </provider>
@@ -37,8 +35,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/parser.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="19" lean-forward="true" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+            <state relative-caret-position="15">
+              <caret line="177" column="88" selection-start-line="177" selection-start-column="88" selection-end-line="177" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -124,6 +122,10 @@
       <find>parseReturn</find>
       <find>[0</find>
       <find>.slice</find>
+      <find>restTkns</find>
+      <find>!is</find>
+      <find>parseArra</find>
+      <find>[2</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -132,6 +134,7 @@
       <replace>StrC</replace>
       <replace>KeyC</replace>
       <replace>val firstToken = first(tokens)</replace>
+      <replace>newRestTokens</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -513,18 +516,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3820">
-          <caret line="379" column="38" lean-forward="true" selection-start-line="379" selection-start-column="38" selection-end-line="379" selection-end-column="38" />
+        <state relative-caret-position="1929">
+          <caret line="440" selection-start-line="440" selection-end-line="459" />
           <folding>
-            <marker date="1556935421296" expanded="true" signature="10311:10551" ph="..." />
+            <marker date="1556937075355" expanded="true" signature="10311:10551" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/parser.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="19" lean-forward="true" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+        <state relative-caret-position="15">
+          <caret line="177" column="88" selection-start-line="177" selection-start-column="88" selection-end-line="177" selection-end-column="88" />
         </state>
       </provider>
     </entry>

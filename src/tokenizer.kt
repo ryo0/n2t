@@ -417,7 +417,28 @@ fun main() {
            return g(4);
         } else {
             return f();
-        }//Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=b)), _Op(op=Plus), _Term(term=VarName(name=d))]), right=Right))])
+        }
+    """.trimIndent()
+    val tokens19 = tokenize(testCode15)
+    println(parseStatements(tokens19))
+
+    val testCode16 = """
+        let a[2] = 1
+    """.trimIndent()
+    val tokens20 = tokenize(testCode16)
+    println(parseStatements(tokens20))
+
+    val testCode17 = """
+        if(x[2]) {
+            let g[f(a[])] = 4
+        }
+    """.trimIndent()
+    val tokens21 = tokenize(testCode17)
+    println(parseStatements(tokens21))
+}
+
+// テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
+//Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=b)), _Op(op=Plus), _Term(term=VarName(name=d))]), right=Right))])
 //Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=KeyC(const=True)), _Op(op=Plus), _Term(term=KeyC(const=False))]), right=Right)), _Op(op=Plus), _Term(term=IntC(const=1))]), right=Right))])
 //Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=KeyC(const=True))]), right=Right))]), right=Right))])
 //Expression(expElms=[_Term(term=VarName(name=a)), _Op(op=Plus), _Term(term=VarName(name=b))])
@@ -436,10 +457,5 @@ fun main() {
 //Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[]), ClassOrVarName=null)))]), ifStmts=Statements(statements=[Do(stmt=DoStatemtnt(subroutineCall=SubroutineCall(subroutineName=Identifier(name=g), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=IntC(const=1))]), Expression(expElms=[_Term(term=IntC(const=2))]), Expression(expElms=[_Term(term=IntC(const=3))])]), ClassOrVarName=null)))]), elseStmts=Statements(statements=[])))])
 //Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[]), ClassOrVarName=null)))]), ifStmts=Statements(statements=[Return(stmt=ReturnStatement(expression=null))]), elseStmts=Statements(statements=[])))])
 //Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=KeyC(const=True))]), ifStmts=Statements(statements=[Return(stmt=ReturnStatement(expression=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=g), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=IntC(const=4))])]), ClassOrVarName=null)))])))]), elseStmts=Statements(statements=[Return(stmt=ReturnStatement(expression=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[]), ClassOrVarName=null)))])))])))])
-
-    """.trimIndent()
-    val tokens19 = tokenize(testCode15)
-    println(parseStatements(tokens19))
-}
-
-// テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
+//Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=a), index=Expression(expElms=[_Term(term=IntC(const=2))]), exp=Expression(expElms=[_Term(term=IntC(const=1))])))])
+//Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=ArrayAndIndex(name=x, index=Expression(expElms=[_Term(term=IntC(const=2))])))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=g), index=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=ArrayAndIndex(name=a, index=Expression(expElms=[])))])]), ClassOrVarName=null)))]), exp=Expression(expElms=[_Term(term=IntC(const=4))])))]), elseStmts=Statements(statements=[])))])
