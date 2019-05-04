@@ -37,6 +37,11 @@ val opHash = mapOf(
     Token.Equal to Op.Equal
 )
 
+val unaryOpHash = mapOf(
+    Token.Minus to UnaryOp.Minus,
+    Token.Tilde to UnaryOp.Tilde
+)
+
 enum class Paren {
     Left, Right
 }
@@ -86,9 +91,10 @@ fun parseExpression(tokens: List<Token>): Expression {
     return Expression(parseExpressionSub(tokens, listOf()).second)
 }
 
-fun parseTerm(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>, List<ExpElm>> {
+fun parseTerm(tokens: List<Token>, _term: Term?): Pair<List<Token>, Term> {
     if (tokens.count() == 0) {
-        return tokens to acm
+        _term ?: throw Error("termがnull")
+        return tokens to _term
     }
     val firstToken = first(tokens)
     val restTokens = rest(tokens)
@@ -96,65 +102,65 @@ fun parseTerm(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>, List<Ex
         is Token.LParen -> {
             val (newRestTokens, restAcm) = parseExpressionSub(restTokens, listOf())
             if (newRestTokens.count() == 0) {
-                return newRestTokens to acm + restAcm
+                return newRestTokens to Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
             }
             if (first(newRestTokens) is Token.RParen) {
-                val newAcm = acm + ExpElm._Term(Term._Expression(Paren.Left, Expression(restAcm), Paren.Right))
+                val newAcm = Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
                 return parseTerm(rest(newRestTokens), newAcm)
             } else {
                 throw Error("開きカッコに対して閉じカッコがない")
             }
         }
         is Token.RParen -> {
-            return tokens to acm
+            _term ?: throw Error("termがnull")
+            return tokens to _term
         }
         is Token.Identifier -> {
             if (tokens.count() > 1) {
                 val next = first(restTokens)
                 if (next == Token.Dot || next == Token.LParen) {
                     val (newRestTokens, subroutineCall) = parseSubroutineCall(tokens)
-                    return parseTerm(newRestTokens, acm + ExpElm._Term(Term._SubroutineCall(subroutineCall)))
+                    return parseTerm(newRestTokens, Term._SubroutineCall(subroutineCall))
                 } else if (next == Token.LSquareBracket) {
                     val (newRestTokens, arrayAndIndex) = parseArrayAndIndex(tokens)
-                    return parseTerm(newRestTokens, acm + arrayAndIndex)
+                    return parseTerm(newRestTokens, arrayAndIndex)
                 }
             }
-            val rawTerm = Term.VarName(firstToken.name)
-            val term = ExpElm._Term(rawTerm)
-            return parseTerm(restTokens, acm + term)
+            val term = Term.VarName(firstToken.name)
+            return parseTerm(restTokens, term)
+        }
+        is Token.Minus, is Token.Tilde -> {
+            val op = unaryOpHash[firstToken] ?: throw Error("unaryOpHashに不備があります")
+            val (newRestTokens, term) = parseTerm(restTokens, null)
+            return parseTerm(newRestTokens, Term.UnaryOpTerm(op, term))
         }
         is Token.IntegerConst -> {
-            val rawTerm = Term.IntC(firstToken.num)
-            val term = ExpElm._Term(rawTerm)
-            return parseTerm(restTokens, acm + term)
+            val term = Term.IntC(firstToken.num)
+            return parseTerm(restTokens, term)
         }
         is Token.StringConst -> {
-            val rawTerm = Term.StrC(firstToken.string)
-            val term = ExpElm._Term(rawTerm)
-            return parseTerm(restTokens, acm + term)
+            val term = Term.StrC(firstToken.string)
+            return parseTerm(restTokens, term)
         }
         is Token.True -> {
-            val rawTerm = Term.KeyC(Keyword.True)
-            val term = ExpElm._Term(rawTerm)
-            return parseTerm(restTokens, acm + term)
+            val term = Term.KeyC(Keyword.True)
+            return parseTerm(restTokens, term)
         }
         is Token.False -> {
-            val rawTerm = Term.KeyC(Keyword.False)
-            val term = ExpElm._Term(rawTerm)
-            return parseTerm(restTokens, acm + term)
+            val term = Term.KeyC(Keyword.False)
+            return parseTerm(restTokens, term)
         }
         is Token.Null -> {
-            val rawTerm = Term.KeyC(Keyword.Null)
-            val term = ExpElm._Term(rawTerm)
-            return parseTerm(restTokens, acm + term)
+            val term = Term.KeyC(Keyword.Null)
+            return parseTerm(restTokens, term)
         }
         is Token.This -> {
-            val rawTerm = Term.KeyC(Keyword.This)
-            val term = ExpElm._Term(rawTerm)
-            return parseTerm(restTokens, acm + term)
+            val term = Term.KeyC(Keyword.This)
+            return parseTerm(restTokens, term)
         }
         else -> {
-            return tokens to acm
+            _term ?: throw Error("termがnull")
+            return tokens to _term
         }
     }
 }
@@ -172,10 +178,10 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             val op = ExpElm._Op(rawOp)
             return parseExpressionSub(restTokens, acm + op)
         }
-        is Token.LParen, is Token.Identifier, is Token.IntegerConst, is Token.Identifier,
+        is Token.LParen, is Token.Identifier, is Token.IntegerConst,
         is Token.True, is Token.False, is Token.This, is Token.Null, is Token.Minus, is Token.Tilde -> {
-            val (newRestTokens, newAcm) = parseTerm(tokens, listOf())
-            return parseExpressionSub(newRestTokens, acm + newAcm)
+            val (newRestTokens, newAcm) = parseTerm(tokens, null)
+            return parseExpressionSub(newRestTokens, acm + ExpElm._Term(newAcm))
         }
         is Token.RSquareBracket -> {
             return restTokens to acm
@@ -187,7 +193,7 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
     }
 }
 
-fun parseArrayAndIndex(tokens: List<Token>): Pair<List<Token>, ExpElm> {
+fun parseArrayAndIndex(tokens: List<Token>): Pair<List<Token>, Term.ArrayAndIndex> {
     val firstToken = first(tokens) as Token.Identifier
     val restTokens = rest(tokens)
     if (first(restTokens) != Token.LSquareBracket) {
@@ -195,7 +201,7 @@ fun parseArrayAndIndex(tokens: List<Token>): Pair<List<Token>, ExpElm> {
     }
     val arrayName = firstToken.name
     val (newRestTokens, exp) = parseExpressionSub(rest(restTokens), listOf())
-    return newRestTokens to ExpElm._Term(Term.ArrayAndIndex(arrayName, Expression(exp)))
+    return newRestTokens to Term.ArrayAndIndex(arrayName, Expression(exp))
 }
 
 fun parseDo(tokens: List<Token>): Pair<List<Token>, DoStatemtnt> {

@@ -435,6 +435,9 @@ fun main() {
     """.trimIndent()
     val tokens21 = tokenize(testCode17)
     println(parseStatements(tokens21))
+
+    val _tokens = tokenize("true + false  + 1 + b + 1")
+    println(parseExpression(_tokens))
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
