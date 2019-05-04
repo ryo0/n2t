@@ -438,6 +438,8 @@ fun main() {
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
+
+
 //Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=b)), _Op(op=Plus), _Term(term=VarName(name=d))]), right=Right))])
 //Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=KeyC(const=True)), _Op(op=Plus), _Term(term=KeyC(const=False))]), right=Right)), _Op(op=Plus), _Term(term=IntC(const=1))]), right=Right))])
 //Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=KeyC(const=True))]), right=Right))]), right=Right))])
@@ -459,3 +461,6 @@ fun main() {
 //Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=KeyC(const=True))]), ifStmts=Statements(statements=[Return(stmt=ReturnStatement(expression=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=g), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=IntC(const=4))])]), ClassOrVarName=null)))])))]), elseStmts=Statements(statements=[Return(stmt=ReturnStatement(expression=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[]), ClassOrVarName=null)))])))])))])
 //Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=a), index=Expression(expElms=[_Term(term=IntC(const=2))]), exp=Expression(expElms=[_Term(term=IntC(const=1))])))])
 //Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=ArrayAndIndex(name=x, index=Expression(expElms=[_Term(term=IntC(const=2))])))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=g), index=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=ArrayAndIndex(name=a, index=Expression(expElms=[])))])]), ClassOrVarName=null)))]), exp=Expression(expElms=[_Term(term=IntC(const=4))])))]), elseStmts=Statements(statements=[])))])
+
+
+//

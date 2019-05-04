@@ -153,9 +153,6 @@ fun parseTerm(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>, List<Ex
             val term = ExpElm._Term(rawTerm)
             return parseTerm(restTokens, acm + term)
         }
-        is Token.RSquareBracket -> {
-            return restTokens to acm
-        }
         else -> {
             return tokens to acm
         }
@@ -163,7 +160,7 @@ fun parseTerm(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>, List<Ex
 }
 
 fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>, List<ExpElm>> {
-    if(tokens.count() == 0) {
+    if (tokens.count() == 0) {
         return tokens to acm
     }
     val firstToken = first(tokens)
@@ -175,16 +172,16 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
             val op = ExpElm._Op(rawOp)
             return parseExpressionSub(restTokens, acm + op)
         }
-        is Token.LParen -> {
+        is Token.LParen, is Token.Identifier, is Token.IntegerConst, is Token.Identifier,
+        is Token.True, is Token.False, is Token.This, is Token.Null, is Token.Minus, is Token.Tilde -> {
             val (newRestTokens, newAcm) = parseTerm(tokens, listOf())
             return parseExpressionSub(newRestTokens, acm + newAcm)
         }
-        is Token.RParen -> {
-            return tokens to acm
+        is Token.RSquareBracket -> {
+            return restTokens to acm
         }
         else -> {
-            val (newRestTokens, newAcm) = parseTerm(tokens, listOf())
-            return parseExpressionSub(newRestTokens, acm + newAcm)
+            return tokens to acm
         }
 
     }
@@ -340,26 +337,24 @@ fun parseLetStatementSub(
             return parseLetStatementSub(restTokens, Term.VarName(firstToken.name), index, exp)
         }
         is Token.Equal -> {
-            val (restTokens2, expression) = parseExpressionSub(restTokens, listOf())
+            val (newRestTokens, expression) = parseExpressionSub(restTokens, listOf())
             varName ?: throw Error("letのパース: 左辺がない状態で右辺が呼ばれている")
-            return restTokens2 to LetStatement(varName, index, Expression(expression))
-//            return parseLetStatementSub(restTokens, varName, index, exp)
+            return newRestTokens to LetStatement(varName, index, Expression(expression))
         }
         is Token.LSquareBracket -> {
-            val (restTokens2, indexExperession) = parseExpressionSub(restTokens, listOf())
-            return parseLetStatementSub(restTokens2, varName, Expression(indexExperession), exp)
+            val (newRestTokens, indexExperession) = parseExpressionSub(restTokens, listOf())
+            return parseLetStatementSub(newRestTokens, varName, Expression(indexExperession), exp)
         }
         is Token.RSquareBracket -> {
             return parseLetStatementSub(restTokens, varName, index, exp)
         }
         else -> {
-            val (restTokens2, expression) = parseExpressionSub(tokens, listOf())
+            val (newRestTokens, expression) = parseExpressionSub(tokens, listOf())
             varName ?: throw Error("letのパース: 左辺がない状態で右辺が呼ばれている")
-            return restTokens2 to LetStatement(varName, index, Expression(expression))
+            return newRestTokens to LetStatement(varName, index, Expression(expression))
         }
     }
 }
-
 
 fun parseWhileStatementSub(
     tokens: List<Token>,
