@@ -1,3 +1,40 @@
+data class Class(val name: String, val varDec: List<ClassVarDec>, val subroutineDec: List<SubroutineDec>)
+
+data class ClassVarDec(val varDec: _ClassVarDec, val type: Type, val varName: List<String>)
+
+enum class _ClassVarDec {
+    Field, Static
+}
+
+sealed class Type {
+    object _Int : Type()
+    object _String : Type()
+    object Keyword : Type()
+    data class ClassName(val name: String) : Type()
+}
+
+sealed class VoidOrType {
+    data class _Type(val type: Type): VoidOrType()
+    object Void : VoidOrType()
+}
+
+enum class MethodDec {
+    Constructor, Function, Method
+}
+
+data class SubroutineDec(
+    val dec: MethodDec, val type: VoidOrType, val name: String, val paramList: ParameterList,
+    val body: SubroutineBody
+)
+
+data class Parameter(val type: Type, val name: String)
+
+data class ParameterList(val list: List<Parameter>)
+
+data class SubroutineBody(val varDecs: List<VarDec>, val statements: Statements)
+
+data class VarDec(val type: Type, val vars: List<String>)
+
 data class Statements(val statements: List<Stmt>)
 
 sealed class Stmt {
@@ -301,7 +338,7 @@ fun parseStatements(tokens: List<Token>): Statements {
 }
 
 fun parseIfStatement(tokens: List<Token>): Pair<List<Token>, Stmt> {
-    val (newRestTokens, ifStmt, _)  = parseIfStatementSub(tokens, listOf(), null, listOf(), listOf())
+    val (newRestTokens, ifStmt, _) = parseIfStatementSub(tokens, listOf(), null, listOf(), listOf())
     return newRestTokens to Stmt.If(ifStmt)
 }
 
@@ -325,7 +362,7 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
     when (firstToken) {
         is Token.If -> {
             val (newRestTokens, ifStmt) = parseIfStatement(tokens)
-            return parseStatementsSub(newRestTokens, acm +ifStmt)
+            return parseStatementsSub(newRestTokens, acm + ifStmt)
         }
         is Token.Let -> {
             val (newRestTokens, letStmt) = parseLetStatement(tokens)
