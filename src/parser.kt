@@ -300,6 +300,22 @@ fun parseStatements(tokens: List<Token>): Statements {
     return Statements(parseStatementsSub(tokens, listOf()).second)
 }
 
+fun parseIfStatement(tokens: List<Token>): Pair<List<Token>, Stmt> {
+    val (newRestTokens, ifStmt, _)  = parseIfStatementSub(tokens, listOf(), null, listOf(), listOf())
+    return newRestTokens to Stmt.If(ifStmt)
+}
+
+fun parseLetStatement(tokens: List<Token>): Pair<List<Token>, Stmt> {
+    val (newRestTokens, letStmt) = parseLetStatementSub(tokens, null, null, null)
+    return newRestTokens to Stmt.Let(letStmt)
+}
+
+fun parseWhileStatement(tokens: List<Token>): Pair<List<Token>, Stmt> {
+    val (newRestTokens, whileStmts) = parseWhileStatementSub(tokens, null, listOf())
+    return newRestTokens to Stmt.While(whileStmts)
+}
+
+
 fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, List<Stmt>> {
     if (tokens.count() == 0) {
         return tokens to acm
@@ -308,16 +324,16 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
     val restTokens = rest(tokens)
     when (firstToken) {
         is Token.If -> {
-            val (newRestTokens, ifStmt, _) = parseIfStatementSub(tokens, listOf(), null, listOf(), listOf())
-            return parseStatementsSub(newRestTokens, acm + Stmt.If(ifStmt))
+            val (newRestTokens, ifStmt) = parseIfStatement(tokens)
+            return parseStatementsSub(newRestTokens, acm +ifStmt)
         }
         is Token.Let -> {
-            val (newRestTokens, letStmt) = parseLetStatementSub(tokens, null, null, null)
-            return parseStatementsSub(newRestTokens, acm + Stmt.Let(letStmt))
+            val (newRestTokens, letStmt) = parseLetStatement(tokens)
+            return parseStatementsSub(newRestTokens, acm + letStmt)
         }
         is Token.While -> {
-            val (newRestTokens, whileStmts) = parseWhileStatementSub(tokens, null, listOf())
-            return parseStatementsSub(newRestTokens, acm + Stmt.While(whileStmts))
+            val (newRestTokens, whileStmts) = parseWhileStatement(tokens)
+            return parseStatementsSub(newRestTokens, acm + whileStmts)
         }
         is Token.Do -> {
             val (newRestTokens, doStmt) = parseDo(tokens)
