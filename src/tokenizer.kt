@@ -445,6 +445,21 @@ fun main() {
     """.trimIndent()
     val tokens22 = tokenize(testCode18)
     println(parseStatements(tokens22))
+
+    val testCode19 = """
+         var int i, j;
+    """.trimIndent()
+    println(parseVarDec(tokenize(testCode19)))
+
+    val testCode20 = """
+         var Color green, blue, red, white;
+    """.trimIndent()
+    println(parseVarDec(tokenize(testCode20)))
+
+    val testCode21 = """
+         var boolean t;
+    """.trimIndent()
+    println(parseVarDec(tokenize(testCode21)))
 }
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
 

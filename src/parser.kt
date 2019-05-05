@@ -7,14 +7,14 @@ enum class _ClassVarDec {
 }
 
 sealed class Type {
-    object _Int : Type()
-    object _String : Type()
-    object Keyword : Type()
+    object Int : Type()
+    object Char : Type()
+    object Boolean : Type()
     data class ClassName(val name: String) : Type()
 }
 
 sealed class VoidOrType {
-    data class _Type(val type: Type): VoidOrType()
+    data class _Type(val type: Type) : VoidOrType()
     object Void : VoidOrType()
 }
 
@@ -77,6 +77,12 @@ val opHash = mapOf(
 val unaryOpHash = mapOf(
     Token.Minus to UnaryOp.Minus,
     Token.Tilde to UnaryOp.Tilde
+)
+
+val typeHash = mapOf(
+    Token.Int to Type.Int,
+    Token.Char to Type.Char,
+    Token.Boolean to Type.Boolean
 )
 
 enum class Paren {
@@ -520,6 +526,42 @@ fun parseIfStatementSub(
         }
         else -> {
             throw Error("if文のパース: 想定外のトークン $firstToken ")
+        }
+    }
+}
+
+fun parseVarDec(tokens: List<Token>) : VarDec {
+    return parseVarDecSub(tokens, null, listOf()).second
+}
+
+fun parseVarDecSub(tokens: List<Token>, type: Type?, vars: List<String>): Pair<List<Token>, VarDec> {
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
+    when (firstToken) {
+        Token.Var -> {
+            return parseVarDecSub(restTokens, type, vars)
+        }
+        Token.Int, Token.Char, Token.Boolean -> {
+            val _type = typeHash[firstToken] ?: throw Error("typeHashに不備があります")
+            return parseVarDecSub(restTokens, _type, vars)
+        }
+        is Token.Identifier -> {
+            if (type == null) {
+                val _type = Type.ClassName(firstToken.name)
+                return parseVarDecSub(restTokens, _type, vars)
+            } else {
+                return parseVarDecSub(restTokens, type, vars + firstToken.name)
+            }
+        }
+        Token.Comma -> {
+            return parseVarDecSub(restTokens, type, vars)
+        }
+        Token.Semicolon -> {
+            type ?: throw Error("typeがnull")
+            return restTokens to VarDec(type, vars)
+        }
+        else -> {
+            throw Error("VarDecのパース:予期しないトークン $firstToken")
         }
     }
 }
