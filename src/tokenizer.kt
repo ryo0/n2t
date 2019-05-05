@@ -460,6 +460,27 @@ fun main() {
          var boolean t;
     """.trimIndent()
     println(parseVarDec(tokenize(testCode21)))
+//
+//    val testCode22 = """
+//         {
+//            var Color green, blue, red, white;
+//            var boolean t;
+//            if(~false) {
+//                let y = a - b - 2 + 1
+//            } else {
+//                let z = -2 * x - 1
+//            }
+//            while(true) {
+//                if(x) {
+//                    let y = 1
+//                }
+//                while(true) {
+//                    let x = 2
+//                }
+//            }
+//        }
+//    """.trimIndent()
+//    println(parseSubroutineBody(tokenize(testCode22)))
 }
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
 
@@ -486,6 +507,8 @@ fun main() {
 //Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=a), index=Expression(expElms=[_Term(term=IntC(const=2))]), exp=Expression(expElms=[_Term(term=IntC(const=1))])))])
 //Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=ArrayAndIndex(name=x, index=Expression(expElms=[_Term(term=IntC(const=2))])))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=g), index=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=f), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=ArrayAndIndex(name=a, index=Expression(expElms=[])))])]), ClassOrVarName=null)))]), exp=Expression(expElms=[_Term(term=IntC(const=4))])))]), elseStmts=Statements(statements=[])))])
 //Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=UnaryOpTerm(op=Tilde, term=KeyC(const=False)))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=y), index=null, exp=Expression(expElms=[_Term(term=VarName(name=a)), _Op(op=Minus), _Term(term=VarName(name=b)), _Op(op=Minus), _Term(term=IntC(const=2)), _Op(op=Plus), _Term(term=IntC(const=1))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=z), index=null, exp=Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=IntC(const=2))), _Op(op=Asterisk), _Term(term=VarName(name=x)), _Op(op=Minus), _Term(term=IntC(const=1))])))])))])
-
+//VarDec(type=Type$Int@53bd815b, vars=[i, j])
+//VarDec(type=ClassName(name=Color), vars=[green, blue, red, white])
+//VarDec(type=Type$Boolean@7637f22, vars=[t])
 
 //

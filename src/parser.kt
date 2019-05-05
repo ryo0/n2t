@@ -1,3 +1,5 @@
+import javax.swing.plaf.nimbus.State
+
 data class Class(val name: String, val varDec: List<ClassVarDec>, val subroutineDec: List<SubroutineDec>)
 
 data class ClassVarDec(val varDec: _ClassVarDec, val type: Type, val varName: List<String>)
@@ -526,6 +528,32 @@ fun parseIfStatementSub(
         }
         else -> {
             throw Error("if文のパース: 想定外のトークン $firstToken ")
+        }
+    }
+}
+
+fun parseSubroutineBody(tokens: List<Token>): SubroutineBody {
+    return parseSubroutineBodySub(tokens, listOf(), null).second
+}
+
+fun parseSubroutineBodySub(tokens: List<Token>, varDecs: List<VarDec>, statements: Statements?): Pair<List<Token>, SubroutineBody> {
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
+    when (firstToken) {
+        Token.LSquareBracket -> {
+            return parseSubroutineBodySub(restTokens, varDecs, statements)
+        }
+        Token.Var -> {
+            val (newRestTokens, varDec) = parseVarDecSub(tokens, null, listOf())
+            return parseSubroutineBodySub(newRestTokens, varDecs + varDec, statements)
+        }
+        Token.RSquareBracket -> {
+            statements ?: throw Error("SubroutineBodyのパース: statementsがnull")
+            return restTokens to SubroutineBody(varDecs, statements)
+        }
+        else -> {
+            val (newRestTokens, stmts) = parseStatementsSub(tokens, listOf())
+            return parseSubroutineBodySub(newRestTokens, varDecs, Statements(stmts))
         }
     }
 }
