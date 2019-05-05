@@ -405,7 +405,7 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
             return restTokens to acm
         }
         else -> {
-            throw Error("文のパース: 想定外のトークン $firstToken")
+            throw Error("文のパース: 想定外のトークン $firstToken, $tokens")
         }
     }
 }

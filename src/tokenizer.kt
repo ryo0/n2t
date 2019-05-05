@@ -487,19 +487,14 @@ fun main() {
     """.trimIndent()
     println(parseParameterListSub(tokenize(testCode23), listOf()).second)
 
-//    val testCode24 = """
-//      if (y > 1) {
-//         do Screen.setColor(false);
-//         do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
-//         let y = y - 2;
-//         do Screen.setColor(true);
-//         do Screen.drawRectangle(x, y, x + size, y + 1);
-//      }
-////      return;
-//    """.trimIndent()
-//    println(parseStatements(tokenize(testCode24)))
+    val testCode24 = """
+         do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
+    """.trimIndent()
+    println(parseStatements(tokenize(testCode24)))
 }
+
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
+
 
 //Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=b)), _Op(op=Plus), _Term(term=VarName(name=d))]), right=Right))])
 //Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=KeyC(const=True)), _Op(op=Plus), _Term(term=KeyC(const=False))]), right=Right)), _Op(op=Plus), _Term(term=IntC(const=1))]), right=Right))])
