@@ -461,26 +461,27 @@ fun main() {
     """.trimIndent()
     println(parseVarDec(tokenize(testCode21)))
 
-//    val testCode22 = """
-//         {
-//            var Color green, blue, red, white;
-//            var boolean t;
-//            if(~false) {
-//                let y = a - b - 2 + 1
-//            } else {
-//                let z = -2 * x - 1
-//            }
-//            while(true) {
-//                if(x) {
-//                    let y = 1
-//                }
-//                while(true) {
-//                    let x = 2
-//                }
-//            }
-//        }
-//    """.trimIndent()
-//    println(parseSubroutineBody(tokenize(testCode22)))
+    val testCode22 = """
+         {
+            var Color green, blue, red, white;
+            var boolean t;
+            if(~false) {
+                let y = a - b - 2 + 1
+            } else {
+                let z = -2 * x - 1
+            }
+            while(true) {
+                if(x) {
+                    let y = 1
+                }
+                while(true) {
+                    let x = 2
+                }
+            }
+        }
+    """.trimIndent()
+    println(parseSubroutineBody(tokenize(testCode22)))
+
 }
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
 
@@ -509,6 +510,7 @@ fun main() {
 //VarDec(type=Type$Int@53bd815b, vars=[i, j])
 //VarDec(type=ClassName(name=Color), vars=[green, blue, red, white])
 //VarDec(type=Type$Boolean@7637f22, vars=[t])
+//SubroutineBody(varDecs=[VarDec(type=ClassName(name=Color), vars=[green, blue, red, white]), VarDec(type=Type$Boolean@7637f22, vars=[t])], statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=UnaryOpTerm(op=Tilde, term=KeyC(const=False)))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=y), index=null, exp=Expression(expElms=[_Term(term=VarName(name=a)), _Op(op=Minus), _Term(term=VarName(name=b)), _Op(op=Minus), _Term(term=IntC(const=2)), _Op(op=Plus), _Term(term=IntC(const=1))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=z), index=null, exp=Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=IntC(const=2))), _Op(op=Asterisk), _Term(term=VarName(name=x)), _Op(op=Minus), _Term(term=IntC(const=1))])))]))), While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=KeyC(const=True))]), statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=VarName(name=x))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=y), index=null, exp=Expression(expElms=[_Term(term=IntC(const=1))])))]), elseStmts=Statements(statements=[]))), While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=KeyC(const=True))]), statements=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=x), index=null, exp=Expression(expElms=[_Term(term=IntC(const=2))])))])))])))]))
 
 
 

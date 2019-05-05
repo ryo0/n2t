@@ -395,7 +395,7 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
             return restTokens to acm
         }
         else -> {
-            throw Error("文のパース: 想定外のトークン")
+            throw Error("文のパース: 想定外のトークン $firstToken")
         }
     }
 }
@@ -532,20 +532,16 @@ fun parseSubroutineBodySub(tokens: List<Token>, varDecs: List<VarDec>, statement
     val firstToken = first(tokens)
     val restTokens = rest(tokens)
     when (firstToken) {
-        Token.LSquareBracket -> {
+        Token.LCurlyBrace -> {
             return parseSubroutineBodySub(restTokens, varDecs, statements)
         }
         Token.Var -> {
             val (newRestTokens, varDec) = parseVarDecSub(tokens, null, listOf())
             return parseSubroutineBodySub(newRestTokens, varDecs + varDec, statements)
         }
-        Token.RSquareBracket -> {
-            statements ?: throw Error("SubroutineBodyのパース: statementsがnull")
-            return restTokens to SubroutineBody(varDecs, statements)
-        }
         else -> {
             val (newRestTokens, stmts) = parseStatementsSub(tokens, listOf())
-            return parseSubroutineBodySub(newRestTokens, varDecs, Statements(stmts))
+            return newRestTokens to SubroutineBody(varDecs, Statements(stmts))
         }
     }
 }
