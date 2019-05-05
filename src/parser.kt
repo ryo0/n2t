@@ -392,10 +392,10 @@ fun parseStatementsSub(tokens: List<Token>, acm: List<Stmt>): Pair<List<Token>, 
             return parseStatementsSub(restTokens, acm)
         }
         is Token.RCurlyBrace -> {
-            return tokens to acm
+            return restTokens to acm
         }
         else -> {
-            return tokens to acm
+            throw Error("文のパース: 想定外のトークン")
         }
     }
 }
@@ -459,9 +459,14 @@ fun parseWhileStatementSub(
         is Token.RParen -> {
             return parseWhileStatementSub(restTokens, exp, stmts)
         }
-        is Token.LCurlyBrace, Token.RCurlyBrace -> {
+        is Token.LCurlyBrace -> {
             val (newRestTokens, stmtsAcm) = parseStatementsSub(restTokens, listOf())
             return parseWhileStatementSub(newRestTokens, exp, stmts + stmtsAcm)
+        }
+        is Token.RCurlyBrace -> {
+            exp ?: throw Error("whileのパース: expがnull $stmts")
+            val whileStatement = WhileStatement(exp, Statements(stmts))
+            return tokens to whileStatement
         }
         else -> {
             throw Error("while文のパース: 想定外のトークン $firstToken ")
@@ -495,39 +500,26 @@ fun parseIfStatementSub(
             )
         }
         is Token.Else -> {
-            val (newRestTokens, newIf, newAcm) = parseIfStatementSub(restTokens, acm, exp, ifStmts, elseStmts)
-            return parseIfStatementSub(
-                newRestTokens,
-                listOf(),
-                newIf.expression,
-                newIf.ifStmts.statements,
-                newIf.elseStmts.statements + newAcm
-            )
+            exp ?: throw Error("if文のパース: expがnull")
+            val (newRestTokens, stmts) = parseStatementsSub(restTokens, acm)
+            return Triple(newRestTokens, IfStatement(exp, Statements(ifStmts), Statements(elseStmts + stmts)), acm)
         }
         is Token.LParen -> {
             val (newRestTokens, expression) = parseExpressionSub(restTokens, listOf())
-            return parseIfStatementSub(newRestTokens, listOf(), Expression(expression), ifStmts, elseStmts)
+            return parseIfStatementSub(newRestTokens, acm, Expression(expression), ifStmts, elseStmts)
         }
         is Token.RParen -> {
             exp ?: throw Error("if文のパース: expがnull")
-            return parseIfStatementSub(restTokens, acm, exp, ifStmts, elseStmts)
-        }
-        is Token.LCurlyBrace -> {
-            val (newRestTokens, stmts) = parseStatementsSub(restTokens, listOf())
-            return parseIfStatementSub(newRestTokens, acm + stmts, exp, ifStmts, elseStmts)
+            val (newRestTokens, stmts) = parseStatementsSub(restTokens, acm)
+            return parseIfStatementSub(newRestTokens, acm, exp, ifStmts+stmts, elseStmts)
         }
         is Token.RCurlyBrace -> {
-            // 次がelse節なら、parseIf内で処理する
-            if (restTokens.count() != 0 && first(restTokens) is Token.Else) {
-                exp ?: throw Error("if文のパース: expがnull")
-                return Triple(restTokens, IfStatement(exp, Statements(ifStmts), Statements(elseStmts)), acm)
-            }
-            // else節でないなら、parseStatementsに投げる
-            val (newRestTokens, stmts) = parseStatementsSub(restTokens, listOf())
-            return parseIfStatementSub(newRestTokens, acm + stmts, exp, ifStmts, elseStmts)
+            exp ?: throw Error("if文のパース: expがnull")
+            return Triple(tokens, IfStatement(exp, Statements(ifStmts), Statements(elseStmts)), acm)
         }
         else -> {
-            throw Error("if文のパース: 想定外のトークン $firstToken ")
+            exp ?: throw Error("if文のパース: expがnull")
+            return Triple(tokens, IfStatement(exp, Statements(ifStmts), Statements(elseStmts)), acm)
         }
     }
 }
