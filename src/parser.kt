@@ -77,6 +77,9 @@ enum class Keyword {
 }
 
 fun first(tokens: List<Token>): Token {
+    if (tokens.count() < 1) {
+        throw Error("firstに0個のトークンが渡されました")
+    }
     return tokens[0]
 }
 
@@ -101,9 +104,6 @@ fun parseTerm(tokens: List<Token>, _term: Term?): Pair<List<Token>, Term> {
     when (firstToken) {
         is Token.LParen -> {
             val (newRestTokens, restAcm) = parseExpressionSub(restTokens, listOf())
-            if (newRestTokens.count() == 0) {
-                return newRestTokens to Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
-            }
             if (first(newRestTokens) is Token.RParen) {
                 val term = Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
                 return rest(newRestTokens) to term

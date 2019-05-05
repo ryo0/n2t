@@ -286,7 +286,7 @@ fun main() {
         } else {
             let x = 2
         }
-""".trimIndent()
+    """.trimIndent()
     val tokens5 = tokenize(testCode)
     println(parseStatements(tokens5))
 
