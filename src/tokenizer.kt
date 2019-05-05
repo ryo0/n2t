@@ -482,6 +482,11 @@ fun main() {
     """.trimIndent()
     println(parseSubroutineBody(tokenize(testCode22)))
 
+    val testCode23 = """
+         int abc, ClassName cn )
+    """.trimIndent()
+    println(parseParameterListSub(tokenize(testCode23), listOf()).second)
+
 }
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
 

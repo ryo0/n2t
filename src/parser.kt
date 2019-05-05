@@ -511,7 +511,7 @@ fun parseIfStatementSub(
         is Token.RParen -> {
             exp ?: throw Error("if文のパース: expがnull")
             val (newRestTokens, stmts) = parseStatementsSub(restTokens, acm)
-            return parseIfStatementSub(newRestTokens, acm, exp, ifStmts+stmts, elseStmts)
+            return parseIfStatementSub(newRestTokens, acm, exp, ifStmts + stmts, elseStmts)
         }
         is Token.RCurlyBrace -> {
             exp ?: throw Error("if文のパース: expがnull")
@@ -524,11 +524,44 @@ fun parseIfStatementSub(
     }
 }
 
+fun parseParameterListSub(tokens: List<Token>, params: List<Parameter>): Pair<List<Token>, ParameterList> {
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
+    when (firstToken) {
+        Token.Int, Token.Char, Token.Boolean -> {
+            val type = typeHash[firstToken] ?: throw Error("typeHashに不備があります")
+            val secondToken = first(restTokens) as Token.Identifier
+            val param = Parameter(type,  secondToken.name)
+            return parseParameterListSub(rest(restTokens), params + param)
+        }
+        is Token.Identifier -> {
+            val type = Type.ClassName(firstToken.name)
+            val secondToken = first(restTokens) as Token.Identifier
+            val param = Parameter(type,  secondToken.name)
+            return parseParameterListSub(rest(restTokens), params + param)
+        }
+        Token.Comma -> {
+            return parseParameterListSub(restTokens, params)
+        }
+        is Token.RParen -> {
+            return restTokens to ParameterList(params)
+        }
+
+        else -> {
+            throw Error("ParameterListのパース: 予期しないトークン $firstToken")
+        }
+    }
+}
+
 fun parseSubroutineBody(tokens: List<Token>): SubroutineBody {
     return parseSubroutineBodySub(tokens, listOf(), null).second
 }
 
-fun parseSubroutineBodySub(tokens: List<Token>, varDecs: List<VarDec>, statements: Statements?): Pair<List<Token>, SubroutineBody> {
+fun parseSubroutineBodySub(
+    tokens: List<Token>,
+    varDecs: List<VarDec>,
+    statements: Statements?
+): Pair<List<Token>, SubroutineBody> {
     val firstToken = first(tokens)
     val restTokens = rest(tokens)
     when (firstToken) {
@@ -546,7 +579,7 @@ fun parseSubroutineBodySub(tokens: List<Token>, varDecs: List<VarDec>, statement
     }
 }
 
-fun parseVarDec(tokens: List<Token>) : VarDec {
+fun parseVarDec(tokens: List<Token>): VarDec {
     return parseVarDecSub(tokens, null, listOf()).second
 }
 
