@@ -173,7 +173,7 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
     val restTokens = rest(tokens)
 
     when (firstToken) {
-        Token.LParen, is Token.Identifier, is Token.IntegerConst,
+        Token.LParen, is Token.Identifier, is Token.IntegerConst, is Token.StringConst,
         Token.True, Token.False, Token.This, Token.Null, Token.Tilde -> {
             val (newRestTokens, term) = parseTerm(tokens, null)
             return parseExpressionSub(newRestTokens, acm + ExpElm._Term(term))
