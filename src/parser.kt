@@ -1,5 +1,3 @@
-import javax.swing.plaf.nimbus.State
-
 data class Class(val name: String, val varDec: List<ClassVarDec>, val subroutineDec: List<SubroutineDec>)
 
 data class ClassVarDec(val varDec: _ClassVarDec, val type: Type, val varName: List<String>)
@@ -81,10 +79,23 @@ val unaryOpHash = mapOf(
     Token.Tilde to UnaryOp.Tilde
 )
 
+val subDecHash = mapOf(
+    Token.Constructor to MethodDec.Constructor,
+    Token.Function to MethodDec.Function,
+    Token.Method to MethodDec.Method
+)
+
 val typeHash = mapOf(
     Token.Int to Type.Int,
     Token.Char to Type.Char,
     Token.Boolean to Type.Boolean
+)
+
+val voidOrTypeHash = mapOf(
+    Token.Int to VoidOrType._Type(Type.Int),
+    Token.Char to VoidOrType._Type(Type.Char),
+    Token.Boolean to VoidOrType._Type(Type.Boolean),
+    Token.Void to VoidOrType.Void
 )
 
 enum class Paren {
@@ -246,7 +257,6 @@ fun parseExpressionSub(tokens: List<Token>, acm: List<ExpElm>): Pair<List<Token>
         else -> {
             return tokens to acm
         }
-
     }
 }
 
@@ -264,7 +274,7 @@ fun parseArrayAndIndex(tokens: List<Token>): Pair<List<Token>, Term.ArrayAndInde
 fun parseDo(tokens: List<Token>): Pair<List<Token>, DoStatement> {
     val restTokens = rest(tokens)
     val (newRestTokens, subroutineCall) = parseSubroutineCall(restTokens)
-    return newRestTokens to DoStatement(subroutineCall)
+    return rest(newRestTokens) to DoStatement(subroutineCall)
 }
 
 fun parseReturn(tokens: List<Token>): Pair<List<Token>, ReturnStatement> {
@@ -418,7 +428,7 @@ fun parseLetStatementSub(
         is Token.Equal -> {
             val (newRestTokens, expression) = parseExpressionSub(restTokens, listOf())
             varName ?: throw Error("letのパース: 左辺がない状態で右辺が呼ばれている")
-            return newRestTokens to LetStatement(varName, index, Expression(expression))
+            return rest(newRestTokens) to LetStatement(varName, index, Expression(expression))
         }
         is Token.LSquareBracket -> {
             val (newRestTokens, indexExperession) = parseExpressionSub(restTokens, listOf())
@@ -428,9 +438,7 @@ fun parseLetStatementSub(
             return parseLetStatementSub(restTokens, varName, index, exp)
         }
         else -> {
-            val (newRestTokens, expression) = parseExpressionSub(tokens, listOf())
-            varName ?: throw Error("letのパース: 左辺がない状態で右辺が呼ばれている")
-            return newRestTokens to LetStatement(varName, index, Expression(expression))
+            throw Error("let文のパース: 予期しないトークン $firstToken")
         }
     }
 }
@@ -524,6 +532,15 @@ fun parseIfStatementSub(
     }
 }
 
+fun parseSubroutineDec(tokens: List<Token>): Pair<List<Token>, SubroutineDec> {
+    val subDec = subDecHash[tokens[0]] ?: throw Error("SubroutineDecのパース: このトークンがおかしい ${tokens[0]}")
+    val subroutineType = voidOrTypeHash[tokens[1]] ?: throw Error("SubroutineDecのパース: このトークンがおかしい ${tokens[1]}")
+    val subroutineName = tokens[2] as Token.Identifier
+    val (restTokens, paramList) = parseParameterListSub(tokens.slice(4 until tokens.count()), listOf())
+    val (newRestTokens, subroutineBody) = parseSubroutineBodySub(restTokens, listOf(), null)
+    return newRestTokens to SubroutineDec(subDec, subroutineType, subroutineName.name, paramList, subroutineBody)
+}
+
 fun parseParameterListSub(tokens: List<Token>, params: List<Parameter>): Pair<List<Token>, ParameterList> {
     val firstToken = first(tokens)
     val restTokens = rest(tokens)
@@ -531,13 +548,13 @@ fun parseParameterListSub(tokens: List<Token>, params: List<Parameter>): Pair<Li
         Token.Int, Token.Char, Token.Boolean -> {
             val type = typeHash[firstToken] ?: throw Error("typeHashに不備があります")
             val secondToken = first(restTokens) as Token.Identifier
-            val param = Parameter(type,  secondToken.name)
+            val param = Parameter(type, secondToken.name)
             return parseParameterListSub(rest(restTokens), params + param)
         }
         is Token.Identifier -> {
             val type = Type.ClassName(firstToken.name)
             val secondToken = first(restTokens) as Token.Identifier
-            val param = Parameter(type,  secondToken.name)
+            val param = Parameter(type, secondToken.name)
             return parseParameterListSub(rest(restTokens), params + param)
         }
         Token.Comma -> {

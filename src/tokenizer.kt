@@ -282,9 +282,9 @@ fun main() {
 
     val testCode = """
         if (true) {
-            let x = 1
+            let x = 1;
         } else {
-            let x = 2
+            let x = 2;
         }
     """.trimIndent()
     val tokens5 = tokenize(testCode)
@@ -292,11 +292,11 @@ fun main() {
 
     val testCode2 = """
         if (x + 1) {
-            let x = 3
-            let y = 5
+            let x = 3;
+            let y = 5;
         } else {
-            let z = 1
-            let w = 4
+            let z = 1;
+            let w = 4;
         }
     """.trimIndent()
     val tokens6 = tokenize(testCode2)
@@ -304,8 +304,8 @@ fun main() {
 
     val testCode3 = """
         if (x + 1) {
-            let x[2] = 3
-            let y[3] = 5
+            let x[2] = 3;
+            let y[3] = 5;
         }
     """.trimIndent()
     val tokens7 = tokenize(testCode3)
@@ -314,7 +314,7 @@ fun main() {
     val testCode4 = """
         if (true) {
             if (false) {
-                let x = 1
+                let x = 1;
             }
         }
     """.trimIndent()
@@ -323,7 +323,7 @@ fun main() {
 
     val testCode5 = """
         while(true) {
-            let x = 2
+            let x = 2;
         }
     """.trimIndent()
     val tokens9 = tokenize(testCode5)
@@ -332,7 +332,7 @@ fun main() {
     val testCode6 = """
         if(false) {
             while(true) {
-                let x = 2
+                let x = 2;
             }
         }
     """.trimIndent()
@@ -342,10 +342,10 @@ fun main() {
     val testCode7 = """
         while(true) {
             if(x) {
-                let y = 1
+                let y = 1;
             }
             while(true) {
-                let x = 2
+                let x = 2;
             }
         }
     """.trimIndent()
@@ -355,12 +355,12 @@ fun main() {
     val testCode8 = """
         if(true) {
             if(x) {
-                let y = 1
+                let y = 1;
             } else {
-                let z = 3
+                let z = 3;
             }
             while(true) {
-                let x = 2
+                let x = 2;
             }
         }
     """.trimIndent()
@@ -368,22 +368,22 @@ fun main() {
     println(parseStatements(tokens12))
 
     val testCode9 = """
-        let x = a.b()
+        let x = a.b();
     """.trimIndent()
     val tokens13 = tokenize(testCode9)
     println(parseStatements(tokens13))
 
     val testCode10 = """
-        let x = xxx.yyy(1 + 2, true & false, x * 3)
+        let x = xxx.yyy(1 + 2, true & false, x * 3);
     """.trimIndent()
     val tokens14 = tokenize(testCode10)
     println(parseStatements(tokens14))
 
     val testCode11 = """
         if(x.y()) {
-            let x = _a1._b()
+            let x = _a1._b();
         } else {
-            let z = Main.main(a, b, c)
+            let z = Main.main(a, b, c);
         }
 
     """.trimIndent()
@@ -391,14 +391,14 @@ fun main() {
     println(parseStatements(tokens15))
 
     val testCode12 = """
-        let x = f()
+        let x = f();
     """.trimIndent()
     val tokens16 = tokenize(testCode12)
     println(parseStatements(tokens16))
 
     val testCode13 = """
         if(f()) {
-            do g(1, 2, 3)
+            do g(1, 2, 3);
         }
     """.trimIndent()
     val tokens17 = tokenize(testCode13)
@@ -423,14 +423,14 @@ fun main() {
     println(parseStatements(tokens19))
 
     val testCode16 = """
-        let a[2] = 1
+        let a[2] = 1;
     """.trimIndent()
     val tokens20 = tokenize(testCode16)
     println(parseStatements(tokens20))
 
     val testCode17 = """
         if(x[2]) {
-            let g[f(a[])] = 4
+            let g[f(a[])] = 4;
         }
     """.trimIndent()
     val tokens21 = tokenize(testCode17)
@@ -438,9 +438,9 @@ fun main() {
 
     val testCode18 = """
         if(~false) {
-            let y = a - b - 2 + 1
+            let y = a - b - 2 + 1;
         } else {
-            let z = -2 * x - 1
+            let z = -2 * x - 1;
         }
     """.trimIndent()
     val tokens22 = tokenize(testCode18)
@@ -466,16 +466,16 @@ fun main() {
             var Color green, blue, red, white;
             var boolean t;
             if(~false) {
-                let y = a - b - 2 + 1
+                let y = a - b - 2 + 1;
             } else {
-                let z = -2 * x - 1
+                let z = -2 * x - 1;
             }
             while(true) {
                 if(x) {
-                    let y = 1
+                    let y = 1;
                 }
                 while(true) {
-                    let x = 2
+                    let x = 2;
                 }
             }
         }
@@ -487,6 +487,17 @@ fun main() {
     """.trimIndent()
     println(parseParameterListSub(tokenize(testCode23), listOf()).second)
 
+//    val testCode24 = """
+//      if (y > 1) {
+//         do Screen.setColor(false);
+//         do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
+//         let y = y - 2;
+//         do Screen.setColor(true);
+//         do Screen.drawRectangle(x, y, x + size, y + 1);
+//      }
+////      return;
+//    """.trimIndent()
+//    println(parseStatements(tokenize(testCode24)))
 }
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
 
@@ -516,6 +527,7 @@ fun main() {
 //VarDec(type=ClassName(name=Color), vars=[green, blue, red, white])
 //VarDec(type=Type$Boolean@7637f22, vars=[t])
 //SubroutineBody(varDecs=[VarDec(type=ClassName(name=Color), vars=[green, blue, red, white]), VarDec(type=Type$Boolean@7637f22, vars=[t])], statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=UnaryOpTerm(op=Tilde, term=KeyC(const=False)))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=y), index=null, exp=Expression(expElms=[_Term(term=VarName(name=a)), _Op(op=Minus), _Term(term=VarName(name=b)), _Op(op=Minus), _Term(term=IntC(const=2)), _Op(op=Plus), _Term(term=IntC(const=1))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=z), index=null, exp=Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=IntC(const=2))), _Op(op=Asterisk), _Term(term=VarName(name=x)), _Op(op=Minus), _Term(term=IntC(const=1))])))]))), While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=KeyC(const=True))]), statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=VarName(name=x))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=y), index=null, exp=Expression(expElms=[_Term(term=IntC(const=1))])))]), elseStmts=Statements(statements=[]))), While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=KeyC(const=True))]), statements=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=x), index=null, exp=Expression(expElms=[_Term(term=IntC(const=2))])))])))])))]))
+//ParameterList(list=[Parameter(type=Type$Int@41a4555e, name=abc), Parameter(type=ClassName(name=ClassName), name=cn)])
 
 
 
