@@ -306,7 +306,7 @@ fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> 
             if (restTokens.count() == 0) {
                 throw Error("SubroutineCallのパース: トークンが少ない $tokens")
             }
-            val (newRestTokens, expList) = parseExpressionList(restTokens, listOf())
+            val (newRestTokens, expList) = parseExpressionList(restTokens, listOf(), listOf())
             return newRestTokens to SubroutineCall(subroutineName, expList, null)
         }
         is Token.Dot -> {
@@ -322,7 +322,7 @@ fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> 
             if (restTokens.count() == 0) {
                 throw Error("SubroutineCallのパース: トークンが少ない $tokens")
             }
-            val (newRestTokens, expList) = parseExpressionList(restTokens, listOf())
+            val (newRestTokens, expList) = parseExpressionList(restTokens, listOf(), listOf())
 
             return newRestTokens to SubroutineCall(subroutineName, expList, classOrVarName)
         }
@@ -332,36 +332,42 @@ fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> 
     }
 }
 
-fun parseExpressionList(tokens: List<Token>, acm: List<List<ExpElm>>): Pair<List<Token>, ExpressionList> {
+fun parseExpressionList(
+    tokens: List<Token>,
+    acmList: List<ExpElm>,
+    acmListList: List<List<ExpElm>>
+): Pair<List<Token>, ExpressionList> {
     if (tokens.count() == 0) {
-        if (acm.count() == 0) {
+        if (acmListList.count() == 0) {
             return tokens to ExpressionList(listOf())
         }
-        return tokens to ExpressionList(acm.map { Expression(it) })
+        val finalList = acmListList + listOf(acmList)
+                return tokens to ExpressionList(finalList.map { Expression(it) })
     }
     val restTokens = rest(tokens)
     when (first(tokens)) {
         is Token.Comma -> {
-            return parseExpressionList(restTokens, acm)
+            return parseExpressionList(restTokens, listOf(),  acmListList + listOf(acmList))
         }
         is Token.LParen -> {
-            val (newRestTokens, newAcm) = parseExpressionSub(restTokens, listOf())
+            val (newRestTokens, exp) = parseExpressionSub(restTokens, listOf())
             if (first(newRestTokens) is Token.RParen) {
-                val term = Term._Expression(Paren.Left, Expression(newAcm), Paren.Right)
-                return parseExpressionList(rest(newRestTokens), acm + listOf(listOf(ExpElm._Term(term))))
+                val term = Term._Expression(Paren.Left, Expression(exp), Paren.Right)
+                return parseExpressionList(rest(newRestTokens), acmList + listOf(ExpElm._Term(term)), acmListList)
             } else {
                 throw Error("開きカッコに対して閉じカッコがない")
             }
         }
         is Token.RParen -> {
-            if (acm.count() == 0) {
+            if (acmListList.count() == 0 && acmList.count() == 0) {
                 return restTokens to ExpressionList(listOf())
             }
-            return restTokens to ExpressionList(acm.map { Expression(it) })
+            val finalList = acmListList + listOf(acmList)
+            return restTokens to ExpressionList(finalList.map { Expression(it) })
         }
         else -> {
-            val (newRestTokens, newAcm) = parseExpressionSub(tokens, listOf())
-            return parseExpressionList(newRestTokens, acm + listOf(newAcm))
+            val (newRestTokens, exp) = parseExpressionSub(tokens, acmList)
+            return parseExpressionList(newRestTokens, exp, acmListList)
         }
     }
 }

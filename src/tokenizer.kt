@@ -492,8 +492,15 @@ fun main() {
     """.trimIndent()
     println(parseStatements(tokenize(testCode24)))
 
-//    Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=drawRectangle), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=VarName(name=x))]), Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))]), right=Right))]), Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=IntC(const=1)))]), Expression(expElms=[_Term(term=VarName(name=x)), _Op(op=Plus), _Term(term=VarName(name=size))]), Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))])]), ClassOrVarName=Identifier(name=Screen))))])
+    val testCode25 = """
+         do a(1 + (2 + x) - 1);
+    """.trimIndent()
+    println(parseStatements(tokenize(testCode25)))
 
+    val testCode26 = """
+         do a(1 + 2 + x - 1);
+    """.trimIndent()
+    println(parseStatements(tokenize(testCode26)))
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
@@ -526,6 +533,8 @@ fun main() {
 //VarDec(type=Type$Boolean@7637f22, vars=[t])
 //SubroutineBody(varDecs=[VarDec(type=ClassName(name=Color), vars=[green, blue, red, white]), VarDec(type=Type$Boolean@7637f22, vars=[t])], statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=UnaryOpTerm(op=Tilde, term=KeyC(const=False)))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=y), index=null, exp=Expression(expElms=[_Term(term=VarName(name=a)), _Op(op=Minus), _Term(term=VarName(name=b)), _Op(op=Minus), _Term(term=IntC(const=2)), _Op(op=Plus), _Term(term=IntC(const=1))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=z), index=null, exp=Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=IntC(const=2))), _Op(op=Asterisk), _Term(term=VarName(name=x)), _Op(op=Minus), _Term(term=IntC(const=1))])))]))), While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=KeyC(const=True))]), statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=VarName(name=x))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=y), index=null, exp=Expression(expElms=[_Term(term=IntC(const=1))])))]), elseStmts=Statements(statements=[]))), While(stmt=WhileStatement(expression=Expression(expElms=[_Term(term=KeyC(const=True))]), statements=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=x), index=null, exp=Expression(expElms=[_Term(term=IntC(const=2))])))])))])))]))
 //ParameterList(list=[Parameter(type=Type$Int@41a4555e, name=abc), Parameter(type=ClassName(name=ClassName), name=cn)])
-
+//Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=drawRectangle), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=VarName(name=x))]), Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))]), right=Right)), _Op(op=Minus), _Term(term=IntC(const=1))]), Expression(expElms=[_Term(term=VarName(name=x)), _Op(op=Plus), _Term(term=VarName(name=size))]), Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))])]), ClassOrVarName=Identifier(name=Screen))))])
+//Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=a), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=IntC(const=1)), _Op(op=Plus), _Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=IntC(const=2)), _Op(op=Plus), _Term(term=VarName(name=x))]), right=Right)), _Op(op=Minus), _Term(term=IntC(const=1))])]), ClassOrVarName=null)))])
+//Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=a), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=IntC(const=1)), _Op(op=Plus), _Term(term=IntC(const=2)), _Op(op=Plus), _Term(term=VarName(name=x)), _Op(op=Minus), _Term(term=IntC(const=1))])]), ClassOrVarName=null)))])
 
 
