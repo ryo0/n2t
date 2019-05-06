@@ -332,9 +332,12 @@ fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> 
     }
 }
 
-fun parseExpressionList(tokens: List<Token>, acm: List<Expression>): Pair<List<Token>, ExpressionList> {
+fun parseExpressionList(tokens: List<Token>, acm: List<List<ExpElm>>): Pair<List<Token>, ExpressionList> {
     if (tokens.count() == 0) {
-        return tokens to ExpressionList(acm)
+        if (acm.count() == 0) {
+            return tokens to ExpressionList(listOf())
+        }
+        return tokens to ExpressionList(acm.map { Expression(it) })
     }
     val restTokens = rest(tokens)
     when (first(tokens)) {
@@ -342,20 +345,23 @@ fun parseExpressionList(tokens: List<Token>, acm: List<Expression>): Pair<List<T
             return parseExpressionList(restTokens, acm)
         }
         is Token.LParen -> {
-            val (newRestTokens, restAcm) = parseExpressionSub(restTokens, listOf())
+            val (newRestTokens, newAcm) = parseExpressionSub(restTokens, listOf())
             if (first(newRestTokens) is Token.RParen) {
-                val term = Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
-                return parseExpressionList(rest(newRestTokens), acm + Expression(listOf(ExpElm._Term(term))))
+                val term = Term._Expression(Paren.Left, Expression(newAcm), Paren.Right)
+                return parseExpressionList(rest(newRestTokens), acm + listOf(listOf(ExpElm._Term(term))))
             } else {
                 throw Error("開きカッコに対して閉じカッコがない")
             }
         }
         is Token.RParen -> {
-            return restTokens to ExpressionList(acm)
+            if (acm.count() == 0) {
+                return restTokens to ExpressionList(listOf())
+            }
+            return restTokens to ExpressionList(acm.map { Expression(it) })
         }
         else -> {
-            val (newRestTokens, exps) = parseExpressionSub(restTokens, listOf())
-            return parseExpressionList(newRestTokens, acm + Expression(exps))
+            val (newRestTokens, newAcm) = parseExpressionSub(tokens, listOf())
+            return parseExpressionList(newRestTokens, acm + listOf(newAcm))
         }
     }
 }

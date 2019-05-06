@@ -491,6 +491,9 @@ fun main() {
          do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
     """.trimIndent()
     println(parseStatements(tokenize(testCode24)))
+
+//    Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=drawRectangle), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=VarName(name=x))]), Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))]), right=Right))]), Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=IntC(const=1)))]), Expression(expElms=[_Term(term=VarName(name=x)), _Op(op=Plus), _Term(term=VarName(name=size))]), Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))])]), ClassOrVarName=Identifier(name=Screen))))])
+
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
