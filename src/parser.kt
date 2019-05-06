@@ -558,13 +558,55 @@ fun parseIfStatementSub(
     }
 }
 
+fun parseClass(tokens: List<Token>): Class {
+    val className = tokens[1] as Token.Identifier
+    return parseClassSub(rest(rest(rest(tokens))), className.name, listOf(), listOf()).second
+
+}
+
+fun parseClassSub(
+    tokens: List<Token>,
+    className: String,
+    classVarDecs: List<ClassVarDec>,
+    subDecs: List<SubroutineDec>
+): Pair<List<Token>, Class> {
+    if (tokens.count() == 0) {
+        return tokens to Class(className, classVarDecs, subDecs)
+    }
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
+    when (firstToken) {
+        Token.Static, Token.Field -> {
+            val (newRestTokens, classVarDec) = parseClassVarDec(tokens)
+            return parseClassSub(newRestTokens, className, classVarDecs + classVarDec, subDecs)
+        }
+        Token.Constructor, Token.Function, Token.Method -> {
+            val (newRestTokens, subDec) = parseSubroutineDec(tokens)
+            return parseClassSub(newRestTokens, className, classVarDecs, subDecs + subDec)
+        }
+        else -> {
+            return restTokens to Class(className, classVarDecs, subDecs)
+        }
+    }
+}
+
 fun parseClassVarDec(tokens: List<Token>): Pair<List<Token>, ClassVarDec> {
     val classVarDec = classVarDecHash[first(tokens)] ?: throw Error("classVarDecHashか${first(tokens)}が異常")
-    val type = typeHash[first(rest(tokens))] ?: throw Error("typeHashか${first(rest(tokens))}が異常")
+    val secondToken = first(rest(tokens))
+    val type = if(secondToken is Token.Identifier) {
+        Type.ClassName(secondToken.name)
+    } else {
+        typeHash[first(rest(tokens))] ?: throw Error("typeHashか${first(rest(tokens))}が異常")
+    }
     return parseClassVarDecSub(rest(rest(tokens)), classVarDec, type, listOf())
 }
 
-fun parseClassVarDecSub(tokens: List<Token>, classVarDec: _ClassVarDec,  type: Type, vars: List<String>): Pair<List<Token>, ClassVarDec> {
+fun parseClassVarDecSub(
+    tokens: List<Token>,
+    classVarDec: _ClassVarDec,
+    type: Type,
+    vars: List<String>
+): Pair<List<Token>, ClassVarDec> {
     val firstToken = first(tokens)
     val restTokens = rest(tokens)
     when (firstToken) {

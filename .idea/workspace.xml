@@ -2,21 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/ExpElm$_Op.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/ExpElm$_Op.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/ExpElm$_Term.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/ExpElm$_Term.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/ExpElm.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/ExpElm.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Expression.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Expression.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/ExpressionList.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/ExpressionList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Identifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Identifier.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Keyword.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Keyword.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Op.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Op.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/Paren.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/Paren.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/ParserKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/SubroutineCall.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/SubroutineCall.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/SubroutineName.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/SubroutineName.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/UnaryOp.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/UnaryOp.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.kt" afterDir="false" />
     </list>
@@ -39,9 +24,9 @@
         <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="333">
-              <caret line="591" column="72" selection-start-line="591" selection-start-column="72" selection-end-line="591" selection-end-column="72" />
+              <caret line="625" lean-forward="true" selection-start-line="625" selection-end-line="625" />
               <folding>
-                <marker date="1557126768001" expanded="true" signature="14459:14638" ph="..." />
+                <marker date="1557127866541" expanded="true" signature="14459:14638" ph="..." />
               </folding>
             </state>
           </provider>
@@ -50,8 +35,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/parser.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="572" column="9" lean-forward="true" selection-start-line="572" selection-start-column="9" selection-end-line="572" selection-end-column="9" />
+            <state relative-caret-position="176">
+              <caret line="596" column="40" selection-start-line="596" selection-start-column="40" selection-end-line="596" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -59,8 +44,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Square/Main.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="30" column="37" lean-forward="true" selection-end-line="36" />
+            <state relative-caret-position="120">
+              <caret line="8" selection-start-line="8" selection-end-line="36" />
             </state>
           </provider>
         </entry>
@@ -143,8 +128,8 @@
       <find>parseEx</find>
       <find>parseSubroutine</find>
       <find>parseSu</find>
-      <find>Token.Semicolon</find>
       <find>g(4)</find>
+      <find>Token.Semicolon</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -560,13 +545,6 @@
         <state relative-caret-position="-34" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="572" column="9" lean-forward="true" selection-start-line="572" selection-start-column="9" selection-end-line="572" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Square/Square.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="458">
@@ -583,17 +561,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Square/Main.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="30" column="37" lean-forward="true" selection-end-line="36" />
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="596" column="40" selection-start-line="596" selection-start-column="40" selection-end-line="596" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="333">
-          <caret line="591" column="72" selection-start-line="591" selection-start-column="72" selection-end-line="591" selection-end-column="72" />
+          <caret line="625" lean-forward="true" selection-start-line="625" selection-end-line="625" />
           <folding>
-            <marker date="1557126768001" expanded="true" signature="14459:14638" ph="..." />
+            <marker date="1557127866541" expanded="true" signature="14459:14638" ph="..." />
           </folding>
         </state>
       </provider>
