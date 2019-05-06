@@ -98,6 +98,11 @@ val voidOrTypeHash = mapOf(
     Token.Void to VoidOrType.Void
 )
 
+val classVarDecHash = mapOf(
+    Token.Static to _ClassVarDec.Static,
+    Token.Field to _ClassVarDec.Field
+)
+
 enum class Paren {
     Left, Right
 }
@@ -549,6 +554,31 @@ fun parseIfStatementSub(
         else -> {
             exp ?: throw Error("if文のパース: expがnull")
             return Triple(tokens, IfStatement(exp, Statements(ifStmts), Statements(elseStmts)), acm)
+        }
+    }
+}
+
+fun parseClassVarDec(tokens: List<Token>): Pair<List<Token>, ClassVarDec> {
+    val classVarDec = classVarDecHash[first(tokens)] ?: throw Error("classVarDecHashか${first(tokens)}が異常")
+    val type = typeHash[first(rest(tokens))] ?: throw Error("typeHashか${first(rest(tokens))}が異常")
+    return parseClassVarDecSub(rest(rest(tokens)), classVarDec, type, listOf())
+}
+
+fun parseClassVarDecSub(tokens: List<Token>, classVarDec: _ClassVarDec,  type: Type, vars: List<String>): Pair<List<Token>, ClassVarDec> {
+    val firstToken = first(tokens)
+    val restTokens = rest(tokens)
+    when (firstToken) {
+        is Token.Identifier -> {
+            return parseClassVarDecSub(restTokens, classVarDec, type, vars + firstToken.name)
+        }
+        Token.Comma -> {
+            return parseClassVarDecSub(restTokens, classVarDec, type, vars)
+        }
+        Token.Semicolon -> {
+            return restTokens to ClassVarDec(classVarDec, type, vars)
+        }
+        else -> {
+            throw Error("予期しないトークン $tokens")
         }
     }
 }
