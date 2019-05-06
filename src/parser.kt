@@ -318,7 +318,7 @@ fun parseSubroutineCall(tokens: List<Token>): Pair<List<Token>, SubroutineCall> 
 
             val subroutineName = Identifier(thirdToken.name)
 
-            val restTokens = rest(rest(rest(tokens)))
+            val restTokens = rest(rest(rest(rest(tokens))))
             if (restTokens.count() == 0) {
                 throw Error("SubroutineCallのパース: トークンが少ない $tokens")
             }
@@ -338,14 +338,23 @@ fun parseExpressionList(tokens: List<Token>, acm: List<Expression>): Pair<List<T
     }
     val restTokens = rest(tokens)
     when (first(tokens)) {
-        is Token.Comma, Token.LParen -> {
+        is Token.Comma -> {
             return parseExpressionList(restTokens, acm)
+        }
+        is Token.LParen -> {
+            val (newRestTokens, restAcm) = parseExpressionSub(restTokens, listOf())
+            if (first(newRestTokens) is Token.RParen) {
+                val term = Term._Expression(Paren.Left, Expression(restAcm), Paren.Right)
+                return parseExpressionList(rest(newRestTokens), acm + Expression(listOf(ExpElm._Term(term))))
+            } else {
+                throw Error("開きカッコに対して閉じカッコがない")
+            }
         }
         is Token.RParen -> {
             return restTokens to ExpressionList(acm)
         }
         else -> {
-            val (newRestTokens, exps) = parseExpressionSub(tokens, listOf())
+            val (newRestTokens, exps) = parseExpressionSub(restTokens, listOf())
             return parseExpressionList(newRestTokens, acm + Expression(exps))
         }
     }
