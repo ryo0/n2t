@@ -501,6 +501,47 @@ fun main() {
          do a(1 + 2 + x - 1);
     """.trimIndent()
     println(parseStatements(tokenize(testCode26)))
+
+    val testCode27 = """
+    function void test() {  // Added to test Jack syntax that is not use in
+        var int i, j;       // the Square files.
+        var String s;
+        var Array a;
+        if (false) {
+            let s = "string constant";
+            let s = null;
+            let a[1] = a[2];
+        }
+        else {              // There is no else keyword in the Square files.
+            let i = i * (-j);
+            let j = j / (-2);   // note: unary negate constant 2
+            let i = i | j;
+        }
+        return;
+    }"""
+    println(parseSubroutineDec(tokenize(testCode27)).second)
+
+    val testCode28 = """
+    constructor Square new(int Ax, int Ay, int Asize) {
+      let x = Ax;
+      let y = Ay;
+      let size = Asize;
+      do draw();
+      return this;
+   }"""
+    println(parseSubroutineDec(tokenize(testCode28)).second)
+
+    val testCode29 = """
+    method void incSize() {
+      if (((y + size) < 254) & ((x + size) < 510)) {
+         do erase();
+         let size = size + 2;
+         do draw();
+      }
+      return;
+   }
+    """.trimIndent()
+    println(parseSubroutineDec(tokenize(testCode29)).second)
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
@@ -536,5 +577,8 @@ fun main() {
 //Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=drawRectangle), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=VarName(name=x))]), Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))]), right=Right)), _Op(op=Minus), _Term(term=IntC(const=1))]), Expression(expElms=[_Term(term=VarName(name=x)), _Op(op=Plus), _Term(term=VarName(name=size))]), Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))])]), ClassOrVarName=Identifier(name=Screen))))])
 //Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=a), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=IntC(const=1)), _Op(op=Plus), _Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=IntC(const=2)), _Op(op=Plus), _Term(term=VarName(name=x))]), right=Right)), _Op(op=Minus), _Term(term=IntC(const=1))])]), ClassOrVarName=null)))])
 //Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=a), expList=ExpressionList(expList=[Expression(expElms=[_Term(term=IntC(const=1)), _Op(op=Plus), _Term(term=IntC(const=2)), _Op(op=Plus), _Term(term=VarName(name=x)), _Op(op=Minus), _Term(term=IntC(const=1))])]), ClassOrVarName=null)))])
+//SubroutineDec(dec=Function, type=VoidOrType$Void@6f75e721, name=test, paramList=ParameterList(list=[]), body=SubroutineBody(varDecs=[VarDec(type=Type$Int@41a4555e, vars=[i, j]), VarDec(type=ClassName(name=String), vars=[s]), VarDec(type=ClassName(name=Array), vars=[a])], statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=KeyC(const=False))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=s), index=null, exp=Expression(expElms=[_Term(term=StrC(const=string constant))]))), Let(stmt=LetStatement(varName=VarName(name=s), index=null, exp=Expression(expElms=[_Term(term=KeyC(const=Null))]))), Let(stmt=LetStatement(varName=VarName(name=a), index=Expression(expElms=[_Term(term=IntC(const=1))]), exp=Expression(expElms=[_Term(term=ArrayAndIndex(name=a, index=Expression(expElms=[_Term(term=IntC(const=2))])))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=i), index=null, exp=Expression(expElms=[_Term(term=VarName(name=i)), _Op(op=Asterisk), _Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=VarName(name=j)))]), right=Right))]))), Let(stmt=LetStatement(varName=VarName(name=j), index=null, exp=Expression(expElms=[_Term(term=VarName(name=j)), _Op(op=Slash), _Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=IntC(const=2)))]), right=Right))]))), Let(stmt=LetStatement(varName=VarName(name=i), index=null, exp=Expression(expElms=[_Term(term=VarName(name=i)), _Op(op=Pipe), _Term(term=VarName(name=j))])))]))), Return(stmt=ReturnStatement(expression=null))])))
+//SubroutineDec(dec=Constructor, type=_Type(type=ClassName(name=Square)), name=new, paramList=ParameterList(list=[Parameter(type=Type$Int@41a4555e, name=Ax), Parameter(type=Type$Int@41a4555e, name=Ay), Parameter(type=Type$Int@41a4555e, name=Asize)]), body=SubroutineBody(varDecs=[], statements=Statements(statements=[Let(stmt=LetStatement(varName=VarName(name=x), index=null, exp=Expression(expElms=[_Term(term=VarName(name=Ax))]))), Let(stmt=LetStatement(varName=VarName(name=y), index=null, exp=Expression(expElms=[_Term(term=VarName(name=Ay))]))), Let(stmt=LetStatement(varName=VarName(name=size), index=null, exp=Expression(expElms=[_Term(term=VarName(name=Asize))]))), Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=draw), expList=ExpressionList(expList=[]), ClassOrVarName=null))), Return(stmt=ReturnStatement(expression=Expression(expElms=[_Term(term=KeyC(const=This))])))])))
+//SubroutineDec(dec=Method, type=VoidOrType$Void@6f75e721, name=incSize, paramList=ParameterList(list=[]), body=SubroutineBody(varDecs=[], statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=y)), _Op(op=Plus), _Term(term=VarName(name=size))]), right=Right)), _Op(op=LessThan), _Term(term=IntC(const=254))]), right=Right)), _Op(op=And), _Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=VarName(name=x)), _Op(op=Plus), _Term(term=VarName(name=size))]), right=Right)), _Op(op=LessThan), _Term(term=IntC(const=510))]), right=Right))]), ifStmts=Statements(statements=[Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=erase), expList=ExpressionList(expList=[]), ClassOrVarName=null))), Let(stmt=LetStatement(varName=VarName(name=size), index=null, exp=Expression(expElms=[_Term(term=VarName(name=size)), _Op(op=Plus), _Term(term=IntC(const=2))]))), Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=draw), expList=ExpressionList(expList=[]), ClassOrVarName=null)))]), elseStmts=Statements(statements=[]))), Return(stmt=ReturnStatement(expression=null))])))
 
 

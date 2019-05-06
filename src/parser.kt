@@ -342,12 +342,12 @@ fun parseExpressionList(
             return tokens to ExpressionList(listOf())
         }
         val finalList = acmListList + listOf(acmList)
-                return tokens to ExpressionList(finalList.map { Expression(it) })
+        return tokens to ExpressionList(finalList.map { Expression(it) })
     }
     val restTokens = rest(tokens)
     when (first(tokens)) {
         is Token.Comma -> {
-            return parseExpressionList(restTokens, listOf(),  acmListList + listOf(acmList))
+            return parseExpressionList(restTokens, listOf(), acmListList + listOf(acmList))
         }
         is Token.LParen -> {
             val (newRestTokens, exp) = parseExpressionSub(restTokens, listOf())
@@ -555,7 +555,12 @@ fun parseIfStatementSub(
 
 fun parseSubroutineDec(tokens: List<Token>): Pair<List<Token>, SubroutineDec> {
     val subDec = subDecHash[tokens[0]] ?: throw Error("SubroutineDecのパース: このトークンがおかしい ${tokens[0]}")
-    val subroutineType = voidOrTypeHash[tokens[1]] ?: throw Error("SubroutineDecのパース: このトークンがおかしい ${tokens[1]}")
+    val secondToken = tokens[1]
+    val subroutineType = if (secondToken is Token.Identifier) {
+        VoidOrType._Type(Type.ClassName(secondToken.name))
+    } else {
+        voidOrTypeHash[secondToken] ?: throw Error("SubroutineDecのパース: このトークンがおかしい ${secondToken}")
+    }
     val subroutineName = tokens[2] as Token.Identifier
     val (restTokens, paramList) = parseParameterListSub(tokens.slice(4 until tokens.count()), listOf())
     val (newRestTokens, subroutineBody) = parseSubroutineBodySub(restTokens, listOf(), null)
