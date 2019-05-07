@@ -1,3 +1,5 @@
+import javax.swing.plaf.nimbus.State
+
 val Keywords = listOf(
     "class", "constructor", "function", "method", "field", "static", "var",
     "int", "char", "boolean", "void", "true", "false", "null", "this", "let",
@@ -249,6 +251,89 @@ fun convertTokensToXML(tokens: List<Token>): String {
     }.joinToString("\n") + "\n</tokens>"
 }
 
+fun convertLetToXML(let: LetStatement): String {
+    val index = let.index
+    val insideLet = if (index == null) {
+        writeXML("identifier", let.varName.name).plus(writeXML("symbol", "=")).plus(convertExpressionToXML(let.exp))
+            .plus(writeXML("symbol", ";"))
+    } else {
+        writeXML("identifier", let.varName.name).plus(
+            writeXML("symbol", "[").plus(
+                convertExpressionToXML(index).plus(
+                    writeXML("symbol", "]").plus(
+                        writeXML("symbol", "=")
+                    ).plus(
+                        convertExpressionToXML(let.exp).plus(
+                            writeXML("symbol", ";")
+                        )
+                    )
+                )
+            )
+        )
+    }
+    return writeXML("letStatement", writeXML("symbol", "let").plus(insideLet))
+}
+
+fun convertStatements(stmts: Statements): String {
+    return stmts.statements.map {
+        when (it) {
+            is Stmt.Let -> {
+                convertLetToXML(it.stmt)
+            }
+            is Stmt.If -> {
+                convertIf(it.stmt)
+            }
+            is Stmt.While -> {
+                convertWhile(it.stmt)
+            }
+            is Stmt.Do -> {
+                convertDo(it.stmt)
+            }
+            is Stmt.Return -> {
+                convertReturn(it.stmt)
+            }
+        }
+    }.joinToString("\n")
+}
+
+fun convertWhile(whileStmt: WhileStatement): String {
+    val expXML = convertExpressionToXML(whileStmt.expression)
+    val whileStmtXML =
+        writeXML("symbol", "{").plus(convertStatements(whileStmt.statements).plus(writeXML("symbol", "}")))
+    return writeXML("whileStatement", writeXML("symbol", "while").plus(expXML.plus(whileStmtXML)))
+}
+
+fun convertIf(ifStmt: IfStatement): String {
+    val expXML = convertExpressionToXML(ifStmt.expression)
+    val ifStmtsXML = writeXML("symbol", "{").plus(convertStatements(ifStmt.ifStmts).plus(writeXML("symbol", "}")))
+    val elseStmts = ifStmt.elseStmts
+    if (elseStmts.statements.count() == 0) {
+        return writeXML("ifStatement", writeXML("symbol", "if").plus(expXML.plus(ifStmtsXML)))
+    } else {
+        val elseStmtsXML = writeXML("symbol", "{").plus(convertStatements(elseStmts).plus(writeXML("symbol", "}")))
+        return writeXML(
+            "ifStatement",
+            writeXML("symbol", "if").plus(expXML.plus(ifStmtsXML.plus(writeXML("symbol", "else").plus(elseStmtsXML))))
+        )
+    }
+}
+
+fun convertReturn(returnStmt: ReturnStatement): String {
+    val exp = returnStmt.expression
+
+    return writeXML(
+        "returnStatement", if (exp != null) {
+            convertExpressionToXML(exp)
+        } else {
+            ""
+        }.plus(writeXML("symbol", ";"))
+    )
+}
+
+fun convertDo(Dostmt: DoStatement): String {
+    return writeXML("doStatement", convertSubroutineCallToXML(Dostmt.subroutineCall).plus(writeXML("symbol", ";")))
+}
+
 fun convertTermToXML(term: Term): String {
     val insideTerm = when (term) {
         is Term.IntC -> {
@@ -273,14 +358,7 @@ fun convertTermToXML(term: Term): String {
             )
         }
         is Term._SubroutineCall -> {
-            var result = writeXML("identifier", term.call.subroutineName.name).plus(
-                convertExpressionListToXML(term.call.expList)
-            )
-            val classOrVarName = term.call.classOrVarName
-            if (classOrVarName != null) {
-                result = writeXML("identifier", classOrVarName.name).plus(writeXML("symbol", ".").plus(result))
-            }
-            result
+            convertSubroutineCallToXML(term.call)
         }
         is Term._Expression -> {
             writeXML("symbol", "(").plus(convertExpressionToXML(term.exp).plus(writeXML("symbol", ")")))
@@ -293,6 +371,17 @@ fun convertTermToXML(term: Term): String {
     return writeXML(
         "term", insideTerm
     )
+}
+
+fun convertSubroutineCallToXML(subroutineCall: SubroutineCall): String {
+    var result = writeXML("identifier", subroutineCall.subroutineName.name).plus(
+        convertExpressionListToXML(subroutineCall.expList)
+    )
+    val classOrVarName = subroutineCall.classOrVarName
+    if (classOrVarName != null) {
+        result = writeXML("identifier", classOrVarName.name).plus(writeXML("symbol", ".").plus(result))
+    }
+    return result
 }
 
 fun convertExpressionListToXML(expList: ExpressionList): String {
@@ -665,18 +754,6 @@ class Main {
 }
     """.trimIndent()
     println(parseClass(tokenize(testCode32)))
-
-    val term1 = "a.b(1, a[2], (3+1) & false)"
-    println(convertTermToXML(parseTerm(tokenize(term1), null).second))
-//    <term> <identifier> b </identifier>
-//    <expressionList>
-//    <expression> <term> <integerConstant> 1 </integerConstant> </term> </expression>
-//    <expression> <term> <identifier> a </identifier><symbol> [ </symbol><expression> <term> <integerConstant> 2 </integerConstant> </term> </expression><symbol> [ </symbol> </term> </expression>
-//    <expression> <term> <symbol> ( </symbol><expression> <term> <integerConstant> 3 </integerConstant> </term>
-//    <identifier> + </identifier>
-//    <term> <integerConstant> 1 </integerConstant> </term> </expression><symbol> ) </symbol> </term>
-//    <identifier> &amp; </identifier>
-//    <term> <keywordConstant> False </keywordConstant> </term> </expression> </expressionList><identifier> a </identifier> </term>
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
