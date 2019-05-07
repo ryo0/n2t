@@ -62,6 +62,28 @@ sealed class Term {
     data class UnaryOpTerm(val op: UnaryOp, val term: Term) : Term()
 }
 
+sealed class ExpElm {
+    data class _Term(val term: Term) : ExpElm()
+    data class _Op(val op: Op) : ExpElm()
+}
+
+data class Expression(val expElms: List<ExpElm>)
+
+data class ExpressionList(val expList: List<Expression>)
+
+data class Identifier(val name: String)
+data class SubroutineName(val name: String)
+
+data class SubroutineCall(
+    val subroutineName: Identifier,
+    val expList: ExpressionList,
+    val classOrVarName: Identifier?
+)
+
+enum class Keyword {
+    Class, Constructor, Function, Method, Field, Static, Var, Int, Char, Boolean, Void, True, False, Null, This, Let, Do, If, Else
+}
+
 val opHash = mapOf(
     Token.Plus to Op.Plus,
     Token.Minus to Op.Minus,
@@ -113,28 +135,6 @@ enum class Op {
 
 enum class UnaryOp {
     Minus, Tilde
-}
-
-sealed class ExpElm {
-    data class _Term(val term: Term) : ExpElm()
-    data class _Op(val op: Op) : ExpElm()
-}
-
-data class Expression(val expElms: List<ExpElm>)
-
-data class ExpressionList(val expList: List<Expression>)
-
-data class Identifier(val name: String)
-data class SubroutineName(val name: String)
-
-data class SubroutineCall(
-    val subroutineName: Identifier,
-    val expList: ExpressionList,
-    val ClassOrVarName: Identifier?
-)
-
-enum class Keyword {
-    Class, Constructor, Function, Method, Field, Static, Var, Int, Char, Boolean, Void, True, False, Null, This, Let, Do, If, Else
 }
 
 fun first(tokens: List<Token>): Token {
