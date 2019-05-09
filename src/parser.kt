@@ -1,6 +1,6 @@
 data class Class(val name: String, val varDec: List<ClassVarDec>, val subroutineDec: List<SubroutineDec>)
 
-data class ClassVarDec(val varDec: _ClassVarDec, val type: Type, val varName: List<String>)
+data class ClassVarDec(val varDec: _ClassVarDec, val type: Type, val varNames: List<String>)
 
 enum class _ClassVarDec {
     Field, Static
@@ -503,7 +503,9 @@ fun parseWhileStatementSub(
             return tokens to whileStatement
         }
         else -> {
-            throw Error("while文のパース: 想定外のトークン $firstToken ")
+            exp ?: throw Error("whileのパース: expがnull $stmts")
+            val whileStatement = WhileStatement(exp, Statements(stmts))
+            return tokens to whileStatement
         }
     }
 }
