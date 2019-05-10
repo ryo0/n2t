@@ -883,8 +883,10 @@ class Main {
 
     File("ExpressionLessSquare/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/Main.jack").readText()))))
     File("ExpressionLessSquare/out_SquareGame.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/SquareGame.jack").readText()))))
+    File("ExpressionLessSquare/out_Square.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/Square.jack").readText()))))
 
     File("Square/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("Square/Main.jack").readText()))))
+    File("Square/out_Square.xml").writeText(convertClass(parseClass(tokenize(File("Square/Square.jack").readText()))))
     File("Square/out_SquareGame.xml").writeText(convertClass(parseClass(tokenize(File("Square/SquareGame.jack").readText()))))
 }
 

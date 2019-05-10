@@ -392,7 +392,7 @@ fun parseLetStatement(tokens: List<Token>): Pair<List<Token>, Stmt> {
 }
 
 fun parseWhileStatement(tokens: List<Token>): Pair<List<Token>, Stmt> {
-    val (newRestTokens, whileStmts) = parseWhileStatementSub(tokens, null, listOf())
+    val (newRestTokens, whileStmts) = parseWhileStatementSub(tokens)
     return newRestTokens to Stmt.While(whileStmts)
 }
 
@@ -470,42 +470,20 @@ fun parseLetStatementSub(
 }
 
 fun parseWhileStatementSub(
-    tokens: List<Token>,
-    exp: Expression?,
-    stmts: List<Stmt>
+    tokens: List<Token>
 ): Pair<List<Token>, WhileStatement> {
-    if (tokens.count() == 0) {
-        exp ?: throw Error("whileのパース: expがnull $stmts")
-        val whileStatement = WhileStatement(exp, Statements(stmts))
-        return tokens to whileStatement
-    }
     val firstToken = first(tokens)
     val restTokens = rest(tokens)
 
     when (firstToken) {
         is Token.While -> {
-            return parseWhileStatementSub(restTokens, exp, stmts)
-        }
-        is Token.LParen -> {
-            val (newRestTokens, expression) = parseExpressionSub(restTokens, listOf())
-            return parseWhileStatementSub(newRestTokens, Expression(expression), stmts)
-        }
-        is Token.RParen -> {
-            return parseWhileStatementSub(restTokens, exp, stmts)
-        }
-        is Token.LCurlyBrace -> {
-            val (newRestTokens, stmtsAcm) = parseStatementsSub(restTokens, listOf())
-            return parseWhileStatementSub(newRestTokens, exp, stmts + stmtsAcm)
-        }
-        is Token.RCurlyBrace -> {
-            exp ?: throw Error("whileのパース: expがnull $stmts")
-            val whileStatement = WhileStatement(exp, Statements(stmts))
-            return tokens to whileStatement
+            val (newRestTokens, expression) = parseExpressionSub(rest(restTokens), listOf())
+            val (newRestTokens2, whileStmts) = parseStatementsSub(rest(newRestTokens), listOf())
+            val whileStatement = WhileStatement(Expression(expression), Statements(whileStmts))
+            return newRestTokens2 to whileStatement
         }
         else -> {
-            exp ?: throw Error("whileのパース: expがnull $stmts")
-            val whileStatement = WhileStatement(exp, Statements(stmts))
-            return tokens to whileStatement
+            throw Error("whileのパース $tokens")
         }
     }
 }
@@ -528,7 +506,7 @@ fun parseIfStatementSub(
             }
         }
         else -> {
-            throw Error("if分のパース $tokens")
+            throw Error("if文のパース $tokens")
         }
     }
 }
