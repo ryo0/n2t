@@ -864,7 +864,7 @@ class Main {
     println(parseClass(tokenize(testCode32)))
 
     val testCode33 = """
-    	while (i < length) {
+    while (i < length) {
 	    let a[i] = Keyboard.readInt("ENTER THE NEXT NUMBER: ");
 	    let i = i + 1;
 	}
