@@ -261,7 +261,7 @@ fun convertClass(_class: Class): String {
 }
 
 fun convertClassVarDec(classVarDec: ClassVarDec): String {
-    val insideTag = writeXML("keyword", classVarDec.varDec.toString())
+    val insideTag = writeXML("keyword", classVarDec.varDec.toString().toLowerCase())
         .plus(convertType(classVarDec.type))
         .plus(classVarDec.varNames.mapIndexed { index, it ->
             if (index == 0) {
@@ -271,7 +271,7 @@ fun convertClassVarDec(classVarDec: ClassVarDec): String {
                     writeXML("identifier", it)
                 )
             }
-        }).plus(writeXML("symbol", ";"))
+        }.joinToString("\n")).plus(writeXML("symbol", ";"))
 
     return writeXML("classVarDec", insideTag)
 }
@@ -303,7 +303,7 @@ fun convertType(type: Type): String {
 
 
 fun convertSubroutineDec(subDec: SubroutineDec): String {
-    val insideSubDec = writeXML("keyword", subDec.dec.toString()).plus(
+    val insideSubDec = writeXML("keyword", subDec.dec.toString().toLowerCase()).plus(
         convertVoidOrType(subDec.type)
     ).plus(writeXML("identifier", subDec.name)).plus(
         writeXML("symbol", "(")
@@ -334,7 +334,7 @@ fun convertParameterList(paramList: ParameterList): String {
 }
 
 fun convertSubroutineBody(subroutineBody: SubroutineBody): String {
-    val insideTag = writeXML("symbol", "{").plus(subroutineBody.varDecs.map { convertVarDec(it) })
+    val insideTag = writeXML("symbol", "{").plus(subroutineBody.varDecs.map { convertVarDec(it) }.joinToString("\n"))
         .plus(convertStatements(subroutineBody.statements))
         .plus(writeXML("symbol", "}"))
     return writeXML("subroutineBody", insideTag)
@@ -348,7 +348,7 @@ fun convertVarDec(varDec: VarDec): String {
             writeXML("symbol", ",").plus(
                 writeXML("identifier", it)
             )
-    }
+    }.joinToString("\n")
 
     val insideVarDec = writeXML("keyword", "var")
         .plus(convertType(varDec.type)).plus(vars).plus(writeXML("symbol", ";"))
@@ -402,14 +402,14 @@ fun convertStatements(stmts: Statements): String {
 }
 
 fun convertWhile(whileStmt: WhileStatement): String {
-    val expXML = convertExpressionToXML(whileStmt.expression)
+    val expXML = writeXML("symbol", "(").plus(convertExpressionToXML(whileStmt.expression)).plus(writeXML("symbol", ")"))
     val whileStmtXML =
         writeXML("symbol", "{").plus(convertStatements(whileStmt.statements).plus(writeXML("symbol", "}")))
     return writeXML("whileStatement", writeXML("keyword", "while").plus(expXML.plus(whileStmtXML)))
 }
 
 fun convertIf(ifStmt: IfStatement): String {
-    val expXML = convertExpressionToXML(ifStmt.expression)
+    val expXML = writeXML("symbol", "(").plus(convertExpressionToXML(ifStmt.expression)).plus(writeXML("symbol", ")"))
     val ifStmtsXML = writeXML("symbol", "{").plus(convertStatements(ifStmt.ifStmts).plus(writeXML("symbol", "}")))
     val elseStmts = ifStmt.elseStmts
     if (elseStmts.statements.count() == 0) {
@@ -482,9 +482,9 @@ fun convertTermToXML(term: Term): String {
 }
 
 fun convertSubroutineCallToXML(subroutineCall: SubroutineCall): String {
-    var result = writeXML("identifier", subroutineCall.subroutineName.name).plus(
+    var result = writeXML("identifier", subroutineCall.subroutineName.name).plus(writeXML("symbol", "(")).plus(
         convertExpressionListToXML(subroutineCall.expList)
-    )
+    ).plus(writeXML("symbol", ")"))
     val classOrVarName = subroutineCall.classOrVarName
     if (classOrVarName != null) {
         result = writeXML("identifier", classOrVarName.name).plus(writeXML("symbol", ".").plus(result))
