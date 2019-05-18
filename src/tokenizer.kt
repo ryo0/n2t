@@ -888,6 +888,8 @@ class Main {
     File("Square/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("Square/Main.jack").readText()))))
     File("Square/out_Square.xml").writeText(convertClass(parseClass(tokenize(File("Square/Square.jack").readText()))))
     File("Square/out_SquareGame.xml").writeText(convertClass(parseClass(tokenize(File("Square/SquareGame.jack").readText()))))
+
+    println(SymbolTable(parseClass(tokenize(testCode32))).classTable)
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
