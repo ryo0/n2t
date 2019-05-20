@@ -1,17 +1,18 @@
 class Compiler(private val _class: Class) {
     val className = _class.name
     private val table = SymbolTable(_class)
+    private var subroutineTable: Map<String, SymbolValue>? = null
 
     fun compileClass() {
         _class.subroutineDec.forEach { compileSubroutine(it) }
     }
 
     private fun compileSubroutine(subroutineDec: SubroutineDec) {
-        val subroutineTable = table.subroutineTableCreator(subroutineDec)
+        subroutineTable = table.subroutineTableCreator(subroutineDec)
         println("function $className.${subroutineDec.name} ${subroutineDec.paramList.list.count()}")
         compileStatements(subroutineDec.body.statements)
         val type = subroutineDec.type
-        if (type == VoidOrType.Void) {
+        if (type is VoidOrType.Void) {
             println("push constant 0")
         }
         println("return")
@@ -19,9 +20,27 @@ class Compiler(private val _class: Class) {
 
     private fun compileStatements(statements: Statements) {
         statements.statements.forEach {
-            if (it is Stmt.Do) {
-                compileDoStatement(it.stmt)
+            when (it) {
+                is Stmt.Do -> {
+                    compileDoStatement(it.stmt)
+                }
+                is Stmt.Let -> {
+                    compileLetStatement(it.stmt)
+                }
             }
+        }
+    }
+
+    private fun compileLetStatement(letStatement: LetStatement) {
+        val table = subroutineTable ?: throw Error("let: subroutineTableがnull")
+        val symbolInfo = table[letStatement.varName.name] ?: throw Error("subroutineテーブルに無い")
+        val index = symbolInfo.index
+        val exp = letStatement.exp
+        compileExpression(exp)
+        if (symbolInfo.attribute == Attribute.Argument) {
+            println("pop argument $index")
+        } else if (symbolInfo.attribute == Attribute.Var) {
+            println("pop local $index")
         }
     }
 
@@ -57,6 +76,14 @@ class Compiler(private val _class: Class) {
     private fun compileTerm(term: Term) {
         if (term is Term.IntC) {
             println("push const ${term.const}")
+        } else if (term is Term.VarName) {
+            val table = subroutineTable ?: throw Error("let: subroutineTableがnull")
+            val symbolInfo = table[term.name] ?: throw Error("subroutineテーブルに無い")
+            if (symbolInfo.attribute == Attribute.Argument) {
+                println("push argument ${symbolInfo.index}")
+            } else if (symbolInfo.attribute == Attribute.Var) {
+                println("push local ${symbolInfo.index}")
+            }
         } else if (term is Term._Expression) {
             compileExpression(term.exp)
         }
