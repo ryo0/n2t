@@ -6,12 +6,12 @@ class Compiler(private val _class: Class) {
         _class.subroutineDec.forEach { compileSubroutine(it) }
     }
 
-    fun compileSubroutine(subroutineDec: SubroutineDec) {
+    private fun compileSubroutine(subroutineDec: SubroutineDec) {
         val subroutineTable = table.subroutineTableCreator(subroutineDec)
         compileStatements(subroutineDec.body.statements)
     }
 
-    fun compileStatements(statements: Statements) {
+    private fun compileStatements(statements: Statements) {
         statements.statements.forEach {
             if (it is Stmt.Do) {
                 compileDoStatement(it.stmt)
@@ -19,17 +19,19 @@ class Compiler(private val _class: Class) {
         }
     }
 
-    fun compileDoStatement(doStatement: DoStatement) {
+    private fun compileDoStatement(doStatement: DoStatement) {
         val classOrVarName = doStatement.subroutineCall.classOrVarName
         val subroutineName = doStatement.subroutineCall.subroutineName
         val expList = doStatement.subroutineCall.expList.expList
-        expList.forEach { compileExpression(it) }
-        if (classOrVarName == null) {
-
+        if (classOrVarName != null) {
+            expList.forEach { compileExpression(it) }
+            println("call ${classOrVarName.name}.${subroutineName.name} ${expList.count()}")
+        } else {
+            println("call ${subroutineName.name} ${expList.count()}")
         }
     }
 
-    fun compileExpression(exp: Expression) {
+    private fun compileExpression(exp: Expression) {
         val first = exp.expElms.first()
         if (exp.expElms.count() > 1) {
             val op = exp.expElms[1]
@@ -44,7 +46,7 @@ class Compiler(private val _class: Class) {
         }
     }
 
-    fun compileTerm(term: Term) {
+    private fun compileTerm(term: Term) {
         if (term is Term.IntC) {
             println("push const ${term.const}")
         } else if (term is Term._Expression) {
@@ -52,7 +54,7 @@ class Compiler(private val _class: Class) {
         }
     }
 
-    fun compileOperand(op: Op) {
+    private fun compileOperand(op: Op) {
         if (op == Op.Plus) {
             println("add")
         } else if (op == Op.Minus) {

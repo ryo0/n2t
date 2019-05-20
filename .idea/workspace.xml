@@ -2,40 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Compiler.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/VMWriter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ArrayTest/Main.jack" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ArrayTest/Main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ArrayTest/MainT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ArrayTest/out_Main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ArrayTest/output.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/Main.jack" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/Main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/MainT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/Square.jack" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/Square.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/SquareGame.jack" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/SquareGame.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/SquareGameT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/SquareT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/out_Main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/out_Square.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/out_SquareGame.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/Main.jack" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/Main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/MainT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/Square.jack" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/Square.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/SquareGame.jack" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/SquareGame.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/SquareGameT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/SquareT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/out_Main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/out_Square.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Square/out_SquareGame.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Compiler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Compiler.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -52,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Compiler.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="43" column="9" lean-forward="true" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
+            <state relative-caret-position="332">
+              <caret line="29" column="26" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -102,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="905" column="48" selection-start-line="905" selection-start-column="48" selection-end-line="905" selection-end-column="48" />
+            <state relative-caret-position="255">
+              <caret line="904" column="23" selection-start-line="904" selection-start-column="23" selection-end-line="904" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -215,8 +182,8 @@
         <option value="$PROJECT_DIR$/chap11TestData/Seven/OS/Main.vm" />
         <option value="$PROJECT_DIR$/chap11TestData/Average/Main.vm" />
         <option value="$PROJECT_DIR$/chap11TestData/Seven/Main.jack" />
-        <option value="$PROJECT_DIR$/src/Compiler.kt" />
         <option value="$PROJECT_DIR$/src/tokenizer.kt" />
+        <option value="$PROJECT_DIR$/src/Compiler.kt" />
       </list>
     </option>
   </component>
@@ -251,12 +218,6 @@
               <item name="n2t-parser" type="b2602c69:ProjectViewProjectNode" />
               <item name="n2t-parser" type="462c0819:PsiDirectoryNode" />
               <item name="chap11TestData" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="n2t-parser" type="b2602c69:ProjectViewProjectNode" />
-              <item name="n2t-parser" type="462c0819:PsiDirectoryNode" />
-              <item name="chap11TestData" type="462c0819:PsiDirectoryNode" />
-              <item name="Pong" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="n2t-parser" type="b2602c69:ProjectViewProjectNode" />
@@ -635,13 +596,6 @@
     <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Ball.vm">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/Main.vm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/Main.jack">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -656,17 +610,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Compiler.kt">
+    <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="43" column="9" lean-forward="true" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
+        <state relative-caret-position="255">
+          <caret line="904" column="23" selection-start-line="904" selection-start-column="23" selection-end-line="904" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/Main.vm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="905" column="48" selection-start-line="905" selection-start-column="48" selection-end-line="905" selection-end-column="48" />
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="29" column="26" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
         </state>
       </provider>
     </entry>
