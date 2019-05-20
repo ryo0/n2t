@@ -8,7 +8,13 @@ class Compiler(private val _class: Class) {
 
     private fun compileSubroutine(subroutineDec: SubroutineDec) {
         val subroutineTable = table.subroutineTableCreator(subroutineDec)
+        println("function $className.${subroutineDec.name} ${subroutineDec.paramList.list.count()}")
         compileStatements(subroutineDec.body.statements)
+        val type = subroutineDec.type
+        if (type == VoidOrType.Void) {
+            println("push constant 0")
+        }
+        println("return")
     }
 
     private fun compileStatements(statements: Statements) {
@@ -27,8 +33,10 @@ class Compiler(private val _class: Class) {
             expList.forEach { compileExpression(it) }
             println("call ${classOrVarName.name}.${subroutineName.name} ${expList.count()}")
         } else {
+            expList.forEach { compileExpression(it) }
             println("call ${subroutineName.name} ${expList.count()}")
         }
+        println("pop temp 0")
     }
 
     private fun compileExpression(exp: Expression) {
