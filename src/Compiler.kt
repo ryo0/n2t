@@ -1,0 +1,66 @@
+class Compiler(private val _class: Class) {
+    val className = _class.name
+    private val table = SymbolTable(_class)
+
+    fun compileClass() {
+        _class.subroutineDec.forEach { compileSubroutine(it) }
+    }
+
+    fun compileSubroutine(subroutineDec: SubroutineDec) {
+        val subroutineTable = table.subroutineTableCreator(subroutineDec)
+        compileStatements(subroutineDec.body.statements)
+    }
+
+    fun compileStatements(statements: Statements) {
+        statements.statements.forEach {
+            if (it is Stmt.Do) {
+                compileDoStatement(it.stmt)
+            }
+        }
+    }
+
+    fun compileDoStatement(doStatement: DoStatement) {
+        val classOrVarName = doStatement.subroutineCall.classOrVarName
+        val subroutineName = doStatement.subroutineCall.subroutineName
+        val expList = doStatement.subroutineCall.expList.expList
+        expList.forEach { compileExpression(it) }
+        if (classOrVarName == null) {
+
+        }
+    }
+
+    fun compileExpression(exp: Expression) {
+        val first = exp.expElms.first()
+        if (exp.expElms.count() > 1) {
+            val op = exp.expElms[1]
+            val rest = exp.expElms.slice(2 until exp.expElms.count())
+            if (first is ExpElm._Term && op is ExpElm._Op) {
+                compileTerm(first.term)
+                compileExpression(Expression(rest))
+                compileOperand(op.op)
+            }
+        } else if (first is ExpElm._Term) {
+            compileTerm(first.term)
+        }
+    }
+
+    fun compileTerm(term: Term) {
+        if (term is Term.IntC) {
+            println("push const ${term.const}")
+        } else if (term is Term._Expression) {
+            compileExpression(term.exp)
+        }
+    }
+
+    fun compileOperand(op: Op) {
+        if (op == Op.Plus) {
+            println("add")
+        } else if (op == Op.Minus) {
+            println("sub")
+        } else if (op == Op.Asterisk) {
+            println("call Math.multiply 2")
+        } else if (op == Op.Slash) {
+            println("call Math.divide 2")
+        }
+    }
+}

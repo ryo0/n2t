@@ -2,8 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b84c6d54-6864-40ff-93b1-a071ad665ce1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/SymbolTable.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Compiler.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/VMWriter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArrayTest/Main.jack" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArrayTest/Main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArrayTest/MainT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArrayTest/out_Main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArrayTest/output.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/Main.jack" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/Main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/MainT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/Square.jack" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/Square.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/SquareGame.jack" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/SquareGame.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/SquareGameT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/SquareT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/out_Main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/out_Square.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpressionLessSquare/out_SquareGame.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/Main.jack" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/Main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/MainT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/Square.jack" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/Square.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/SquareGame.jack" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/SquareGame.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/SquareGameT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/SquareT.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/out_Main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/out_Square.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Square/out_SquareGame.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/tokenize/TokenizerKt.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tokenizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -20,57 +51,89 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/SymbolTable.kt">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Compiler.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="313">
-              <caret line="33" column="47" selection-start-line="33" selection-start-column="47" selection-end-line="33" selection-end-column="47" />
+            <state relative-caret-position="239">
+              <caret line="43" column="9" lean-forward="true" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
+        <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Ball.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="898">
-              <caret line="891" column="68" selection-start-line="891" selection-start-column="68" selection-end-line="891" selection-end-column="68" />
+            <state relative-caret-position="301">
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Square/Main.jack">
+        <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Bat.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+            <state relative-caret-position="270">
+              <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Square/Square.jack">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/parser.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4665">
-              <caret line="311" column="32" lean-forward="true" selection-start-line="311" selection-start-column="32" selection-end-line="311" selection-end-column="32" />
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Ball.vm">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ast.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="2" selection-start-column="2" selection-end-column="2" />
+            <state relative-caret-position="-224">
+              <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/Main.jack">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="905" column="48" selection-start-line="905" selection-start-column="48" selection-end-line="905" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/Main.vm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/PongGame.vm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1245">
+              <caret line="83" column="10" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Bat.vm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="8" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -86,13 +149,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>subroutineCall</find>
-      <find>convertLet</find>
-      <find>=</find>
-      <find>test</find>
-      <find>parameterList</find>
-      <find>type</find>
-      <find>symbol</find>
       <find>convertType</find>
       <find>convertVoidOrType</find>
       <find>convertClass</find>
@@ -116,6 +172,13 @@
       <find>&quot;(</find>
       <find>parseDo</find>
       <find>parseLetStatement</find>
+      <find>call</find>
+      <find>return</find>
+      <find>static</find>
+      <find>Array.new</find>
+      <find>local 3</find>
+      <find>if-goto</find>
+      <find>temp</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -146,8 +209,14 @@
         <option value="$PROJECT_DIR$/ExpressionLessSquare/out_Main.xml" />
         <option value="$PROJECT_DIR$/src/ast.kt" />
         <option value="$PROJECT_DIR$/src/parser.kt" />
-        <option value="$PROJECT_DIR$/src/tokenizer.kt" />
         <option value="$PROJECT_DIR$/src/SymbolTable.kt" />
+        <option value="$PROJECT_DIR$/chap11TestData/Seven/seven.vm" />
+        <option value="$PROJECT_DIR$/chap11TestData/Seven/OS/Seven.vm" />
+        <option value="$PROJECT_DIR$/chap11TestData/Seven/OS/Main.vm" />
+        <option value="$PROJECT_DIR$/chap11TestData/Average/Main.vm" />
+        <option value="$PROJECT_DIR$/chap11TestData/Seven/Main.jack" />
+        <option value="$PROJECT_DIR$/src/Compiler.kt" />
+        <option value="$PROJECT_DIR$/src/tokenizer.kt" />
       </list>
     </option>
   </component>
@@ -171,8 +240,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -183,7 +250,19 @@
             <path>
               <item name="n2t-parser" type="b2602c69:ProjectViewProjectNode" />
               <item name="n2t-parser" type="462c0819:PsiDirectoryNode" />
-              <item name="Square" type="462c0819:PsiDirectoryNode" />
+              <item name="chap11TestData" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="n2t-parser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="n2t-parser" type="462c0819:PsiDirectoryNode" />
+              <item name="chap11TestData" type="462c0819:PsiDirectoryNode" />
+              <item name="Pong" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="n2t-parser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="n2t-parser" type="462c0819:PsiDirectoryNode" />
+              <item name="chap11TestData" type="462c0819:PsiDirectoryNode" />
+              <item name="Seven" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="n2t-parser" type="b2602c69:ProjectViewProjectNode" />
@@ -194,6 +273,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -282,7 +363,7 @@
     <frame x="0" y="23" width="1440" height="773" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18240343" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18884121" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -295,11 +376,11 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38011697" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32894737" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49928468" weight="0.32748538" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32892805" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49928468" weight="0.32599118" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5007153" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4985694" weight="0.32894737" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49928468" weight="0.3260234" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4985694" weight="0.32892805" />
+      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49928468" weight="0.32599118" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -314,7 +395,7 @@
       <window_info anchor="right" x="0" y="0" width="310" height="576" id="Documentation" order="9" sideWeight="0.50097466" side_tool="true" weight="0.24964234" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17596567" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18884121" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -323,7 +404,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32748538" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49928468" visible="true" weight="0.25" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49928468" weight="0.2496329" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38011697" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -331,7 +412,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49928468" weight="0.32748538" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5007153" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.4985694" weight="0.32894737" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49928468" weight="0.3260234" />
+      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.49928468" weight="0.32599118" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -424,36 +505,9 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tokenize.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/MainT.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ArrayTest/output.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/src.zip!/java/lang/String.java" />
-    <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-stdlib-sources.jar!/kotlin/text/CharJVM.kt" />
     <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-stdlib-sources.jar!/kotlin/String.kt" />
-    <entry file="file://$PROJECT_DIR$/Square/SquareGameT.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/SquareT.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="30" selection-end-line="561" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Square/SquareGameT.xml" />
+    <entry file="file://$PROJECT_DIR$/Square/SquareT.xml" />
     <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-stdlib.jar!/kotlin/Pair.class" />
     <entry file="jar://$KOTLIN_BUNDLED$/lib/kotlin-stdlib-sources.jar!/common/kotlin/text/Indent.kt">
       <provider selected="true" editor-type-id="text-editor">
@@ -462,183 +516,157 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Square/SquareGame.jack">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Main.jack">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ArrayTest/Main.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" selection-start-line="18" selection-end-line="29" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/SquareGame.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5">
-          <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/Square.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="27" column="30" lean-forward="true" selection-end-line="1211" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/Main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/out_Square.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="20" lean-forward="true" selection-end-line="169" selection-end-column="182" />
-          <folding>
-            <element signature="e#5541#5545#0" expanded="true" />
-            <element signature="e#5663#5668#0" expanded="true" />
-            <element signature="e#5922#5926#0" expanded="true" />
-            <element signature="e#7171#7175#0" expanded="true" />
-            <element signature="e#8372#8376#0" expanded="true" />
-            <element signature="e#11471#11475#0" expanded="true" />
-            <element signature="e#14422#14426#0" expanded="true" />
-            <element signature="e#17522#17526#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/out_Main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="20" selection-end-line="15" selection-end-column="182" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/SquareGame.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="24" lean-forward="true" selection-end-line="643" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/out_SquareGame.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="43" column="32" lean-forward="true" selection-end-line="53" selection-end-column="182" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Square.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="119" column="25" lean-forward="true" selection-end-line="967" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/SquareGameT.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Square.jack">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/out_Square.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="61" lean-forward="true" selection-start-column="61" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/SquareGame.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="305" column="40" selection-start-line="305" selection-start-column="39" selection-end-line="305" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="191" column="27" lean-forward="true" selection-start-line="191" selection-start-column="27" selection-end-line="191" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ArrayTest/out_Main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="27" selection-end-column="182" />
-          <folding>
-            <element signature="e#1881#1885#0" expanded="true" />
-            <element signature="e#3411#3415#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ArrayTest/Main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/out_SquareGame.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="102" lean-forward="true" selection-start-line="15" selection-start-column="102" selection-end-line="15" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/out_Main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/Main.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Square/Square.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Square/SquareGame.jack" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Main.jack" />
+    <entry file="file://$PROJECT_DIR$/ArrayTest/Main.jack" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/SquareGame.jack" />
+    <entry file="file://$PROJECT_DIR$/Square/Square.xml" />
+    <entry file="file://$PROJECT_DIR$/Square/Main.xml" />
+    <entry file="file://$PROJECT_DIR$/Square/out_Square.xml" />
+    <entry file="file://$PROJECT_DIR$/Square/out_Main.xml" />
+    <entry file="file://$PROJECT_DIR$/Square/SquareGame.xml" />
+    <entry file="file://$PROJECT_DIR$/Square/out_SquareGame.xml" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Square.xml" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/SquareGameT.xml" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Square.jack" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/out_Square.xml" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/SquareGame.xml" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/Main.xml" />
+    <entry file="file://$PROJECT_DIR$/ArrayTest/out_Main.xml" />
+    <entry file="file://$PROJECT_DIR$/ArrayTest/Main.xml" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/out_SquareGame.xml" />
+    <entry file="file://$PROJECT_DIR$/ExpressionLessSquare/out_Main.xml" />
+    <entry file="file://$PROJECT_DIR$/Square/Square.jack" />
     <entry file="file://$PROJECT_DIR$/src/parser.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4665">
-          <caret line="311" column="32" lean-forward="true" selection-start-line="311" selection-start-column="32" selection-end-line="311" selection-end-column="32" />
+          <caret line="311" column="32" selection-start-line="311" selection-start-column="32" selection-end-line="311" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
+    <entry file="file://$PROJECT_DIR$/Square/Main.jack" />
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/seven.vm" />
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/OS/Memory.vm">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/OS/Math.vm">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="898">
-          <caret line="891" column="68" selection-start-line="891" selection-start-column="68" selection-end-line="891" selection-end-column="68" />
+        <state relative-caret-position="75">
+          <caret line="5" column="4" selection-start-line="5" selection-end-line="5" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ast.kt">
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/OS/Output.vm">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="2" selection-start-column="2" selection-end-column="2" />
+        <state relative-caret-position="-3376" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/OS/Main.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="10" lean-forward="true" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/OS/String.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="52" column="6" selection-start-line="52" selection-end-line="52" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SymbolTable.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="33" column="47" selection-start-line="33" selection-start-column="47" selection-end-line="33" selection-end-column="47" />
+        <state relative-caret-position="660">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/VMWriter.kt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/PongGame.jack">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/ComplexArrays/Main.jack">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/ConvertToBin/Main.jack">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Average/Main.jack">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Average/Main.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2130">
+          <caret line="142" column="8" selection-start-line="142" selection-start-column="4" selection-end-line="142" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/PongGame.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1245">
+          <caret line="83" column="10" selection-start-line="83" selection-start-column="4" selection-end-line="83" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Bat.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="8" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Ball.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Bat.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Pong/Ball.vm">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/Main.vm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chap11TestData/Seven/Main.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ast.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-224">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Compiler.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="43" column="9" lean-forward="true" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tokenizer.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="905" column="48" selection-start-line="905" selection-start-column="48" selection-end-line="905" selection-end-column="48" />
         </state>
       </provider>
     </entry>

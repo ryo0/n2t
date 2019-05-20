@@ -879,17 +879,36 @@ class Main {
     """.trimIndent()
     println(parseStatements(tokenize(testCode33)))
 
-    File("ArrayTest/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("ArrayTest/Main.jack").readText()))))
-
-    File("ExpressionLessSquare/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/Main.jack").readText()))))
-    File("ExpressionLessSquare/out_SquareGame.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/SquareGame.jack").readText()))))
-    File("ExpressionLessSquare/out_Square.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/Square.jack").readText()))))
-
-    File("Square/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("Square/Main.jack").readText()))))
-    File("Square/out_Square.xml").writeText(convertClass(parseClass(tokenize(File("Square/Square.jack").readText()))))
-    File("Square/out_SquareGame.xml").writeText(convertClass(parseClass(tokenize(File("Square/SquareGame.jack").readText()))))
+//    File("ArrayTest/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("ArrayTest/Main.jack").readText()))))
+//
+//    File("ExpressionLessSquare/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/Main.jack").readText()))))
+//    File("ExpressionLessSquare/out_SquareGame.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/SquareGame.jack").readText()))))
+//    File("ExpressionLessSquare/out_Square.xml").writeText(convertClass(parseClass(tokenize(File("ExpressionLessSquare/Square.jack").readText()))))
+//
+//    File("Square/out_Main.xml").writeText(convertClass(parseClass(tokenize(File("Square/Main.jack").readText()))))
+//    File("Square/out_Square.xml").writeText(convertClass(parseClass(tokenize(File("Square/Square.jack").readText()))))
+//    File("Square/out_SquareGame.xml").writeText(convertClass(parseClass(tokenize(File("Square/SquareGame.jack").readText()))))
 
     println(SymbolTable(parseClass(tokenize(testCode32))).classTable)
+
+    val code = """// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/11/Seven/Main.jack
+
+/**
+ * Computes the value of 1 + (2 * 3) and prints the result
+ * at the top-left of the screen.
+ */
+class Main {
+
+   function void main() {
+      do Output.printInt(1 + ((2 * 3) / (4 - 5)) + 6);
+      return;
+   }
+
+}"""
+    Compiler(parseClass(tokenize(code))).compileClass()
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする
