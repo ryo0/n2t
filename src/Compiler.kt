@@ -1,7 +1,10 @@
+import kotlin.math.exp
+
 class Compiler(private val _class: Class) {
     val className = _class.name
     private val table = SymbolTable(_class)
     private var subroutineTable: Map<String, SymbolValue>? = null
+    private val vmWriter = VMWriter(className)
 
     fun compileClass() {
         _class.subroutineDec.forEach { compileSubroutine(it) }
@@ -9,13 +12,9 @@ class Compiler(private val _class: Class) {
 
     private fun compileSubroutine(subroutineDec: SubroutineDec) {
         subroutineTable = table.subroutineTableCreator(subroutineDec)
-        println("function $className.${subroutineDec.name} ${subroutineDec.paramList.list.count()}")
+        vmWriter.writeFunction(subroutineDec.name, subroutineDec.paramList.list.count())
         compileStatements(subroutineDec.body.statements)
         val type = subroutineDec.type
-        if (type is VoidOrType.Void) {
-            println("push constant 0")
-        }
-        println("return")
     }
 
     private fun compileStatements(statements: Statements) {
@@ -27,7 +26,17 @@ class Compiler(private val _class: Class) {
                 is Stmt.Let -> {
                     compileLetStatement(it.stmt)
                 }
+                is Stmt.Return -> {
+                    compileReturn(it.stmt)
+                }
             }
+        }
+    }
+
+    private fun compileReturn(stmt: ReturnStatement) {
+        if(stmt.expression == null) {
+            vmWriter.writePush(Segment.CONST, 0)
+            vmWriter.writeReturn()
         }
     }
 
@@ -38,9 +47,9 @@ class Compiler(private val _class: Class) {
         val exp = letStatement.exp
         compileExpression(exp)
         if (symbolInfo.attribute == Attribute.Argument) {
-            println("pop argument $index")
+            vmWriter.writePop(Segment.ARG, index)
         } else if (symbolInfo.attribute == Attribute.Var) {
-            println("pop local $index")
+            vmWriter.writePop(Segment.LOCAL, index)
         }
     }
 
@@ -50,12 +59,12 @@ class Compiler(private val _class: Class) {
         val expList = doStatement.subroutineCall.expList.expList
         if (classOrVarName != null) {
             expList.forEach { compileExpression(it) }
-            println("call ${classOrVarName.name}.${subroutineName.name} ${expList.count()}")
+            vmWriter.writeCall("$className.${subroutineName.name}", expList.count())
         } else {
             expList.forEach { compileExpression(it) }
-            println("call ${subroutineName.name} ${expList.count()}")
+            vmWriter.writeCall(subroutineName.name, expList.count())
         }
-        println("pop temp 0")
+        vmWriter.writePop(Segment.TEMP,0)
     }
 
     private fun compileExpression(exp: Expression) {
@@ -75,14 +84,14 @@ class Compiler(private val _class: Class) {
 
     private fun compileTerm(term: Term) {
         if (term is Term.IntC) {
-            println("push const ${term.const}")
+            vmWriter.writePush(Segment.CONST, term.const)
         } else if (term is Term.VarName) {
             val table = subroutineTable ?: throw Error("let: subroutineTableがnull")
             val symbolInfo = table[term.name] ?: throw Error("subroutineテーブルに無い")
             if (symbolInfo.attribute == Attribute.Argument) {
-                println("push argument ${symbolInfo.index}")
+                vmWriter.writePush(Segment.ARG, symbolInfo.index)
             } else if (symbolInfo.attribute == Attribute.Var) {
-                println("push local ${symbolInfo.index}")
+                vmWriter.writePush(Segment.LOCAL, symbolInfo.index)
             }
         } else if (term is Term._Expression) {
             compileExpression(term.exp)
@@ -91,13 +100,13 @@ class Compiler(private val _class: Class) {
 
     private fun compileOperand(op: Op) {
         if (op == Op.Plus) {
-            println("add")
+            vmWriter.writeArithmetic(Command.ADD)
         } else if (op == Op.Minus) {
-            println("sub")
+            vmWriter.writeArithmetic(Command.SUB)
         } else if (op == Op.Asterisk) {
-            println("call Math.multiply 2")
+            vmWriter.writeCall("Math.multiply", 2)
         } else if (op == Op.Slash) {
-            println("call Math.divide 2")
+            vmWriter.writeCall("Math.divide", 2)
         }
     }
 }

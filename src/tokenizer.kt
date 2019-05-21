@@ -902,10 +902,8 @@ class Main {
   */
  class Main {
 
-    function void main(int A, int B) {
-        var int x, y, z;
+    function void main() {
        do Output.printInt(1 + (2 * 3));
-       let z = B;
        return;
     }
 
