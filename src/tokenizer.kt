@@ -402,7 +402,8 @@ fun convertStatements(stmts: Statements): String {
 }
 
 fun convertWhile(whileStmt: WhileStatement): String {
-    val expXML = writeXML("symbol", "(").plus(convertExpressionToXML(whileStmt.expression)).plus(writeXML("symbol", ")"))
+    val expXML =
+        writeXML("symbol", "(").plus(convertExpressionToXML(whileStmt.expression)).plus(writeXML("symbol", ")"))
     val whileStmtXML =
         writeXML("symbol", "{").plus(convertStatements(whileStmt.statements).plus(writeXML("symbol", "}")))
     return writeXML("whileStatement", writeXML("keyword", "while").plus(expXML.plus(whileStmtXML)))
@@ -900,11 +901,20 @@ class Main {
   * Computes the value of 1 + (2 * 3) and prints the result
   * at the top-left of the screen.
   */
- class Main {
+ class Bat {
+       field int x, y;           // the bat's screen location
+    field int width, height;  // the bat's width and height
+    field int direction;      // direction of the bat's movement (1 = left, 2 = right)
 
-    function void main() {
-       do Output.printInt(1 + (2 * 3));
-       return;
+    /** Constructs a new bat with the given location and width. */
+    constructor Bat new(int Ax, int Ay, int Awidth, int Aheight) {
+        let x = Ax;
+        let y = Ay;
+        let width = Awidth;
+        let height = Aheight;
+        let direction = 2;
+        do show();
+        return this;
     }
 
  }"""
@@ -950,4 +960,3 @@ class Main {
 //ClassVarDec(varDec=Field, type=Type$Int@71dac704, varNames=[x, y])
 //ClassVarDec(varDec=Static, type=Type$Boolean@2d363fb3, varNames=[test])
 //Class(name=Main, varDec=[ClassVarDec(varDec=Static, type=Type$Boolean@2d363fb3, varNames=[test]), ClassVarDec(varDec=Field, type=ClassName(name=Test), varNames=[a, b, c])], subroutineDec=[SubroutineDec(dec=Function, type=_Type(type=ClassName(name=Main)), name=main, paramList=ParameterList(list=[]), body=SubroutineBody(varDecs=[VarDec(type=ClassName(name=SquareGame), vars=[game])], statements=Statements(statements=[Let(stmt=LetStatement(varNames=VarName(name=game), index=null, exp=Expression(expElms=[_Term(term=_SubroutineCall(call=SubroutineCall(subroutineName=Identifier(name=new), expList=ExpressionList(expList=[]), classOrVarName=Identifier(name=SquareGame))))]))), Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=run), expList=ExpressionList(expList=[]), classOrVarName=Identifier(name=game)))), Do(stmt=DoStatement(subroutineCall=SubroutineCall(subroutineName=Identifier(name=dispose), expList=ExpressionList(expList=[]), classOrVarName=Identifier(name=game)))), Return(stmt=ReturnStatement(expression=null))]))), SubroutineDec(dec=Function, type=VoidOrType$Void@782830e, name=test, paramList=ParameterList(list=[]), body=SubroutineBody(varDecs=[VarDec(type=Type$Int@71dac704, vars=[i, j]), VarDec(type=ClassName(name=String), vars=[s]), VarDec(type=ClassName(name=Array), vars=[a])], statements=Statements(statements=[If(stmt=IfStatement(expression=Expression(expElms=[_Term(term=KeyC(const=False))]), ifStmts=Statements(statements=[Let(stmt=LetStatement(varNames=VarName(name=s), index=null, exp=Expression(expElms=[_Term(term=StrC(const=string constant))]))), Let(stmt=LetStatement(varNames=VarName(name=s), index=null, exp=Expression(expElms=[_Term(term=KeyC(const=Null))]))), Let(stmt=LetStatement(varNames=VarName(name=a), index=Expression(expElms=[_Term(term=IntC(const=1))]), exp=Expression(expElms=[_Term(term=ArrayAndIndex(name=a, index=Expression(expElms=[_Term(term=IntC(const=2))])))])))]), elseStmts=Statements(statements=[Let(stmt=LetStatement(varNames=VarName(name=i), index=null, exp=Expression(expElms=[_Term(term=VarName(name=i)), _Op(op=Asterisk), _Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=VarName(name=j)))]), right=Right))]))), Let(stmt=LetStatement(varNames=VarName(name=j), index=null, exp=Expression(expElms=[_Term(term=VarName(name=j)), _Op(op=Slash), _Term(term=_Expression(left=Left, exp=Expression(expElms=[_Term(term=UnaryOpTerm(op=Minus, term=IntC(const=2)))]), right=Right))]))), Let(stmt=LetStatement(varNames=VarName(name=i), index=null, exp=Expression(expElms=[_Term(term=VarName(name=i)), _Op(op=Pipe), _Term(term=VarName(name=j))])))]))), Return(stmt=ReturnStatement(expression=null))])))])
-

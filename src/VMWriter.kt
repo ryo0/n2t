@@ -1,5 +1,5 @@
 enum class Segment {
-    CONST, ARG, LOCAL, STATIC, THIS, THAT, POINTER, TEMP
+    CONSTANT, ARGUMENT, LOCAL, STATIC, THIS, THAT, POINTER, TEMP
 }
 enum class Command {
     ADD, SUB, NEG, EQ, GT, LT, AND, OR, NOT

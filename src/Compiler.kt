@@ -1,5 +1,3 @@
-import kotlin.math.exp
-
 class Compiler(private val _class: Class) {
     val className = _class.name
     private val table = SymbolTable(_class)
@@ -10,9 +8,31 @@ class Compiler(private val _class: Class) {
         _class.subroutineDec.forEach { compileSubroutine(it) }
     }
 
+    private fun getSymbolInfo(name: String): SymbolValue {
+        val subTable = subroutineTable
+        if (subTable != null) {
+            return subTable[name] ?: table.classTable[name]
+            ?: throw Error("シンボルテーブル")
+        } else {
+            return table.classTable[name]
+                ?: throw Error("シンボルテーブル")
+        }
+    }
+
+    private fun localVarNum(): Int {
+        return table.varIndex
+    }
+
     private fun compileSubroutine(subroutineDec: SubroutineDec) {
         subroutineTable = table.subroutineTableCreator(subroutineDec)
-        vmWriter.writeFunction(subroutineDec.name, subroutineDec.paramList.list.count())
+        vmWriter.writeFunction(subroutineDec.name, localVarNum())
+        if (subroutineDec.dec == MethodDec.Constructor) {
+            if (table.fieldIndex != -1) {
+                vmWriter.writePush(Segment.CONSTANT, table.fieldIndex + 1)
+                vmWriter.writeCall("Memory.alloc", 1)
+                vmWriter.writePop(Segment.POINTER, 0)
+            }
+        }
         compileStatements(subroutineDec.body.statements)
         val type = subroutineDec.type
     }
@@ -34,26 +54,45 @@ class Compiler(private val _class: Class) {
     }
 
     private fun compileReturn(stmt: ReturnStatement) {
-        if(stmt.expression == null) {
-            vmWriter.writePush(Segment.CONST, 0)
-            vmWriter.writeReturn()
+        if (stmt.expression == null) {
+            vmWriter.writePush(Segment.CONSTANT, 0)
+        } else {
+            val _term = stmt.expression.expElms[0]
+            if (_term is ExpElm._Term) {
+                val term = _term.term
+                if (term is Term.KeyC) {
+                    if (term.const == Keyword.This) {
+                        vmWriter.writePush(Segment.POINTER, 0)
+                    }
+                }
+            }
         }
+        vmWriter.writeReturn()
     }
 
     private fun compileLetStatement(letStatement: LetStatement) {
-        val table = subroutineTable ?: throw Error("let: subroutineTableがnull")
-        val symbolInfo = table[letStatement.varName.name] ?: throw Error("subroutineテーブルに無い")
+        val symbolInfo = getSymbolInfo(letStatement.varName.name)
         val index = symbolInfo.index
         val exp = letStatement.exp
+        val arrayIndex = letStatement.index
         compileExpression(exp)
-        if (symbolInfo.attribute == Attribute.Argument) {
-            vmWriter.writePop(Segment.ARG, index)
-        } else if (symbolInfo.attribute == Attribute.Var) {
-            vmWriter.writePop(Segment.LOCAL, index)
+        if (arrayIndex == null) {
+            if (symbolInfo.attribute == Attribute.Field) {
+                vmWriter.writePop(Segment.THIS, symbolInfo.index)
+            } else if (symbolInfo.attribute == Attribute.Argument) {
+                vmWriter.writePop(Segment.ARGUMENT, index)
+            } else if (symbolInfo.attribute == Attribute.Var) {
+                vmWriter.writePop(Segment.LOCAL, index)
+            }
+        } else {
         }
     }
 
     private fun compileDoStatement(doStatement: DoStatement) {
+        // TODO メソッドなら呼ぶ前にオブジェクトをpushする
+        // TODO そして引数を一つ増やす
+        // TODO メソッドかファンクションかを判定するために、シンボルテーブルを拡張するべき
+
         val classOrVarName = doStatement.subroutineCall.classOrVarName
         val subroutineName = doStatement.subroutineCall.subroutineName
         val expList = doStatement.subroutineCall.expList.expList
@@ -62,9 +101,9 @@ class Compiler(private val _class: Class) {
             vmWriter.writeCall("$className.${subroutineName.name}", expList.count())
         } else {
             expList.forEach { compileExpression(it) }
-            vmWriter.writeCall(subroutineName.name, expList.count())
+            vmWriter.writeCall("$className.${subroutineName.name}", expList.count())
         }
-        vmWriter.writePop(Segment.TEMP,0)
+        vmWriter.writePop(Segment.TEMP, 0)
     }
 
     private fun compileExpression(exp: Expression) {
@@ -84,12 +123,13 @@ class Compiler(private val _class: Class) {
 
     private fun compileTerm(term: Term) {
         if (term is Term.IntC) {
-            vmWriter.writePush(Segment.CONST, term.const)
+            vmWriter.writePush(Segment.CONSTANT, term.const)
         } else if (term is Term.VarName) {
-            val table = subroutineTable ?: throw Error("let: subroutineTableがnull")
-            val symbolInfo = table[term.name] ?: throw Error("subroutineテーブルに無い")
-            if (symbolInfo.attribute == Attribute.Argument) {
-                vmWriter.writePush(Segment.ARG, symbolInfo.index)
+            val symbolInfo = getSymbolInfo(term.name)
+            if (symbolInfo.attribute == Attribute.Field) {
+                vmWriter.writePush(Segment.THIS, symbolInfo.index)
+            } else if (symbolInfo.attribute == Attribute.Argument) {
+                vmWriter.writePush(Segment.ARGUMENT, symbolInfo.index)
             } else if (symbolInfo.attribute == Attribute.Var) {
                 vmWriter.writePush(Segment.LOCAL, symbolInfo.index)
             }
