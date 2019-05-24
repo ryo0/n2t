@@ -1,3 +1,5 @@
+// TODO メソッド内部にいる間は常にArgが+1される
+
 class Compiler(private val _class: Class) {
     val className = _class.name
     private val table = SymbolTable(_class)
@@ -8,14 +10,12 @@ class Compiler(private val _class: Class) {
         _class.subroutineDec.forEach { compileSubroutine(it) }
     }
 
-    private fun getSymbolInfo(name: String): SymbolValue {
+    private fun getSymbolInfo(name: String): SymbolValue? {
         val subTable = subroutineTable
         if (subTable != null) {
             return subTable[name] ?: table.classTable[name]
-            ?: throw Error("シンボルテーブル")
         } else {
             return table.classTable[name]
-                ?: throw Error("シンボルテーブル")
         }
     }
 
@@ -32,6 +32,10 @@ class Compiler(private val _class: Class) {
                 vmWriter.writeCall("Memory.alloc", 1)
                 vmWriter.writePop(Segment.POINTER, 0)
             }
+        } else if (subroutineDec.dec == MethodDec.Method) {
+
+            vmWriter.writePush(Segment.ARGUMENT, 0)
+            vmWriter.writePop(Segment.POINTER, 0)
         }
         compileStatements(subroutineDec.body.statements)
         val type = subroutineDec.type
@@ -71,7 +75,7 @@ class Compiler(private val _class: Class) {
     }
 
     private fun compileLetStatement(letStatement: LetStatement) {
-        val symbolInfo = getSymbolInfo(letStatement.varName.name)
+        val symbolInfo = getSymbolInfo(letStatement.varName.name) ?: throw Error("symbolTableにない値をlet文で扱っている")
         val index = symbolInfo.index
         val exp = letStatement.exp
         val arrayIndex = letStatement.index
@@ -92,16 +96,42 @@ class Compiler(private val _class: Class) {
         // TODO メソッドなら呼ぶ前にオブジェクトをpushする
         // TODO そして引数を一つ増やす
         // TODO メソッドかファンクションかを判定するために、シンボルテーブルを拡張するべき
+        // TODO 「クラス名であること」も必要になる気が。
 
         val classOrVarName = doStatement.subroutineCall.classOrVarName
-        val subroutineName = doStatement.subroutineCall.subroutineName
+        val subroutineName = doStatement.subroutineCall.subroutineName.name
         val expList = doStatement.subroutineCall.expList.expList
+        val funcAttr = table.funAttrTable[subroutineName]
+
+        expList.forEach { compileExpression(it) }
+
+        // 1. a.fun()
+        // aが何らかのクラスに属する  → メソッドになる
+        // aがクラスに属さない → funに応じてファンクションもしくはコンストラクタになる
+        // → コンストラクタがdoで呼ばれることはないらしいので、必ずファンクションになる
+        // 2. fun()
+        // 常にメソッド。オブジェクトは現在のクラスとなる
+
         if (classOrVarName != null) {
-            expList.forEach { compileExpression(it) }
-            vmWriter.writeCall("$className.${subroutineName.name}", expList.count())
+            val name = classOrVarName.name
+            val symbolValue = getSymbolInfo(name)
+            if (symbolValue != null && symbolValue.type is Type.ClassName) {
+                // メソッド
+                val className = symbolValue.type.name
+                val paramNum = expList.count() + 1
+                vmWriter.writePush(Segment.POINTER, 0)
+                vmWriter.writeCall("$className.$subroutineName", paramNum)
+            } else {
+                // ファンクション
+                val className = classOrVarName.name
+                val paramNum = expList.count()
+                vmWriter.writeCall("$className.$subroutineName", paramNum)
+            }
         } else {
-            expList.forEach { compileExpression(it) }
-            vmWriter.writeCall("$className.${subroutineName.name}", expList.count())
+            // メソッド
+            val paramNum = expList.count() + 1
+            vmWriter.writePush(Segment.POINTER, 0)
+            vmWriter.writeCall("$className.$subroutineName", paramNum)
         }
         vmWriter.writePop(Segment.TEMP, 0)
     }
@@ -124,8 +154,12 @@ class Compiler(private val _class: Class) {
     private fun compileTerm(term: Term) {
         if (term is Term.IntC) {
             vmWriter.writePush(Segment.CONSTANT, term.const)
+        } else if (term is Term.KeyC ) {
+            if(term.const == Keyword.This) {
+                vmWriter.writePush(Segment.POINTER, 0)
+            }
         } else if (term is Term.VarName) {
-            val symbolInfo = getSymbolInfo(term.name)
+            val symbolInfo = getSymbolInfo(term.name) ?: throw Error("シンボルテーブルがおかしい ${term.name}")
             if (symbolInfo.attribute == Attribute.Field) {
                 vmWriter.writePush(Segment.THIS, symbolInfo.index)
             } else if (symbolInfo.attribute == Attribute.Argument) {

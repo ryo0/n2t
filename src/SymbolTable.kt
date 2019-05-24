@@ -2,6 +2,16 @@ enum class Attribute {
     Static, Field, Argument, Var
 }
 
+enum class FuncAttribute {
+    Constructor, Function, Method
+}
+
+val funcAttrMap = mapOf(
+    MethodDec.Constructor to FuncAttribute.Constructor,
+    MethodDec.Function to FuncAttribute.Function,
+    MethodDec.Method to FuncAttribute.Method
+)
+
 fun convertToAttr(varDec: _ClassVarDec): Attribute {
     if (varDec == _ClassVarDec.Field) {
         return Attribute.Field
@@ -14,10 +24,12 @@ data class SymbolValue(val type: Type, val attribute: Attribute, val index: Int)
 
 class SymbolTable(program: Class) {
     val classTable = mutableMapOf<String, SymbolValue>()
+    val funAttrTable = mutableMapOf<String, FuncAttribute>()
     var fieldIndex = -1
     var staticIndex = -1
     var argIndex = 0
     var varIndex = 0
+
     init {
         program.varDec.forEach {
             it.varNames.forEach { name ->
@@ -32,7 +44,8 @@ class SymbolTable(program: Class) {
             }
         }
         program.subroutineDec.forEach {
-            println(subroutineTableCreator(it))
+            funAttrTable[it.name] = funcAttrMap[it.dec] ?: throw Error("無効なfunDec")
+            subroutineTableCreator(it)
         }
     }
 
@@ -46,7 +59,7 @@ class SymbolTable(program: Class) {
         }
 
         subroutine.body.varDecs.forEach { varDec ->
-            varDec.vars.forEach {varName ->
+            varDec.vars.forEach { varName ->
                 table[varName] = SymbolValue(varDec.type, Attribute.Var, varIndex)
                 varIndex++
             }
