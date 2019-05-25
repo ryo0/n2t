@@ -73,15 +73,7 @@ class Compiler(private val _class: Class) {
         if (stmt.expression == null) {
             vmWriter.writePush(Segment.CONSTANT, 0)
         } else {
-            val _term = stmt.expression.expElms[0]
-            if (_term is ExpElm._Term) {
-                val term = _term.term
-                if (term is Term.KeyC) {
-                    if (term.const == Keyword.This) {
-                        vmWriter.writePush(Segment.POINTER, 0)
-                    }
-                }
-            }
+            compileExpression(stmt.expression)
         }
         vmWriter.writeReturn()
     }
@@ -105,11 +97,6 @@ class Compiler(private val _class: Class) {
     }
 
     private fun compileDoStatement(doStatement: DoStatement) {
-        // TODO メソッドなら呼ぶ前にオブジェクトをpushする
-        // TODO そして引数を一つ増やす
-        // TODO メソッドかファンクションかを判定するために、シンボルテーブルを拡張するべき
-        // TODO 「クラス名であること」も必要になる気が。
-
         val classOrVarName = doStatement.subroutineCall.classOrVarName
         val subroutineName = doStatement.subroutineCall.subroutineName.name
         val expList = doStatement.subroutineCall.expList.expList
@@ -166,10 +153,16 @@ class Compiler(private val _class: Class) {
     private fun compileTerm(term: Term) {
         if (term is Term.IntC) {
             vmWriter.writePush(Segment.CONSTANT, term.const)
-        } else if (term is Term.KeyC ) {
-            if(term.const == Keyword.This) {
+        } else if (term is Term.KeyC) {
+            if (term.const == Keyword.This) {
                 vmWriter.writePush(Segment.POINTER, 0)
+            } else if (term.const == Keyword.True) {
+                vmWriter.writePush(Segment.CONSTANT, 0)
+                vmWriter.writeArithmetic(Command.NOT)
+            } else if (term.const == Keyword.False) {
+                vmWriter.writePush(Segment.CONSTANT, 0)
             }
+
         } else if (term is Term.VarName) {
             val symbolInfo = getSymbolInfo(term.name) ?: throw Error("シンボルテーブルがおかしい ${term.name}")
             if (symbolInfo.attribute == Attribute.Field) {
