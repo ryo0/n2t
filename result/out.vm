@@ -28,51 +28,43 @@ pop pointer 0
 push this 1
 push constant 1
 eq
-if-goto IfLabel-SquareGame-0
-goto ElseLabel-SquareGame-0
-label IfLabel-SquareGame-0
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
 push this 0
 call Square.moveUp 1
 pop temp 0
-goto IfEndLabel-SquareGame-0
-label ElseLabel-SquareGame-0
-label IfEndLabel-SquareGame-0
+label IF_FALSE0
 push this 1
 push constant 2
 eq
-if-goto IfLabel-SquareGame-1
-goto ElseLabel-SquareGame-1
-label IfLabel-SquareGame-1
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
 push this 0
 call Square.moveDown 1
 pop temp 0
-goto IfEndLabel-SquareGame-1
-label ElseLabel-SquareGame-1
-label IfEndLabel-SquareGame-1
+label IF_FALSE1
 push this 1
 push constant 3
 eq
-if-goto IfLabel-SquareGame-2
-goto ElseLabel-SquareGame-2
-label IfLabel-SquareGame-2
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
 push this 0
 call Square.moveLeft 1
 pop temp 0
-goto IfEndLabel-SquareGame-2
-label ElseLabel-SquareGame-2
-label IfEndLabel-SquareGame-2
+label IF_FALSE2
 push this 1
 push constant 4
 eq
-if-goto IfLabel-SquareGame-3
-goto ElseLabel-SquareGame-3
-label IfLabel-SquareGame-3
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
 push this 0
 call Square.moveRight 1
 pop temp 0
-goto IfEndLabel-SquareGame-3
-label ElseLabel-SquareGame-3
-label IfEndLabel-SquareGame-3
+label IF_FALSE3
 push constant 5
 call Sys.wait 1
 pop temp 0
@@ -83,119 +75,105 @@ push argument 0
 pop pointer 0
 push constant 0
 pop local 1
-label WhileLabel-Top-SquareGame-0
+label WHILE_EXP0
 push local 1
 not
 not
-if-goto WhileLabel-Bottom-SquareGame-0
-label WhileLabel-Top-SquareGame-1
+if-goto WHILE_END0
+label WHILE_EXP1
 push local 0
 push constant 0
 eq
 not
-if-goto WhileLabel-Bottom-SquareGame-1
+if-goto WHILE_END1
 call Keyboard.keyPressed 0
 pop local 0
 push pointer 0
 call SquareGame.moveSquare 1
 pop temp 0
-goto WhileLabel-Top-SquareGame-1
-label WhileLabel-Bottom-SquareGame-1
+goto WHILE_EXP1
+label WHILE_END1
 push local 0
 push constant 81
 eq
-if-goto IfLabel-SquareGame-4
-goto ElseLabel-SquareGame-4
-label IfLabel-SquareGame-4
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
 push constant 0
 not
 pop local 1
-goto IfEndLabel-SquareGame-4
-label ElseLabel-SquareGame-4
-label IfEndLabel-SquareGame-4
+label IF_FALSE4
 push local 0
 push constant 90
 eq
-if-goto IfLabel-SquareGame-5
-goto ElseLabel-SquareGame-5
-label IfLabel-SquareGame-5
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
 push this 0
 call Square.decSize 1
 pop temp 0
-goto IfEndLabel-SquareGame-5
-label ElseLabel-SquareGame-5
-label IfEndLabel-SquareGame-5
+label IF_FALSE5
 push local 0
 push constant 88
 eq
-if-goto IfLabel-SquareGame-6
-goto ElseLabel-SquareGame-6
-label IfLabel-SquareGame-6
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
 push this 0
 call Square.incSize 1
 pop temp 0
-goto IfEndLabel-SquareGame-6
-label ElseLabel-SquareGame-6
-label IfEndLabel-SquareGame-6
+label IF_FALSE6
 push local 0
 push constant 131
 eq
-if-goto IfLabel-SquareGame-7
-goto ElseLabel-SquareGame-7
-label IfLabel-SquareGame-7
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
 push constant 1
 pop this 1
-goto IfEndLabel-SquareGame-7
-label ElseLabel-SquareGame-7
-label IfEndLabel-SquareGame-7
+label IF_FALSE7
 push local 0
 push constant 133
 eq
-if-goto IfLabel-SquareGame-8
-goto ElseLabel-SquareGame-8
-label IfLabel-SquareGame-8
+if-goto IF_TRUE8
+goto IF_FALSE8
+label IF_TRUE8
 push constant 2
 pop this 1
-goto IfEndLabel-SquareGame-8
-label ElseLabel-SquareGame-8
-label IfEndLabel-SquareGame-8
+label IF_FALSE8
 push local 0
 push constant 130
 eq
-if-goto IfLabel-SquareGame-9
-goto ElseLabel-SquareGame-9
-label IfLabel-SquareGame-9
+if-goto IF_TRUE9
+goto IF_FALSE9
+label IF_TRUE9
 push constant 3
 pop this 1
-goto IfEndLabel-SquareGame-9
-label ElseLabel-SquareGame-9
-label IfEndLabel-SquareGame-9
+label IF_FALSE9
 push local 0
 push constant 132
 eq
-if-goto IfLabel-SquareGame-10
-goto ElseLabel-SquareGame-10
-label IfLabel-SquareGame-10
+if-goto IF_TRUE10
+goto IF_FALSE10
+label IF_TRUE10
 push constant 4
 pop this 1
-goto IfEndLabel-SquareGame-10
-label ElseLabel-SquareGame-10
-label IfEndLabel-SquareGame-10
-label WhileLabel-Top-SquareGame-2
+label IF_FALSE10
+label WHILE_EXP2
 push local 0
 push constant 0
 eq
 not
 not
-if-goto WhileLabel-Bottom-SquareGame-2
+if-goto WHILE_END2
 call Keyboard.keyPressed 0
 pop local 0
 push pointer 0
 call SquareGame.moveSquare 1
 pop temp 0
-goto WhileLabel-Top-SquareGame-2
-label WhileLabel-Bottom-SquareGame-2
-goto WhileLabel-Top-SquareGame-0
-label WhileLabel-Bottom-SquareGame-0
+goto WHILE_EXP2
+label WHILE_END2
+goto WHILE_EXP0
+label WHILE_END0
 push constant 0
 return

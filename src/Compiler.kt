@@ -2,9 +2,9 @@
 // THISはthis, THATは配列の現在地の意味
 
 class Compiler(private val _class: Class, private val table: SymbolTable) {
-    val className = _class.name
+    private val topClassName = _class.name
     private var subroutineTable: Map<String, SymbolValue>? = null
-    private val vmWriter = VMWriter(className)
+    private val vmWriter = VMWriter(topClassName)
     private var inMethod = false
     private var ifLabelCounter = 0
     private var whileLabelCounter = 0
@@ -24,10 +24,10 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
 
     private fun getSymbolInfo(name: String): SymbolValue? {
         val subTable = subroutineTable
-        if (subTable != null) {
-            return subTable[name] ?: table.classTable[name]
+        return if (subTable != null) {
+            subTable[name] ?: table.classTable[name]
         } else {
-            return table.classTable[name]
+            table.classTable[name]
         }
     }
 
@@ -80,25 +80,34 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
         val ifStmts = stmt.ifStmts
         val elseStmts = stmt.elseStmts
         compileExpression(exp)
-        val ifLabel = "IfLabel-$className-$ifLabelCounter"
-        val elseLabel = "ElseLabel-$className-$ifLabelCounter"
-        val endLabel = "IfEndLabel-$className-$ifLabelCounter"
+        val ifLabel = "IF_TRUE$ifLabelCounter"
+        val elseLabel = "IF_FALSE$ifLabelCounter"
+        val endLabel = "IF_END$ifLabelCounter"
         ifLabelCounter++
-        vmWriter.writeIf(ifLabel)
-        vmWriter.writeGoto(elseLabel)
-        vmWriter.writeLabel(ifLabel)
-        compileStatements(ifStmts)
-        vmWriter.writeGoto(endLabel)
-        vmWriter.writeLabel(elseLabel)
-        compileStatements(elseStmts)
-        vmWriter.writeLabel(endLabel)
+
+        if (elseStmts.statements.count() > 0) {
+            vmWriter.writeIf(ifLabel)
+            vmWriter.writeGoto(elseLabel)
+            vmWriter.writeLabel(ifLabel)
+            compileStatements(ifStmts)
+            vmWriter.writeGoto(endLabel)
+            vmWriter.writeLabel(elseLabel)
+            compileStatements(elseStmts)
+            vmWriter.writeLabel(endLabel)
+        } else {
+            vmWriter.writeIf(ifLabel)
+            vmWriter.writeGoto(elseLabel)
+            vmWriter.writeLabel(ifLabel)
+            compileStatements(ifStmts)
+            vmWriter.writeLabel(elseLabel)
+        }
 
     }
 
     private fun compileWhile(stmt: WhileStatement) {
         val exp = stmt.expression
-        val label1 = "WhileLabel-Top-$className-$whileLabelCounter"
-        val label2 = "WhileLabel-Bottom-$className-$whileLabelCounter"
+        val label1 = "WHILE_EXP$whileLabelCounter"
+        val label2 = "WHILE_END$whileLabelCounter"
         whileLabelCounter++
         val whileStmts = stmt.statements
         vmWriter.writeLabel(label1)
@@ -126,14 +135,20 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
         val arrayIndex = letStatement.index
         compileExpression(exp)
         if (arrayIndex == null) {
-            if (symbolInfo.attribute == Attribute.Field) {
-                vmWriter.writePop(Segment.THIS, symbolInfo.index)
-            } else if (symbolInfo.attribute == Attribute.Argument) {
-                vmWriter.writePop(Segment.ARGUMENT, argIndex(index, inMethod))
-            } else if (symbolInfo.attribute == Attribute.Var) {
-                vmWriter.writePop(Segment.LOCAL, index)
+            when (symbolInfo.attribute) {
+                Attribute.Field -> {
+                    vmWriter.writePop(Segment.THIS, symbolInfo.index)
+                }
+                Attribute.Argument -> {
+                    vmWriter.writePop(Segment.ARGUMENT, argIndex(index, inMethod))
+                }
+                Attribute.Var -> {
+                    vmWriter.writePop(Segment.LOCAL, index)
+                }
+                Attribute.Static -> {
+
+                }
             }
-        } else {
         }
     }
 
@@ -147,7 +162,7 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
         val classOrVarName = subroutineCall.classOrVarName
         val subroutineName = subroutineCall.subroutineName.name
         val expList = subroutineCall.expList.expList
-        val className = classOrVarName?.name ?: className
+        val className = classOrVarName?.name ?: topClassName
         val funcValue = table.funAttrTable["$className.$subroutineName"]
 
         expList.forEach { compileExpression(it) }
@@ -155,7 +170,6 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
         // 1. a.fun()
         // aが何らかのクラスに属する  → メソッドになる
         // aがクラスに属さない → funに応じてファンクションもしくはコンストラクタになる
-        // → コンストラクタがdoで呼ばれることはないらしいので、必ずファンクションになる
         // 2. fun()
         // 常にメソッド。オブジェクトは現在のクラスとなる
 
@@ -164,9 +178,9 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
             val symbolValue = getSymbolInfo(name)
             if (symbolValue != null && symbolValue.type is Type.ClassName) {
                 // メソッド
-                val className = symbolValue.type.name
+                val classNameOfMethod = symbolValue.type.name
                 val paramNum = expList.count() + 1
-                when(symbolValue.attribute) {
+                when (symbolValue.attribute) {
                     Attribute.Argument -> {
                         vmWriter.writePush(Segment.ARGUMENT, symbolValue.index)
                     }
@@ -176,11 +190,13 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
                     Attribute.Field -> {
                         vmWriter.writePush(Segment.THIS, symbolValue.index)
                     }
+                    Attribute.Static -> {
+
+                    }
                 }
-                vmWriter.writeCall("$className.$subroutineName", paramNum)
+                vmWriter.writeCall("$classNameOfMethod.$subroutineName", paramNum)
             } else {
                 // ファンクションかコンストラクタ。やることは同じ
-                val className = classOrVarName.name
                 val paramNum = expList.count()
                 vmWriter.writeCall("$className.$subroutineName", paramNum)
             }
@@ -190,7 +206,7 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
             vmWriter.writePush(Segment.POINTER, 0)
             vmWriter.writeCall("$className.$subroutineName", paramNum)
         }
-        if(funcValue != null && funcValue.type == VoidOrType.Void) {
+        if (funcValue != null && funcValue.type == VoidOrType.Void) {
             // ここ要らないかも。ダメだったら復活させる事を考える
 //            vmWriter.writePop(Segment.TEMP, 0)
         }
@@ -228,6 +244,9 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
                     Keyword.False, Keyword.Null -> {
                         vmWriter.writePush(Segment.CONSTANT, 0)
                     }
+                    else -> {
+                        //ここ要らないと思う。警告除去のため書いた
+                    }
                 }
 
             }
@@ -242,6 +261,9 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
                     }
                     Attribute.Var -> {
                         vmWriter.writePush(Segment.LOCAL, symbolInfo.index)
+                    }
+                    Attribute.Static -> {
+
                     }
                 }
             }
