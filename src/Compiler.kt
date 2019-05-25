@@ -1,3 +1,5 @@
+// THIS, THATは値が場合に応じて変わるのでその都度Pointerでセットしてる
+// THISはthis, THATは配列の現在地の意味
 // TODO メソッド内部にいる間は常にArgが+1される
 
 class Compiler(private val _class: Class) {
@@ -5,9 +7,18 @@ class Compiler(private val _class: Class) {
     private val table = SymbolTable(_class)
     private var subroutineTable: Map<String, SymbolValue>? = null
     private val vmWriter = VMWriter(className)
+    private var inMethod = false
 
     fun compileClass() {
         _class.subroutineDec.forEach { compileSubroutine(it) }
+    }
+
+    private fun argIndex(index: Int, inMethod: Boolean): Int {
+        return if (inMethod) {
+            index + 1
+        } else {
+            index
+        }
     }
 
     private fun getSymbolInfo(name: String): SymbolValue? {
@@ -33,12 +44,13 @@ class Compiler(private val _class: Class) {
                 vmWriter.writePop(Segment.POINTER, 0)
             }
         } else if (subroutineDec.dec == MethodDec.Method) {
-
             vmWriter.writePush(Segment.ARGUMENT, 0)
             vmWriter.writePop(Segment.POINTER, 0)
+            inMethod = true
         }
         compileStatements(subroutineDec.body.statements)
         val type = subroutineDec.type
+        inMethod = false
     }
 
     private fun compileStatements(statements: Statements) {
@@ -84,7 +96,7 @@ class Compiler(private val _class: Class) {
             if (symbolInfo.attribute == Attribute.Field) {
                 vmWriter.writePop(Segment.THIS, symbolInfo.index)
             } else if (symbolInfo.attribute == Attribute.Argument) {
-                vmWriter.writePop(Segment.ARGUMENT, index)
+                vmWriter.writePop(Segment.ARGUMENT, argIndex(index, inMethod))
             } else if (symbolInfo.attribute == Attribute.Var) {
                 vmWriter.writePop(Segment.LOCAL, index)
             }
@@ -163,7 +175,7 @@ class Compiler(private val _class: Class) {
             if (symbolInfo.attribute == Attribute.Field) {
                 vmWriter.writePush(Segment.THIS, symbolInfo.index)
             } else if (symbolInfo.attribute == Attribute.Argument) {
-                vmWriter.writePush(Segment.ARGUMENT, symbolInfo.index)
+                vmWriter.writePush(Segment.ARGUMENT, argIndex(symbolInfo.index, inMethod))
             } else if (symbolInfo.attribute == Attribute.Var) {
                 vmWriter.writePush(Segment.LOCAL, symbolInfo.index)
             }
