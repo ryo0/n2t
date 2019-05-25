@@ -82,13 +82,16 @@ class Compiler(private val _class: Class) {
         compileExpression(exp)
         val ifLabel = "IfLabel-$className-$ifLabelCounter"
         val elseLabel = "ElseLabel-$className-$ifLabelCounter"
+        val endLabel = "IfEndLabel-$className-$ifLabelCounter"
         ifLabelCounter++
         vmWriter.writeIf(ifLabel)
         vmWriter.writeGoto(elseLabel)
         vmWriter.writeLabel(ifLabel)
         compileStatements(ifStmts)
+        vmWriter.writeGoto(endLabel)
         vmWriter.writeLabel(elseLabel)
         compileStatements(elseStmts)
+        vmWriter.writeLabel(endLabel)
 
     }
 
@@ -136,12 +139,15 @@ class Compiler(private val _class: Class) {
 
     private fun compileDoStatement(doStatement: DoStatement) {
         compileSubroutineCall(doStatement.subroutineCall)
+        // do文では必ず返り値が捨てられる
+        vmWriter.writePop(Segment.TEMP, 0)
     }
 
     private fun compileSubroutineCall(subroutineCall: SubroutineCall) {
         val classOrVarName = subroutineCall.classOrVarName
         val subroutineName = subroutineCall.subroutineName.name
         val expList = subroutineCall.expList.expList
+        val className = classOrVarName?.name ?: className
         val funcValue = table.funAttrTable["$className.$subroutineName"]
 
         expList.forEach { compileExpression(it) }
@@ -175,7 +181,8 @@ class Compiler(private val _class: Class) {
             vmWriter.writeCall("$className.$subroutineName", paramNum)
         }
         if(funcValue != null && funcValue.type == VoidOrType.Void) {
-            vmWriter.writePop(Segment.TEMP, 0)
+            // ここ要らないかも。ダメだったら復活させる事を考える
+//            vmWriter.writePop(Segment.TEMP, 0)
         }
     }
 
