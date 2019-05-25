@@ -32,6 +32,11 @@ class SymbolTable(program: Class) {
     var varIndex = 0
 
     init {
+        createClassTable(program)
+        createFuncAttrTable(program)
+    }
+
+    fun createClassTable(program: Class) : Map<String, SymbolValue>{
         program.varDec.forEach {
             it.varNames.forEach { name ->
                 val attr = convertToAttr(it.varDec)
@@ -44,14 +49,16 @@ class SymbolTable(program: Class) {
                 }
             }
         }
+        return classTable
+    }
+    fun createFuncAttrTable(program: Class) {
         program.subroutineDec.forEach {
             val dec = funcAttrMap[it.dec] ?: throw Error("無効なfunDec")
             funAttrTable["${program.name}.${it.name}"] = FuncValue(it.type, dec)
-            subroutineTableCreator(it)
         }
     }
 
-    fun subroutineTableCreator(subroutine: SubroutineDec): Map<String, SymbolValue> {
+    fun createSubroutineTable(subroutine: SubroutineDec): Map<String, SymbolValue> {
         argIndex = 0
         varIndex = 0
         val table = mutableMapOf<String, SymbolValue>()

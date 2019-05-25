@@ -451,7 +451,19 @@ class Bat {
 """
 //    Compiler(parseClass(tokenize(code))).compileClass()
 
-    Compiler(parseClass(tokenize(File("chap11TestData/ConvertToBin/Main.jack").readText()))).compileClass()
+//    Compiler(parseClass(tokenize(File("chap11TestData/ConvertToBin/Main.jack").readText()))).compileClass()
+    val parsed1 = parse(File("chap11TestData/Square/Main.jack").readText())
+    val parsed2 = parse(File("chap11TestData/Square/Square.jack").readText())
+    val parsed3 = parse(File("chap11TestData/Square/SquareGame.jack").readText())
+
+    val table1 = SymbolTable(parsed3)
+    table1.createFuncAttrTable(parsed1)
+    table1.createFuncAttrTable(parsed2)
+    Compiler(parsed3, table1).compileClass()
+}
+
+fun parse(program: String): Class {
+    return parseClass(tokenize(program))
 }
 
 // テスト用:成功データ データ作るの面倒なので標準出力と下のデータとでdiffとって調べてテストする

@@ -1,3 +1,5 @@
+import java.io.File
+
 enum class Segment {
     CONSTANT, ARGUMENT, LOCAL, STATIC, THIS, THAT, POINTER, TEMP
 }
@@ -6,33 +8,39 @@ enum class Command {
 }
 
 class VMWriter(val className: String) {
+    private var result = ""
+
+    fun writeFile() {
+        File("result/out.vm").writeText(result)
+    }
+
     fun writePush(segment: Segment, index: Int) {
         val seg = segment.toString().toLowerCase()
-        println("push $seg $index")
+        result += "push $seg $index\n"
     }
     fun writePop(segment: Segment, index: Int) {
         val seg = segment.toString().toLowerCase()
-        println("pop $seg $index")
+        result += "pop $seg $index\n"
     }
     fun writeArithmetic(command: Command) {
-        println(command.toString().toLowerCase())
+        result += command.toString().toLowerCase() + "\n"
     }
     fun writeLabel(label: String) {
-        println("label $label")
+        result += "label $label\n"
     }
     fun writeGoto(label: String) {
-        println("goto $label")
+        result += "goto $label\n"
     }
     fun writeIf(label: String) {
-        println("if-goto $label")
+        result += "if-goto $label\n"
     }
     fun writeCall(name: String, nArgs: Int) {
-        println("call $name $nArgs")
+        result += "call $name $nArgs\n"
     }
     fun writeFunction(name: String, nArgs: Int) {
-        println("function $className.$name $nArgs")
+        result += "function $className.$name $nArgs\n"
     }
     fun writeReturn() {
-        println("return")
+        result += "return\n"
     }
 }

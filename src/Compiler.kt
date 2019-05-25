@@ -1,9 +1,8 @@
 // THIS, THATは値が場合に応じて変わるのでその都度Pointerでセットしてる
 // THISはthis, THATは配列の現在地の意味
 
-class Compiler(private val _class: Class) {
+class Compiler(private val _class: Class, private val table: SymbolTable) {
     val className = _class.name
-    private val table = SymbolTable(_class)
     private var subroutineTable: Map<String, SymbolValue>? = null
     private val vmWriter = VMWriter(className)
     private var inMethod = false
@@ -12,6 +11,7 @@ class Compiler(private val _class: Class) {
 
     fun compileClass() {
         _class.subroutineDec.forEach { compileSubroutine(it) }
+        vmWriter.writeFile()
     }
 
     private fun argIndex(index: Int, inMethod: Boolean): Int {
@@ -36,7 +36,7 @@ class Compiler(private val _class: Class) {
     }
 
     private fun compileSubroutine(subroutineDec: SubroutineDec) {
-        subroutineTable = table.subroutineTableCreator(subroutineDec)
+        subroutineTable = table.createSubroutineTable(subroutineDec)
         vmWriter.writeFunction(subroutineDec.name, localVarNum())
         if (subroutineDec.dec == MethodDec.Constructor) {
             if (table.fieldIndex != -1) {
@@ -166,7 +166,17 @@ class Compiler(private val _class: Class) {
                 // メソッド
                 val className = symbolValue.type.name
                 val paramNum = expList.count() + 1
-                vmWriter.writePush(Segment.POINTER, 0)
+                when(symbolValue.attribute) {
+                    Attribute.Argument -> {
+                        vmWriter.writePush(Segment.ARGUMENT, symbolValue.index)
+                    }
+                    Attribute.Var -> {
+                        vmWriter.writePush(Segment.LOCAL, symbolValue.index)
+                    }
+                    Attribute.Field -> {
+                        vmWriter.writePush(Segment.THIS, symbolValue.index)
+                    }
+                }
                 vmWriter.writeCall("$className.$subroutineName", paramNum)
             } else {
                 // ファンクションかコンストラクタ。やることは同じ
