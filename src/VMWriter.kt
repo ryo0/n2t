@@ -17,6 +17,15 @@ class VMWriter(val className: String) {
     fun writeArithmetic(command: Command) {
         println(command.toString().toLowerCase())
     }
+    fun writeLabel(label: String) {
+        println("label $label")
+    }
+    fun writeGoto(label: String) {
+        println("goto $label")
+    }
+    fun writeIf(label: String) {
+        println("if-goto $label")
+    }
     fun writeCall(name: String, nArgs: Int) {
         println("call $name $nArgs")
     }

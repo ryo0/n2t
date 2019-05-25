@@ -21,10 +21,11 @@ fun convertToAttr(varDec: _ClassVarDec): Attribute {
 }
 
 data class SymbolValue(val type: Type, val attribute: Attribute, val index: Int)
+data class FuncValue(val type: VoidOrType, val attribute: FuncAttribute)
 
 class SymbolTable(program: Class) {
     val classTable = mutableMapOf<String, SymbolValue>()
-    val funAttrTable = mutableMapOf<String, FuncAttribute>()
+    val funAttrTable = mutableMapOf<String, FuncValue>()
     var fieldIndex = -1
     var staticIndex = -1
     var argIndex = 0
@@ -44,7 +45,8 @@ class SymbolTable(program: Class) {
             }
         }
         program.subroutineDec.forEach {
-            funAttrTable[it.name] = funcAttrMap[it.dec] ?: throw Error("無効なfunDec")
+            val dec = funcAttrMap[it.dec] ?: throw Error("無効なfunDec")
+            funAttrTable["${program.name}.${it.name}"] = FuncValue(it.type, dec)
             subroutineTableCreator(it)
         }
     }

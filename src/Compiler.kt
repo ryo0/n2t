@@ -1,6 +1,5 @@
 // THIS, THATは値が場合に応じて変わるのでその都度Pointerでセットしてる
 // THISはthis, THATは配列の現在地の意味
-// TODO メソッド内部にいる間は常にArgが+1される
 
 class Compiler(private val _class: Class) {
     val className = _class.name
@@ -8,6 +7,8 @@ class Compiler(private val _class: Class) {
     private var subroutineTable: Map<String, SymbolValue>? = null
     private val vmWriter = VMWriter(className)
     private var inMethod = false
+    private var ifLabelCounter = 0
+    private var whileLabelCounter = 0
 
     fun compileClass() {
         _class.subroutineDec.forEach { compileSubroutine(it) }
@@ -49,7 +50,6 @@ class Compiler(private val _class: Class) {
             inMethod = true
         }
         compileStatements(subroutineDec.body.statements)
-        val type = subroutineDec.type
         inMethod = false
     }
 
@@ -65,8 +65,46 @@ class Compiler(private val _class: Class) {
                 is Stmt.Return -> {
                     compileReturn(it.stmt)
                 }
+                is Stmt.If -> {
+                    compileIf(it.stmt)
+                }
+                is Stmt.While -> {
+                    compileWhile(it.stmt)
+                }
             }
         }
+    }
+
+    private fun compileIf(stmt: IfStatement) {
+        val exp = stmt.expression
+        val ifStmts = stmt.ifStmts
+        val elseStmts = stmt.elseStmts
+        compileExpression(exp)
+        val ifLabel = "IfLabel-$className-$ifLabelCounter"
+        val elseLabel = "ElseLabel-$className-$ifLabelCounter"
+        ifLabelCounter++
+        vmWriter.writeIf(ifLabel)
+        vmWriter.writeGoto(elseLabel)
+        vmWriter.writeLabel(ifLabel)
+        compileStatements(ifStmts)
+        vmWriter.writeLabel(elseLabel)
+        compileStatements(elseStmts)
+
+    }
+
+    private fun compileWhile(stmt: WhileStatement) {
+        val exp = stmt.expression
+        val label1 = "WhileLabel-Top-$className-$whileLabelCounter"
+        val label2 = "WhileLabel-Bottom-$className-$whileLabelCounter"
+        whileLabelCounter++
+        val whileStmts = stmt.statements
+        vmWriter.writeLabel(label1)
+        compileExpression(exp)
+        vmWriter.writeArithmetic(Command.NOT)
+        vmWriter.writeIf(label2)
+        compileStatements(whileStmts)
+        vmWriter.writeGoto(label1)
+        vmWriter.writeLabel(label2)
     }
 
     private fun compileReturn(stmt: ReturnStatement) {
@@ -97,10 +135,14 @@ class Compiler(private val _class: Class) {
     }
 
     private fun compileDoStatement(doStatement: DoStatement) {
-        val classOrVarName = doStatement.subroutineCall.classOrVarName
-        val subroutineName = doStatement.subroutineCall.subroutineName.name
-        val expList = doStatement.subroutineCall.expList.expList
-        val funcAttr = table.funAttrTable[subroutineName]
+        compileSubroutineCall(doStatement.subroutineCall)
+    }
+
+    private fun compileSubroutineCall(subroutineCall: SubroutineCall) {
+        val classOrVarName = subroutineCall.classOrVarName
+        val subroutineName = subroutineCall.subroutineName.name
+        val expList = subroutineCall.expList.expList
+        val funcValue = table.funAttrTable["$className.$subroutineName"]
 
         expList.forEach { compileExpression(it) }
 
@@ -121,7 +163,7 @@ class Compiler(private val _class: Class) {
                 vmWriter.writePush(Segment.POINTER, 0)
                 vmWriter.writeCall("$className.$subroutineName", paramNum)
             } else {
-                // ファンクション
+                // ファンクションかコンストラクタ。やることは同じ
                 val className = classOrVarName.name
                 val paramNum = expList.count()
                 vmWriter.writeCall("$className.$subroutineName", paramNum)
@@ -132,7 +174,9 @@ class Compiler(private val _class: Class) {
             vmWriter.writePush(Segment.POINTER, 0)
             vmWriter.writeCall("$className.$subroutineName", paramNum)
         }
-        vmWriter.writePop(Segment.TEMP, 0)
+        if(funcValue != null && funcValue.type == VoidOrType.Void) {
+            vmWriter.writePop(Segment.TEMP, 0)
+        }
     }
 
     private fun compileExpression(exp: Expression) {
@@ -151,41 +195,86 @@ class Compiler(private val _class: Class) {
     }
 
     private fun compileTerm(term: Term) {
-        if (term is Term.IntC) {
-            vmWriter.writePush(Segment.CONSTANT, term.const)
-        } else if (term is Term.KeyC) {
-            if (term.const == Keyword.This) {
-                vmWriter.writePush(Segment.POINTER, 0)
-            } else if (term.const == Keyword.True) {
-                vmWriter.writePush(Segment.CONSTANT, 0)
-                vmWriter.writeArithmetic(Command.NOT)
-            } else if (term.const == Keyword.False) {
-                vmWriter.writePush(Segment.CONSTANT, 0)
+        when (term) {
+            is Term.IntC -> {
+                vmWriter.writePush(Segment.CONSTANT, term.const)
             }
+            is Term.KeyC -> {
+                when (term.const) {
+                    Keyword.This -> {
+                        vmWriter.writePush(Segment.POINTER, 0)
+                    }
+                    Keyword.True -> {
+                        vmWriter.writePush(Segment.CONSTANT, 0)
+                        vmWriter.writeArithmetic(Command.NOT)
+                    }
+                    Keyword.False, Keyword.Null -> {
+                        vmWriter.writePush(Segment.CONSTANT, 0)
+                    }
+                }
 
-        } else if (term is Term.VarName) {
-            val symbolInfo = getSymbolInfo(term.name) ?: throw Error("シンボルテーブルがおかしい ${term.name}")
-            if (symbolInfo.attribute == Attribute.Field) {
-                vmWriter.writePush(Segment.THIS, symbolInfo.index)
-            } else if (symbolInfo.attribute == Attribute.Argument) {
-                vmWriter.writePush(Segment.ARGUMENT, argIndex(symbolInfo.index, inMethod))
-            } else if (symbolInfo.attribute == Attribute.Var) {
-                vmWriter.writePush(Segment.LOCAL, symbolInfo.index)
             }
-        } else if (term is Term._Expression) {
-            compileExpression(term.exp)
+            is Term.VarName -> {
+                val symbolInfo = getSymbolInfo(term.name) ?: throw Error("シンボルテーブルがおかしい ${term.name}")
+                when (symbolInfo.attribute) {
+                    Attribute.Field -> {
+                        vmWriter.writePush(Segment.THIS, symbolInfo.index)
+                    }
+                    Attribute.Argument -> {
+                        vmWriter.writePush(Segment.ARGUMENT, argIndex(symbolInfo.index, inMethod))
+                    }
+                    Attribute.Var -> {
+                        vmWriter.writePush(Segment.LOCAL, symbolInfo.index)
+                    }
+                }
+            }
+            is Term._Expression -> {
+                compileExpression(term.exp)
+            }
+            is Term.UnaryOpTerm -> {
+                if (term.op == UnaryOp.Minus) {
+                    compileTerm(term.term)
+                    vmWriter.writeArithmetic(Command.NEG)
+                } else if (term.op == UnaryOp.Tilde) {
+                    compileTerm(term.term)
+                    vmWriter.writeArithmetic(Command.NOT)
+                }
+            }
+            is Term._SubroutineCall -> {
+                compileSubroutineCall(term.call)
+            }
         }
     }
 
     private fun compileOperand(op: Op) {
-        if (op == Op.Plus) {
-            vmWriter.writeArithmetic(Command.ADD)
-        } else if (op == Op.Minus) {
-            vmWriter.writeArithmetic(Command.SUB)
-        } else if (op == Op.Asterisk) {
-            vmWriter.writeCall("Math.multiply", 2)
-        } else if (op == Op.Slash) {
-            vmWriter.writeCall("Math.divide", 2)
+        when (op) {
+            Op.Plus -> {
+                vmWriter.writeArithmetic(Command.ADD)
+            }
+            Op.Minus -> {
+                vmWriter.writeArithmetic(Command.SUB)
+            }
+            Op.Asterisk -> {
+                vmWriter.writeCall("Math.multiply", 2)
+            }
+            Op.Slash -> {
+                vmWriter.writeCall("Math.divide", 2)
+            }
+            Op.Equal -> {
+                vmWriter.writeArithmetic(Command.EQ)
+            }
+            Op.GreaterThan -> {
+                vmWriter.writeArithmetic(Command.GT)
+            }
+            Op.LessThan -> {
+                vmWriter.writeArithmetic(Command.LT)
+            }
+            Op.And -> {
+                vmWriter.writeArithmetic(Command.AND)
+            }
+            Op.Pipe -> {
+                vmWriter.writeArithmetic(Command.OR)
+            }
         }
     }
 }
