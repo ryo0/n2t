@@ -466,6 +466,20 @@ class Bat {
 
     val parsed4 = parse(File("chap11TestData/Average/Main.jack").readText())
     compile("chap11TestData/Average/Main.vm", parsed4, listOf())
+
+    val parsed5 = parse(File("chap11TestData/ComplexArrays/Main.jack").readText())
+    compile("chap11TestData/ComplexArrays/Main.vm", parsed5, listOf())
+
+    val pong = "chap11TestData/Pong/"
+    val parsed6 = parse(File( pong + "Main.jack").readText())
+    val parsed7 = parse(File( pong + "Ball.jack").readText())
+    val parsed8 = parse(File( pong + "Bat.jack").readText())
+    val parsed9 = parse(File( pong + "PongGame.jack").readText())
+
+    compile(pong+"Main.vm", parsed6, listOf(parsed7, parsed8, parsed9))
+    compile(pong+"Ball.vm", parsed7, listOf(parsed6, parsed8, parsed9))
+    compile(pong+"Bat.vm", parsed8, listOf(parsed7, parsed6, parsed9))
+    compile(pong+"PongGame.vm", parsed9, listOf(parsed7, parsed8, parsed6))
 }
 
 fun compile(path:String, program: Class, otherPrograms: List<Class>) {

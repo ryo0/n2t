@@ -79,10 +79,10 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
         val exp = stmt.expression
         val ifStmts = stmt.ifStmts
         val elseStmts = stmt.elseStmts
-        compileExpression(exp)
         val ifLabel = "IF_TRUE$ifLabelCounter"
         val elseLabel = "IF_FALSE$ifLabelCounter"
         val endLabel = "IF_END$ifLabelCounter"
+        compileExpression(exp)
         ifLabelCounter++
 
         if (elseStmts.statements.count() > 0) {
@@ -160,8 +160,6 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
         val className = classOrVarName?.name ?: topClassName
         val funcValue = table.funAttrTable["$className.$subroutineName"]
 
-        expList.forEach { compileExpression(it) }
-
         // 1. a.fun()
         // aが何らかのクラスに属する  → メソッドになる
         // aがクラスに属さない → funに応じてファンクションもしくはコンストラクタになる
@@ -176,16 +174,19 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
                 val classNameOfMethod = symbolValue.type.name
                 val paramNum = expList.count() + 1
                 pushSymbolInfo(symbolValue)
+                expList.forEach { compileExpression(it) }
                 vmWriter.writeCall("$classNameOfMethod.$subroutineName", paramNum)
             } else {
                 // ファンクションかコンストラクタ。やることは同じ
                 val paramNum = expList.count()
+                expList.forEach { compileExpression(it) }
                 vmWriter.writeCall("$className.$subroutineName", paramNum)
             }
         } else {
             // メソッド
             val paramNum = expList.count() + 1
             vmWriter.writePush(Segment.POINTER, 0)
+            expList.forEach { compileExpression(it) }
             vmWriter.writeCall("$className.$subroutineName", paramNum)
         }
         if (funcValue != null && funcValue.type == VoidOrType.Void) {
@@ -288,7 +289,7 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
                 vmWriter.writePush(Segment.LOCAL, SymbolInfo.index)
             }
             Attribute.Static -> {
-
+                vmWriter.writePush(Segment.STATIC, SymbolInfo.index)
             }
         }
     }
@@ -305,7 +306,7 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
                     vmWriter.writePop(Segment.LOCAL, SymbolInfo.index)
                 }
                 Attribute.Static -> {
-
+                    vmWriter.writePop(Segment.STATIC, SymbolInfo.index)
                 }
         }
     }
