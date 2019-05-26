@@ -456,7 +456,10 @@ class Bat {
     val parsed2 = parse(File("chap11TestData/Square/Square.jack").readText())
     val parsed3 = parse(File("chap11TestData/Square/SquareGame.jack").readText())
 
-    compile(parsed3, listOf(parsed1, parsed2))
+//    compile(parsed3, listOf(parsed1, parsed2))
+
+    val parsed4 = parse(File("chap11TestData/Average/Main.jack").readText())
+    compile(parsed4, listOf())
 }
 
 fun compile(program: Class, otherPrograms: List<Class>) {

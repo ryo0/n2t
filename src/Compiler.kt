@@ -130,25 +130,18 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
 
     private fun compileLetStatement(letStatement: LetStatement) {
         val symbolInfo = getSymbolInfo(letStatement.varName.name) ?: throw Error("symbolTableにない値をlet文で扱っている")
-        val index = symbolInfo.index
         val exp = letStatement.exp
         val arrayIndex = letStatement.index
-        compileExpression(exp)
         if (arrayIndex == null) {
-            when (symbolInfo.attribute) {
-                Attribute.Field -> {
-                    vmWriter.writePop(Segment.THIS, symbolInfo.index)
-                }
-                Attribute.Argument -> {
-                    vmWriter.writePop(Segment.ARGUMENT, argIndex(index, inMethod))
-                }
-                Attribute.Var -> {
-                    vmWriter.writePop(Segment.LOCAL, index)
-                }
-                Attribute.Static -> {
-
-                }
-            }
+            compileExpression(exp)
+            popSymbolInfo(symbolInfo)
+        } else {
+            compileExpression(arrayIndex)
+            pushSymbolInfo(symbolInfo)
+            vmWriter.writeArithmetic(Command.ADD)
+            vmWriter.writePop(Segment.POINTER, 1)
+            compileExpression(exp)
+            vmWriter.writePop(Segment.THAT, 0)
         }
     }
 
@@ -180,20 +173,7 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
                 // メソッド
                 val classNameOfMethod = symbolValue.type.name
                 val paramNum = expList.count() + 1
-                when (symbolValue.attribute) {
-                    Attribute.Argument -> {
-                        vmWriter.writePush(Segment.ARGUMENT, symbolValue.index)
-                    }
-                    Attribute.Var -> {
-                        vmWriter.writePush(Segment.LOCAL, symbolValue.index)
-                    }
-                    Attribute.Field -> {
-                        vmWriter.writePush(Segment.THIS, symbolValue.index)
-                    }
-                    Attribute.Static -> {
-
-                    }
-                }
+                pushSymbolInfo(symbolValue)
                 vmWriter.writeCall("$classNameOfMethod.$subroutineName", paramNum)
             } else {
                 // ファンクションかコンストラクタ。やることは同じ
@@ -252,20 +232,17 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
             }
             is Term.VarName -> {
                 val symbolInfo = getSymbolInfo(term.name) ?: throw Error("シンボルテーブルがおかしい ${term.name}")
-                when (symbolInfo.attribute) {
-                    Attribute.Field -> {
-                        vmWriter.writePush(Segment.THIS, symbolInfo.index)
-                    }
-                    Attribute.Argument -> {
-                        vmWriter.writePush(Segment.ARGUMENT, argIndex(symbolInfo.index, inMethod))
-                    }
-                    Attribute.Var -> {
-                        vmWriter.writePush(Segment.LOCAL, symbolInfo.index)
-                    }
-                    Attribute.Static -> {
+                pushSymbolInfo(symbolInfo)
+            }
 
-                    }
-                }
+            is Term.ArrayAndIndex -> {
+                val nameInfo = getSymbolInfo(term.name) ?: throw Error("ArrayAndIndexのnameがtableにない")
+                compileExpression(term.index)
+                pushSymbolInfo(nameInfo)
+                vmWriter.writeArithmetic(Command.ADD)
+                vmWriter.writePop(Segment.POINTER, 1)
+                vmWriter.writePush(Segment.THAT, 0)
+
             }
             is Term._Expression -> {
                 compileExpression(term.exp)
@@ -284,6 +261,41 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
             }
         }
     }
+
+    private fun pushSymbolInfo(SymbolInfo: SymbolValue) {
+        when(SymbolInfo.attribute) {
+            Attribute.Field -> {
+                vmWriter.writePush(Segment.THIS, SymbolInfo.index)
+            }
+            Attribute.Argument -> {
+                vmWriter.writePush(Segment.ARGUMENT, argIndex(SymbolInfo.index, inMethod))
+            }
+            Attribute.Var -> {
+                vmWriter.writePush(Segment.LOCAL, SymbolInfo.index)
+            }
+            Attribute.Static -> {
+
+            }
+        }
+    }
+
+    private fun popSymbolInfo(SymbolInfo: SymbolValue) {
+            when(SymbolInfo.attribute) {
+                Attribute.Field -> {
+                    vmWriter.writePop(Segment.THIS, SymbolInfo.index)
+                }
+                Attribute.Argument -> {
+                    vmWriter.writePop(Segment.ARGUMENT, argIndex(SymbolInfo.index, inMethod))
+                }
+                Attribute.Var -> {
+                    vmWriter.writePop(Segment.LOCAL, SymbolInfo.index)
+                }
+                Attribute.Static -> {
+
+                }
+        }
+    }
+
 
     private fun compileOperand(op: Op) {
         when (op) {
