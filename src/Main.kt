@@ -456,10 +456,13 @@ class Bat {
     val parsed2 = parse(File("chap11TestData/Square/Square.jack").readText())
     val parsed3 = parse(File("chap11TestData/Square/SquareGame.jack").readText())
 
-    val table1 = SymbolTable(parsed3)
-    table1.createFuncAttrTable(parsed1)
-    table1.createFuncAttrTable(parsed2)
-    Compiler(parsed3, table1).compileClass()
+    compile(parsed3, listOf(parsed1, parsed2))
+}
+
+fun compile(program: Class, otherPrograms: List<Class>) {
+    val table = SymbolTable(program)
+    otherPrograms.forEach { table.createFuncAttrTable(it) }
+    Compiler(program, table).compileClass()
 }
 
 fun parse(program: String): Class {
