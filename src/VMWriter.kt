@@ -10,8 +10,8 @@ enum class Command {
 class VMWriter(val className: String) {
     private var result = ""
 
-    fun writeFile() {
-        File("result/out.vm").writeText(result)
+    fun writeFile(path: String) {
+        File(path).writeText(result)
     }
 
     fun writePush(segment: Segment, index: Int) {

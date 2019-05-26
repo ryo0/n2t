@@ -9,9 +9,9 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
     private var ifLabelCounter = 0
     private var whileLabelCounter = 0
 
-    fun compileClass() {
+    fun compileClass(path: String) {
         _class.subroutineDec.forEach { compileSubroutine(it) }
-        vmWriter.writeFile()
+        vmWriter.writeFile(path)
     }
 
     private fun argIndex(index: Int, inMethod: Boolean): Int {
@@ -139,8 +139,10 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
             compileExpression(arrayIndex)
             pushSymbolInfo(symbolInfo)
             vmWriter.writeArithmetic(Command.ADD)
-            vmWriter.writePop(Segment.POINTER, 1)
             compileExpression(exp)
+            vmWriter.writePop(Segment.TEMP, 0)
+            vmWriter.writePop(Segment.POINTER, 1)
+            vmWriter.writePush(Segment.TEMP, 0)
             vmWriter.writePop(Segment.THAT, 0)
         }
     }
@@ -207,10 +209,22 @@ class Compiler(private val _class: Class, private val table: SymbolTable) {
         }
     }
 
+    private fun convertASCII(str:String): List<Int> {
+        return str.map {  it.toByte().toInt() }
+    }
     private fun compileTerm(term: Term) {
         when (term) {
             is Term.IntC -> {
                 vmWriter.writePush(Segment.CONSTANT, term.const)
+            }
+            is Term.StrC -> {
+                val strBytes = convertASCII(term.const)
+                vmWriter.writePush(Segment.CONSTANT, strBytes.count())
+                vmWriter.writeCall("String.new", 1)
+                strBytes.forEach {
+                    vmWriter.writePush(Segment.CONSTANT, it)
+                    vmWriter.writeCall("String.appendChar", 2)
+                }
             }
             is Term.KeyC -> {
                 when (term.const) {

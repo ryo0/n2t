@@ -452,20 +452,26 @@ class Bat {
 //    Compiler(parseClass(tokenize(code))).compileClass()
 
 //    Compiler(parseClass(tokenize(File("chap11TestData/ConvertToBin/Main.jack").readText()))).compileClass()
+    val squareDir = "chap11TestData/Square/"
+    val name1 = "Main.vm"
+    val name2 = "Square.vm"
+    val name3 = "SquareGame.vm"
     val parsed1 = parse(File("chap11TestData/Square/Main.jack").readText())
     val parsed2 = parse(File("chap11TestData/Square/Square.jack").readText())
     val parsed3 = parse(File("chap11TestData/Square/SquareGame.jack").readText())
 
-//    compile(parsed3, listOf(parsed1, parsed2))
+    compile(squareDir+name1, parsed1, listOf(parsed2, parsed3))
+    compile(squareDir+name2, parsed2, listOf(parsed1, parsed3))
+    compile(squareDir+name3, parsed3, listOf(parsed1, parsed2))
 
     val parsed4 = parse(File("chap11TestData/Average/Main.jack").readText())
-    compile(parsed4, listOf())
+    compile("chap11TestData/Average/Main.vm", parsed4, listOf())
 }
 
-fun compile(program: Class, otherPrograms: List<Class>) {
+fun compile(path:String, program: Class, otherPrograms: List<Class>) {
     val table = SymbolTable(program)
     otherPrograms.forEach { table.createFuncAttrTable(it) }
-    Compiler(program, table).compileClass()
+    Compiler(program, table).compileClass(path)
 }
 
 fun parse(program: String): Class {

@@ -14,7 +14,6 @@ call String.appendChar 2
 push constant 97
 call String.appendChar 2
 push constant 110
-push constant 110
 call String.appendChar 2
 push constant 121
 call String.appendChar 2
